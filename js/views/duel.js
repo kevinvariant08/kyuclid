@@ -1,5 +1,5 @@
 // Duel against a timed ghost.
-import { $, esc, renderMe } from "../lib/ui.js";
+import { $, esc, renderMe, errorPanel } from "../lib/ui.js";
 import { badge } from "../lib/ranks.js";
 import { S, save, award, logEvent } from "../lib/store.js";
 import { LISTED, getProblem } from "../lib/problems.js";
@@ -16,20 +16,21 @@ export function renderDuelSetup() {
   const kyus = Object.keys(GHOST).map(Number).sort((a, b) => b - a);
   const d = S.duel;
   $("v-duel").innerHTML = `
-  <div><div class="eyebrow">One problem, one clock</div><h2 class="h2">Duel</h2></div>
+  <div><div class="eyebrow">One problem, one clock</div><h1 class="h2">Duel</h1></div>
   <div class="duel-setup">
     <div class="panel">
-      <b>Pick a kyu</b>
-      <div class="frow" style="margin:10px 0 18px">${kyus.map((k) => `<button type="button" class="chip kchip" data-k="${k}" aria-pressed="${D.kyu === k}">${badge(k)}</button>`).join("")}</div>
-      <b>Opponent</b>
+      <h2 class="sub" id="pickH">Pick a kyu</h2>
+      <div class="frow" style="margin:10px 0 18px" role="group" aria-labelledby="pickH">${kyus.map((k) => `<button type="button" class="chip kchip" data-k="${k}" aria-pressed="${D.kyu === k}" aria-label="${k} kyu">${badge(k)}</button>`).join("")}</div>
+      <h2 class="sub">Opponent</h2>
       <div style="margin-top:10px">
         <label class="opt"><input type="radio" name="opp" checked><span><b>Ghost solver</b><span class="faint">Plays like a typical ${D.kyu} kyu solver, about ${fmt(GHOST[D.kyu].t)} per problem. Rated ${GHOST[D.kyu].r}.</span></span></label>
         <label class="opt off"><input type="radio" name="opp" disabled><span><b>A friend, by link</b><span class="faint">Needs accounts and live rooms, which this draft doesn't have yet.</span></span></label>
       </div>
       <div class="cta" style="margin-top:18px"><button class="btn primary" type="button" id="startDuel">Start duel</button></div>
+      <p class="feedback bad" id="duelNote" role="status"></p>
     </div>
     <div class="panel">
-      <b>Rules</b>
+      <h2 class="sub">Rules</h2>
       <ul class="rubric">
         <li>Both sides see the same answer problem at the same moment.</li>
         <li>First correct answer wins. A wrong answer locks your box for 15 seconds.</li>
@@ -49,20 +50,22 @@ export function renderDuelSetup() {
 async function startDuel() {
   if (D.starting || D.live) return;
   const pool = LISTED.filter((p) => p.type === "answer" && p.kyu === D.kyu);
+  if (!pool.length) { if ($("duelNote")) $("duelNote").textContent = `There are no answer problems at ${D.kyu} kyu yet. Pick another belt.`; return; }
   const fresh = pool.filter((p) => !S.solved[p.id]);
   const pick = (fresh.length ? fresh : pool)[Math.floor(Math.random() * (fresh.length ? fresh.length : pool.length))];
   D.starting = true;
   let p;
   try { p = await getProblem(pick.id); }
-  catch { $("v-duel").innerHTML = `<div class="panel">This duel couldn't load its problem. Check your connection and <a href="">reload</a>.</div>`; return; }
+  catch { $("v-duel").innerHTML = errorPanel("this duel's problem"); return; }
   finally { D.starting = false; }
   if (location.hash !== "#duel") return;
   const g = GHOST[D.kyu];
   const ghostAt = Math.random() < 0.12 ? Infinity : g.t * (0.55 + Math.random() * 0.95);
   D.live = { p, start: Date.now(), ghostAt, limit: g.t * 2.5, lockUntil: 0, tries: 0, done: false };
   $("v-duel").innerHTML = `
+  <h1 class="sr-only">Duel at ${D.kyu} kyu</h1>
   <div class="scoreboard">
-    <div><div class="side-name">${esc(S.handle)}</div><div class="clock" id="myClock">0:00</div></div>
+    <div><div class="side-name">${esc(S.handle)}</div><div class="clock" id="myClock" aria-label="Your time" role="timer">0:00</div></div>
     <div class="vs">VS</div>
     <div class="right"><div class="side-name">Ghost · ${D.kyu} kyu</div><div class="clock" id="ghostState">working</div><div class="ghostbar" id="ghostBar"><i></i></div></div>
   </div>
@@ -70,7 +73,7 @@ async function startDuel() {
     ${badge(p.kyu)} <span class="faint">Time limit ${fmt(D.live.limit)}</span>
     <div class="statement">${paras(p.statement)}</div>
     <form class="answer" id="duelForm" autocomplete="off">
-      <input id="duelAns" inputmode="decimal" placeholder="Your answer" aria-label="Your answer">
+      <input id="duelAns" inputmode="text" autocapitalize="off" spellcheck="false" placeholder="Your answer" aria-label="Your answer">
       <button class="btn primary" type="submit" id="duelSubmit">Submit</button>
     </form>
     <div class="feedback" id="duelFb" role="status"></div>
@@ -117,7 +120,7 @@ function endDuel(outcome, resigned) {
     outcome === "draw" ? "Time ran out with nobody solving it." : resigned ? "You resigned." : `The ghost answered at ${fmt(L.ghostAt)}.`;
   $("v-duel").innerHTML = `
   <div class="panel result">
-    <div class="big ${outcome}">${outcome === "win" ? "Victory" : outcome === "draw" ? "Draw" : "Defeat"}</div>
+    <h1 class="big ${outcome}">${outcome === "win" ? "Victory" : outcome === "draw" ? "Draw" : "Defeat"}</h1>
     <p class="muted">${msg}</p>
     <p class="mono">Duel rating ${Math.round(S.duel.rating)} (${delta >= 0 ? "+" : ""}${delta})${gained ? ` · +${gained} kyu pts` : ""}</p>
     <div class="cta" style="justify-content:center;margin-top:16px">

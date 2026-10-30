@@ -1,10 +1,60 @@
-// MathJax. The config and the script tag stay in index.html's <head> so MathJax starts
-// downloading at once; its startup.ready hook sets window.__mjReady.
-let mjChain = Promise.resolve();
+// MathJax loads the first time a view has maths to show, so the list, ranks and profile views never pay for it.
+// startup.js fetches the parts below separately. That is far less than tex-svg.js (a 1 MB SVG font and a 400 KB menu),
+// and it parses in several short tasks rather than one long one.
+const CDN = "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/";
+
+let loading = null;
+export function loadMathJax() {
+  if (!loading) loading = new Promise((resolve, reject) => {
+    window.MathJax = {
+      tex: { inlineMath: [["$", "$"], ["\\(", "\\)"]], displayMath: [["$$", "$$"], ["\\[", "\\]"]] },
+      loader: { load: ["input/tex", "output/chtml", "a11y/assistive-mml"] },
+      // No menu: it would make every formula a tab stop. Assistive MathML is what screen readers read.
+      options: { enableMenu: false, enableAssistiveMml: true, skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code", "input"] },
+      startup: { typeset: false }
+    };
+    const s = document.createElement("script");
+    s.src = `${CDN}startup.js`; s.async = true;
+    s.onload = () => window.MathJax.startup.promise.then(resolve, reject);
+    s.onerror = () => { loading = null; reject(new Error("MathJax didn't load")); };
+    document.head.append(s);
+  });
+  return loading;
+}
+
+const hasMaths = (el) => /[$\\]/.test(el.textContent);
+
+// Let the page paint before the first MathJax download starts, so the statement isn't kept waiting.
+// The timeout covers background tabs, where animation frames don't fire.
+const afterPaint = () => new Promise((resolve) => {
+  if (loading) return resolve();
+  requestAnimationFrame(() => setTimeout(resolve));
+  setTimeout(resolve, 200);
+});
+
+// Typesetting is chained because MathJax can't run two passes at once.
+let chain = Promise.resolve();
 export function tex(el) {
-  const MJ = window.MathJax;
-  if (!window.__mjReady || !MJ || !MJ.typesetPromise) return;
-  mjChain = mjChain.then(() => { if (MJ.typesetClear) MJ.typesetClear([el]); return MJ.typesetPromise([el]); }).catch(() => {});
+  if (!hasMaths(el)) return chain;
+  el.classList.add("tex-pending");
+  chain = chain.then(afterPaint).then(loadMathJax).then(() => {
+    const MJ = window.MathJax;
+    MJ.typesetClear([el]);
+    return MJ.typesetPromise([el]);
+  }).catch(() => {
+    if (el.querySelector(".tex-failed")) return;
+    el.insertAdjacentHTML("afterbegin", `<p class="faint tex-failed">The maths renderer didn't load, so formulas are showing as raw LaTeX.</p>`);
+  }).finally(() => el.classList.remove("tex-pending"));
+  return chain;
+}
+
+// For maths below the fold: wait until it's nearly on screen.
+export function texWhenVisible(el) {
+  if (!("IntersectionObserver" in window)) return tex(el);
+  const io = new IntersectionObserver((seen) => {
+    if (seen.some((e) => e.isIntersecting)) { io.disconnect(); tex(el); }
+  }, { rootMargin: "120px" });
+  io.observe(el);
 }
 
 // Blank lines separate paragraphs.

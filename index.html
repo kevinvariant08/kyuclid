@@ -6,7 +6,6 @@
 <meta name="description" content="Kyuclid: contest maths, belt by belt. Ranked problems from 8 kyu warm-ups to 1 kyu IMO proofs.">
 <title>Kyuclid</title>
 <link rel="canonical" href="https://kevinvariant08.github.io/kyuclid/">
-<!-- Brand assets: see docs/brand.md. Bump ?v= when an icon or OG image changes (Kevinvariant's service worker caches images forever). -->
 <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
 <link rel="icon" href="assets/icons/favicon-32.png?v=1" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png?v=1">
@@ -28,26 +27,34 @@
 <meta name="twitter:description" content="Ranked problems from 8 kyu warm-ups to 1 kyu IMO proofs. Solve, climb the belts, duel.">
 <meta name="twitter:image" content="https://kevinvariant08.github.io/kyuclid/assets/og/og-home.png?v=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
-<script>
-window.MathJax = {
-  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
-  svg: { fontCache: 'global' },
-  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'input'] },
-  startup: { ready() { MathJax.startup.defaultReady(); window.__mjReady = true; } }
-};
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/site.css">
+<link rel="preload" href="data/index.json" as="fetch" crossorigin>
+<link rel="modulepreload" href="js/lib/ui.js">
+<link rel="modulepreload" href="js/lib/store.js">
+<link rel="modulepreload" href="js/lib/ranks.js">
+<link rel="modulepreload" href="js/lib/problems.js">
+<link rel="modulepreload" href="js/lib/tex.js">
+<link rel="modulepreload" href="js/lib/answers.js">
+<link rel="modulepreload" href="js/views/home.js">
+<link rel="modulepreload" href="js/views/quiz.js">
+<link rel="modulepreload" href="js/views/problems.js">
+<link rel="modulepreload" href="js/views/problem.js">
+<link rel="modulepreload" href="js/views/duel.js">
+<script>{const h=location.hash.slice(3);/^#p-[\w-]+$/.test(location.hash)&&fetch("data/index.json").then(r=>r.json()).then(x=>{x.some(p=>p.id==h)&&document.head.append(Object.assign(document.createElement("link"),{rel:"preload",as:"fetch",crossOrigin:"",href:`data/problems/${h}.json`}))}).catch(()=>{})}</script>
 <script type="module" src="js/app.js"></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#home" aria-label="Kyuclid home"><span class="seal" aria-hidden="true">∴</span><span class="wordmark">Kyuclid</span></a>
     <nav class="nav" id="nav" aria-label="Main">
       <a href="#problems" data-v="problems">Problems</a>
+      <a href="#ranks" data-v="ranks">Ranks</a>
       <a href="#duel" data-v="duel">Duel</a>
       <a href="#leaderboard" data-v="leaderboard">Leaderboard</a>
       <a href="#profile" data-v="profile">Profile</a>
@@ -57,10 +64,11 @@ window.MathJax = {
   </div>
 </header>
 
-<main class="wrap" id="main">
-  <section class="view" id="v-home"></section>
+<main class="wrap" id="main" tabindex="-1">
+  <section class="view" id="v-home"><div class="panel state" role="status"><span class="spinner" aria-hidden="true"></span>Loading…</div></section>
   <section class="view" id="v-problems" hidden></section>
   <section class="view" id="v-problem" hidden></section>
+  <section class="view" id="v-ranks" hidden></section>
   <section class="view" id="v-duel" hidden></section>
   <section class="view" id="v-profile" hidden></section>
   <section class="view" id="v-leaderboard" hidden></section>
