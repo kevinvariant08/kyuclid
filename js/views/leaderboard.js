@@ -15,11 +15,11 @@ export function renderBoard() {
   rows.sort((a, b) => boardMode === "pts" ? b.p - a.p : b.r - a.r);
   $("v-leaderboard").innerHTML = `
   <div style="display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap">
-    <div><div class="eyebrow">Sample players plus you</div><h2 class="h2">Leaderboard</h2></div>
+    <div><div class="eyebrow">Sample players plus you</div><h1 class="h2">Leaderboard</h1></div>
     <div class="seg" role="group" aria-label="Rank by"><button type="button" data-m="pts" aria-pressed="${boardMode === "pts"}">Kyu points</button><button type="button" data-m="duel" aria-pressed="${boardMode === "duel"}">Duel rating</button></div>
   </div>
-  <div class="tablebox"><table>
-    <thead><tr><th class="num">#</th><th>Player</th><th>Rank</th><th class="num">Points</th><th class="num">Duel rating</th></tr></thead>
+  <div class="tablebox" tabindex="0" role="region" aria-label="Leaderboard table"><table>
+    <thead><tr><th scope="col" class="num">#</th><th scope="col">Player</th><th scope="col">Rank</th><th scope="col" class="num">Points</th><th scope="col" class="num">Duel rating</th></tr></thead>
     <tbody>${rows.map((x, i) => { const rk = rankOf(x.p).cur; return `<tr class="${x.you ? "you" : ""}"><td class="num">${i + 1}</td><td>${esc(x.h)}${x.you ? " (you)" : ""}</td><td>${badge(rk.k, rk.label)}</td><td class="num">${x.p.toLocaleString("en-GB")}</td><td class="num">${x.r}</td></tr>`; }).join("")}</tbody>
   </table></div>
   <p class="faint">These players are made up to show the layout. Real rankings need accounts. Clans, as on Codewars, could rank schools or maths circles against each other.</p>`;
