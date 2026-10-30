@@ -191,7 +191,7 @@ select.sel { border: 1px solid var(--line); background: var(--surface); border-r
 .scoreboard { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 16px; align-items: center; background: var(--ink); color: var(--bg); border-radius: 10px; padding: 16px 22px; }
 .scoreboard .side-name { font: 800 22px/1 var(--f-display); text-transform: uppercase; letter-spacing: .04em; }
 .scoreboard .clock { font: 600 30px/1 var(--f-mono); font-variant-numeric: tabular-nums; margin-top: 6px; }
-.scoreboard .vs { font: 900 28px/1 var(--f-display); color: var(--seal); }
+.scoreboard .vs { font: 900 24px/1 var(--f-display); background: var(--seal); color: var(--on-seal); padding: 6px 10px; border-radius: 6px; transform: rotate(-4deg); justify-self: center; }
 .scoreboard .right { text-align: right; }
 .ghostbar { height: 6px; border-radius: 3px; background: rgba(127, 127, 127, .3); overflow: hidden; margin-top: 10px; }
 .ghostbar i { display: block; height: 100%; width: 30%; background: var(--seal); animation: think 1.6s ease-in-out infinite; }
