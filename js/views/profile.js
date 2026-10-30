@@ -1,26 +1,14 @@
 // Your profile: rank, streak, 12-week heatmap, subtopic strengths, topic and kyu bars, recent activity.
-import { $, esc, renderMe } from "../lib/ui.js";
+import { $, esc, renderMe, rankBar } from "../lib/ui.js";
 import { KYU, LADDER, badge, rankOf, TOPICS } from "../lib/ranks.js";
-import { S, save, points, resetState, dayKey } from "../lib/store.js";
+import { S, save, points, resetState, dayKey, currentStreak } from "../lib/store.js";
 import { LISTED, byId } from "../lib/problems.js";
 import { subtopicName } from "../lib/taxonomy.js";
 
 const WEEKS = 12;
-const DAY = 86400000;
 const SUB_ROWS = 12;
 let confirmReset = false;
 let allSubs = false;
-
-// A streak survives until the end of the next day, so it doesn't read 0 every morning.
-function currentStreak() {
-  const has = (d) => (S.activity[dayKey(d)] || 0) > 0;
-  const noon = (t) => { const d = new Date(t); d.setHours(12, 0, 0, 0); return d.getTime(); };
-  let t = noon(Date.now());
-  if (!has(t)) t -= DAY;
-  let n = 0;
-  while (has(t)) { n++; t = noon(t - DAY); }
-  return n;
-}
 
 const level = (n) => (n === 0 ? 0 : n === 1 ? 1 : n <= 3 ? 2 : n <= 6 ? 3 : 4);
 
@@ -92,39 +80,38 @@ export function renderProfile() {
   const streak = currentStreak();
   $("v-profile").innerHTML = `
   <h1 class="sr-only">Your profile</h1>
-  <div class="panel">
-    <div class="prof-head">
-      ${badge(r.cur.k, r.cur.label, "lg")}
-      <div style="flex:1;min-width:0">
-        <label class="eyebrow" for="handle">Your handle</label><br>
-        <input id="handle" value="${esc(S.handle)}" maxlength="24" spellcheck="false">
-      </div>
-    </div>
-    <div style="margin-top:18px">
-      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(r.frac * 100)}" aria-label="Progress to next rank"><i style="width:${Math.max(2, r.frac * 100)}%"></i></div>
+  <div class="panel prof-head">
+    ${badge(r.cur.k, r.cur.label, "xl")}
+    <div class="prof-id">
+      <div><label class="eyebrow" for="handle">Your handle</label><br>
+      <input id="handle" value="${esc(S.handle)}" maxlength="24" spellcheck="false"></div>
+      ${rankBar(pts)}
       <div class="faint">${r.next ? `${pts} pts. ${r.next.min - pts} more to ${r.next.label}. <a href="#ranks">How ranks work</a>` : `${pts} pts. Top rank.`}</div>
     </div>
   </div>
   <div class="tiles">
     <div class="tile"><span class="eyebrow">Points</span><b>${pts}</b></div>
-    <div class="tile"><span class="eyebrow">Solved</span><b>${solvedList.length}<span class="faint" style="font-family:var(--f-body)"> / ${LISTED.length}</span></b></div>
-    <div class="tile"><span class="eyebrow">Streak</span><b>${streak}<span class="faint" style="font-family:var(--f-body)"> ${streak === 1 ? "day" : "days"}</span></b></div>
+    <div class="tile"><span class="eyebrow">Solved</span><b>${solvedList.length} <small>of ${LISTED.length}</small></b></div>
+    <div class="tile"><span class="eyebrow">Streak</span><b>${streak} <small>${streak === 1 ? "day" : "days"}</small></b></div>
     <div class="tile"><span class="eyebrow">Duel rating</span><b>${Math.round(S.duel.rating)}</b><span class="faint">${S.duel.w}W ${S.duel.l}L ${S.duel.d}D</span></div>
   </div>
-  <section class="panel" aria-labelledby="hmH"><h2 class="sub" id="hmH">Last ${WEEKS} weeks</h2>${heatmap()}</section>
-  <section class="panel"><h2 class="sub" id="subH">Strengths by subtopic</h2><div id="subBox">${subtopicTable()}</div></section>
   <div class="two">
-    <div class="panel"><h2 class="sub">By topic</h2>
-      <div class="bars" style="margin-top:12px">${Object.entries(TOPICS).map(([t, n]) => `<div class="bar"><span>${n}</span><span class="track"><i style="width:${barWidth(topicCount(t), topicTotal(t))}%"></i></span><span class="n">${topicCount(t)}/${topicTotal(t)}</span></div>`).join("")}</div>
-      <h2 class="sub" style="margin-top:20px">By kyu</h2>
-      <div class="bars" style="margin-top:12px">${LADDER.map((k) => { const tot = LISTED.filter((p) => p.kyu === k).length, c = solvedList.filter((p) => p.kyu === k).length; return `<div class="bar"><span>${badge(k)}</span><span class="track"><i style="width:${barWidth(c, tot)}%;background:${KYU[k].bg}"></i></span><span class="n">${c}/${tot}</span></div>`; }).join("")}</div>
-    </div>
+    <section class="panel" aria-labelledby="hmH"><h2 class="sub" id="hmH">Last ${WEEKS} weeks</h2>${heatmap()}</section>
     <div class="panel"><h2 class="sub">Recent activity</h2>
-      ${S.log.length ? `<ul class="log" style="margin-top:12px">${S.log.slice(0, 12).map((e) => `<li><span>${esc(e.text)}</span><span class="faint">${new Date(e.at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span></li>`).join("")}</ul>` : `<p class="faint">Nothing yet. <a href="#problems">Solve a problem</a> or <a href="#duel">start a duel</a> and it shows up here.</p>`}
-      <div class="confirm" style="margin-top:18px" id="resetBox">
-        ${confirmReset ? `<span>Erase all progress in this browser?</span><button class="btn small primary" type="button" id="resetYes">Erase</button><button class="btn small" type="button" id="resetNo">Keep it</button>` : `<button class="btn small ghost" type="button" id="resetBtn">Reset progress</button>`}
-      </div>
+      ${S.log.length ? `<ul class="log">${S.log.slice(0, 8).map((e) => `<li><span>${esc(e.text)}</span><span class="faint">${new Date(e.at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span></li>`).join("")}</ul>` : `<p class="faint">Nothing yet. <a href="#problems">Solve a problem</a> or <a href="#duel">start a duel</a> and it shows up here.</p>`}
     </div>
+  </div>
+  <div class="two">
+    <div class="panel"><h2 class="sub">By kyu</h2>
+      <div class="bars">${LADDER.map((k) => { const tot = LISTED.filter((p) => p.kyu === k).length, c = solvedList.filter((p) => p.kyu === k).length; return `<div class="bar"><span>${badge(k)}</span><span class="track"><i style="width:${barWidth(c, tot)}%;background:${KYU[k].bg}"></i></span><span class="n">${c}/${tot}</span></div>`; }).join("")}</div>
+    </div>
+    <div class="panel"><h2 class="sub">By topic</h2>
+      <div class="bars">${Object.entries(TOPICS).map(([t, n]) => `<div class="bar"><span>${n}</span><span class="track"><i style="width:${barWidth(topicCount(t), topicTotal(t))}%"></i></span><span class="n">${topicCount(t)}/${topicTotal(t)}</span></div>`).join("")}</div>
+    </div>
+  </div>
+  <section class="panel"><h2 class="sub" id="subH">Strengths by subtopic</h2><div id="subBox">${subtopicTable()}</div></section>
+  <div class="confirm" id="resetBox">
+    ${confirmReset ? `<span>Erase all progress in this browser?</span><button class="btn small primary" type="button" id="resetYes">Erase</button><button class="btn small" type="button" id="resetNo">Keep it</button>` : `<button class="btn small ghost" type="button" id="resetBtn">Reset progress</button>`}
   </div>`;
   $("handle").addEventListener("change", (e) => { S.handle = e.target.value.trim().slice(0, 24) || "you"; save(); });
   if ($("resetBtn")) $("resetBtn").addEventListener("click", () => { confirmReset = true; renderProfile(); });

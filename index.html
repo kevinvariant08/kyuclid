@@ -10,8 +10,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png?v=1" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png?v=1">
 <link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#181B28" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0A0F1C">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kyuclid">
 <meta property="og:title" content="Kyuclid: contest maths, belt by belt">
@@ -29,7 +28,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" media="print" onload="this.media='all'">
+<script>try{localStorage.getItem("kyuclid:theme")=="light"&&(document.documentElement.dataset.theme="light")}catch{}</script>
 <link rel="stylesheet" href="css/site.css">
 <link rel="preload" href="data/index.json" as="fetch" crossorigin>
 <link rel="modulepreload" href="js/lib/ui.js">
@@ -48,38 +48,28 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="#home" aria-label="Kyuclid home"><span class="seal" aria-hidden="true">∴</span><span class="wordmark">Kyuclid</span></a>
-    <nav class="nav" id="nav" aria-label="Main">
-      <a href="#problems" data-v="problems">Problems</a>
-      <a href="#ranks" data-v="ranks">Ranks</a>
-      <a href="#duel" data-v="duel">Duel</a>
-      <a href="#leaderboard" data-v="leaderboard">Leaderboard</a>
-      <a href="#profile" data-v="profile">Profile</a>
-    </nav>
-    <a class="me" href="#profile" id="meChip" aria-label="Your rank"></a>
-    <a class="kv" href="https://kevinvariant08.github.io/">Kevinvariant ↗</a>
-  </div>
+<header class="rail">
+<a class="brand" href="#home" aria-label="Kyuclid home"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><use href="assets/logo/mark.svg#m"/></svg><span class="wordmark">kyuclid</span></a>
+<nav class="nav" id="nav" aria-label="Main">
+<a href="#home" data-v="home">Home</a>
+<a href="#problems" data-v="problems">Problems</a>
+<a href="#ranks" data-v="ranks">Ranks</a>
+<a href="#duel" data-v="duel">Duel</a>
+<a href="#leaderboard" data-v="leaderboard">Leaderboard</a>
+<a href="#profile" data-v="profile">Profile</a>
+</nav>
+<a class="me" href="#profile" id="meChip" aria-label="Your rank"></a>
+<button class="theme" id="themeBtn" type="button">Light theme</button>
 </header>
-
-<main class="wrap" id="main" tabindex="-1">
-  <section class="view" id="v-home"><div class="panel state" role="status"><span class="spinner" aria-hidden="true"></span>Loading…</div></section>
-  <section class="view" id="v-problems" hidden></section>
-  <section class="view" id="v-problem" hidden></section>
-  <section class="view" id="v-ranks" hidden></section>
-  <section class="view" id="v-duel" hidden></section>
-  <section class="view" id="v-profile" hidden></section>
-  <section class="view" id="v-leaderboard" hidden></section>
+<main id="main" tabindex="-1">
+<section class="view" id="v-home"><div class="panel state" role="status"><span class="spinner" aria-hidden="true"></span>Loading…</div></section>
+<section class="view" id="v-problems" hidden></section>
+<section class="view" id="v-problem" hidden></section>
+<section class="view" id="v-ranks" hidden></section>
+<section class="view" id="v-duel" hidden></section>
+<section class="view" id="v-profile" hidden></section>
+<section class="view" id="v-leaderboard" hidden></section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <span>Kyuclid · first draft · progress is saved in this browser only</span>
-    <span>A <a href="https://kevinvariant08.github.io/">Kevinvariant</a> project</span>
-  </div>
-</footer>
-
+<footer><span>First draft. Your progress is saved in this browser only.</span><span>A <a href="https://kevinvariant08.github.io/">Kevinvariant</a> project</span></footer>
 </body>
 </html>

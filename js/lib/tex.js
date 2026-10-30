@@ -9,8 +9,8 @@ export function loadMathJax() {
     window.MathJax = {
       tex: { inlineMath: [["$", "$"], ["\\(", "\\)"]], displayMath: [["$$", "$$"], ["\\[", "\\]"]] },
       loader: { load: ["input/tex", "output/chtml", "a11y/assistive-mml"] },
-      // No menu: it would make every formula a tab stop. Assistive MathML is what screen readers read.
-      options: { enableMenu: false, enableAssistiveMml: true, skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code", "input"] },
+      // The menu component isn't loaded: it would make every formula a tab stop. Assistive MathML is what screen readers read.
+      options: { enableAssistiveMml: true, skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code", "input"] },
       startup: { typeset: false }
     };
     const s = document.createElement("script");

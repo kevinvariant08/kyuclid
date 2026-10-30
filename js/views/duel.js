@@ -1,7 +1,7 @@
 // Duel against a timed ghost.
 import { $, esc, renderMe, errorPanel } from "../lib/ui.js";
-import { badge } from "../lib/ranks.js";
-import { S, save, award, logEvent } from "../lib/store.js";
+import { KYU, badge, rankOf } from "../lib/ranks.js";
+import { S, save, award, logEvent, points } from "../lib/store.js";
 import { LISTED, getProblem } from "../lib/problems.js";
 import { check } from "../lib/answers.js";
 import { tex, paras } from "../lib/tex.js";
@@ -16,7 +16,7 @@ export function renderDuelSetup() {
   const kyus = Object.keys(GHOST).map(Number).sort((a, b) => b - a);
   const d = S.duel;
   $("v-duel").innerHTML = `
-  <div><div class="eyebrow">One problem, one clock</div><h1 class="h2">Duel</h1></div>
+  <div><h1 class="h2">Duel</h1><p class="muted lede-s">One problem, one clock. Your rating is ${Math.round(d.rating)}.</p></div>
   <div class="duel-setup">
     <div class="panel">
       <h2 class="sub" id="pickH">Pick a kyu</h2>
@@ -65,11 +65,11 @@ async function startDuel() {
   $("v-duel").innerHTML = `
   <h1 class="sr-only">Duel at ${D.kyu} kyu</h1>
   <div class="scoreboard">
-    <div><div class="side-name">${esc(S.handle)}</div><div class="clock" id="myClock" aria-label="Your time" role="timer">0:00</div></div>
-    <div class="vs">VS</div>
-    <div class="right"><div class="side-name">Ghost · ${D.kyu} kyu</div><div class="clock" id="ghostState">working</div><div class="ghostbar" id="ghostBar"><i></i></div></div>
+    <div><div class="side-name">${badge(rankOf(points()).cur.k, rankOf(points()).cur.label)} ${esc(S.handle)}</div><div class="clock" id="myClock" aria-label="Your time" role="timer">0:00</div></div>
+    <div class="vs">vs</div>
+    <div class="right"><div class="side-name">Ghost ${badge(D.kyu)}</div><div class="clock" id="ghostState">working</div><div class="ghostbar" id="ghostBar"><i></i></div></div>
   </div>
-  <div class="panel">
+  <div class="panel belted duel-q" style="--belt:${KYU[p.kyu].bg}">
     ${badge(p.kyu)} <span class="faint">Time limit ${fmt(D.live.limit)}</span>
     <div class="statement">${paras(p.statement)}</div>
     <form class="answer" id="duelForm" autocomplete="off">

@@ -1,7 +1,7 @@
 // The kyu explainer. Every number here comes from lib/ranks.js or the problem index.
-import { $ } from "../lib/ui.js";
+import { $, rankBar } from "../lib/ui.js";
 import { KYU, RANKS, LADDER, HINT_COST, MIN_HINT_SHARE, PROOF_MARKS, badge, rankOf } from "../lib/ranks.js";
-import { points } from "../lib/store.js";
+import { points, myKyu } from "../lib/store.js";
 import { LISTED } from "../lib/problems.js";
 
 const pct = (x) => `${Math.round(x * 100)}%`;
@@ -9,11 +9,12 @@ const pct = (x) => `${Math.round(x * 100)}%`;
 export function renderRanks() {
   const pts = points();
   const me = rankOf(pts).cur;
+  const practising = myKyu();
   const belts = LADDER.map((k) => {
     const ps = LISTED.filter((p) => p.kyu === k);
     const answers = ps.filter((p) => p.type === "answer").length;
-    return `<tr>
-      <th scope="row">${badge(k)}<span class="sr-only"> ${KYU[k].belt} belt</span></th>
+    return `<tr${k === practising ? ` class="you"` : ""}>
+      <th scope="row"><a href="#problems-k${k}" style="text-decoration:none">${badge(k, null, "lg")}</a><span class="sr-only"> ${KYU[k].belt} belt</span></th>
       <td class="anchor">${KYU[k].anchor}</td>
       <td class="num">${KYU[k].pts}</td>
       <td class="num">${answers}</td>
@@ -24,22 +25,26 @@ export function renderRanks() {
     const next = RANKS[i + 1];
     const solves = next && r.k ? Math.ceil((next.min - r.min) / KYU[r.k].pts) : null;
     return `<tr class="${r === me ? "you" : ""}">
-      <th scope="row">${badge(r.k, r.label)}${r === me ? ` <span class="faint">you</span>` : ""}</th>
+      <th scope="row">${badge(r.k, r.label)}${r === me ? `<span class="here">You</span>` : ""}</th>
       <td class="num">${r.min.toLocaleString("en-GB")}</td>
       <td class="num">${solves === null ? "–" : solves}</td>
     </tr>`;
   }).join("");
   const worth = KYU[5].pts;
   $("v-ranks").innerHTML = `
-  <div><div class="eyebrow">The ladder</div><h1 class="h2">Ranks and belts</h1>
+  <div><h1 class="h2">Ranks and belts</h1>
     <p class="muted lede-s">Problems carry a kyu from ${LADDER[0]} (warm-ups) to ${LADDER[LADDER.length - 1]} (the hardest olympiad problems). You carry a rank, which rises with the points you've earned.</p></div>
+  <section class="panel" aria-label="Your progress to the next rank">
+    <p class="faint" style="margin:0 0 8px">You have ${pts} ${pts === 1 ? "point" : "points"}, which makes you ${me.label}.</p>
+    ${rankBar(pts)}
+  </section>
   <section class="panel flush">
-    <h2 class="sub pad" id="beltsH">Problem belts</h2>
-    <div class="tablebox bare" tabindex="0" role="region" aria-labelledby="beltsH"><table class="fit">
+    <h2 class="sub pad" id="beltsH">The belts</h2>
+    <div class="tablebox bare" tabindex="0" role="region" aria-labelledby="beltsH"><table class="fit ladder-t">
       <thead><tr><th scope="col">Kyu</th><th scope="col">Contest level</th><th scope="col" class="num">Points</th><th scope="col" class="num">Answer</th><th scope="col" class="num">Proof</th></tr></thead>
       <tbody>${belts}</tbody>
     </table></div>
-    <p class="faint pad">Answer and proof columns count the problems in the bank today (${LISTED.length} in all).</p>
+    <p class="faint pad">Answer and proof columns count the problems in the bank today (${LISTED.length} in all). The highlighted belt is where you're practising.</p>
   </section>
   <div class="two">
     <section class="panel flush">
@@ -48,7 +53,7 @@ export function renderRanks() {
         <thead><tr><th scope="col">Rank</th><th scope="col" class="num">Points needed</th><th scope="col" class="num">Solves to next</th></tr></thead>
         <tbody>${thresholds}</tbody>
       </table></div>
-      <p class="faint pad">Solves to next counts hint-free solves at the rank's own kyu. Dan ranks are points alone. You have ${pts} ${pts === 1 ? "point" : "points"}.</p>
+      <p class="faint pad">Solves to next counts hint-free solves at the rank's own kyu. Dan ranks are points alone, and black belts carry one gold stripe per dan.</p>
     </section>
     <section class="panel" aria-labelledby="scoreH">
       <h2 class="sub" id="scoreH">How a solve scores</h2>

@@ -1,8 +1,8 @@
 // The problem list. It needs only data/index.json, and it stays fast at any size by drawing one page of rows.
 // All filter state lives in the URL hash (lib/hash.js): edits rewrite the hash with replaceState, which doesn't
 // fire hashchange, so typing in the search box never re-renders the view or loses focus.
-import { $, esc, statusTag, sourceLine, authorOf } from "../lib/ui.js";
-import { badge, TOPICS, LADDER } from "../lib/ranks.js";
+import { $, esc, statusTag, sourceLine } from "../lib/ui.js";
+import { KYU, badge, TOPICS, LADDER } from "../lib/ranks.js";
 import { S, myKyu } from "../lib/store.js";
 import { LISTED, likedPct, likedRate, randomUnsolved } from "../lib/problems.js";
 import { parseFilters, filtersToHash, blankFilters } from "../lib/hash.js";
@@ -58,7 +58,7 @@ export function renderProblems() {
   const open = matchMedia(WIDE).matches || activeCount() > 0;
   v.innerHTML = `
   <div class="list-head">
-    <div><div class="eyebrow">The dojo</div><h1 class="h2">Problems</h1></div>
+    <h1 class="h2">Problems</h1>
     <button class="btn primary" type="button" id="pRandom">Random unsolved at my rank <span class="btn-note">${myKyu()} kyu</span></button>
   </div>
   <div class="panel filters">
@@ -133,12 +133,26 @@ function syncControls() {
   $("pclear").hidden = n === 0;
 }
 
-const row = (p) => `<li><a class="prow" href="#p-${esc(p.id)}">
-    <span>${badge(p.kyu)}</span>
-    <span class="prow-main"><span class="t">${esc(p.title)}</span> ${statusTag(p)}
-      <span class="meta"><span>${TOPICS[p.topic]}</span><span>${p.type === "proof" ? "Proof" : "Answer"}</span>${p.subtopics.slice(0, 2).map((s) => `<span>${esc(subtopicName(s))}</span>`).join("")}${sourceLine(p) ? `<span>${esc(sourceLine(p))}</span>` : `<span>by ${esc(authorOf(p))}</span>`}</span></span>
-    <span class="stats"><span><b>${p.stats.solves.toLocaleString("en-GB")}</b>solves</span><span><b>${likedPct(p)}</b>liked</span></span>
+// Solve counts stay out of the row until there are some to show: a column of zeros says nothing.
+export const row = (p) => `<li><a class="prow${S.solved[p.id] ? " done" : ""}" href="#p-${esc(p.id)}">
+    ${badge(p.kyu)}
+    <span class="prow-main"><span class="t">${esc(p.title)}</span>${p.type === "proof" ? ` <span class="tagword">Proof</span>` : ""}
+      <span class="meta"><span>${TOPICS[p.topic]}</span>${p.subtopics.slice(0, 2).map((s) => `<span>${esc(subtopicName(s))}</span>`).join("")}${sourceLine(p) ? `<span>${esc(sourceLine(p))}</span>` : ""}</span></span>
+    <span class="prow-r">${statusTag(p)}${p.stats.solves ? `<span>${p.stats.solves.toLocaleString("en-GB")} solves · ${likedPct(p)} liked</span>` : ""}<span class="pts">+${KYU[p.kyu].pts}</span></span>
   </a></li>`;
+
+// When the list runs in belt order, each belt gets a header: the belt itself runs across the list as the divider.
+const groupHead = (k, n) => `<li class="pgroup" style="--belt:${KYU[k].bg}"><b>${k} kyu · ${KYU[k].belt}</b><span class="anchor">${KYU[k].anchor}</span><span class="mono">+${KYU[k].pts} pts each · ${n} here</span></li>`;
+
+function rowsWithGroups(ps, shown) {
+  if (F.sort !== "easy" && F.sort !== "hard") return shown.map(row).join("");
+  let last = null, out = "";
+  for (const p of shown) {
+    if (p.kyu !== last) { out += groupHead(p.kyu, ps.filter((x) => x.kyu === p.kyu).length); last = p.kyu; }
+    out += row(p);
+  }
+  return out;
+}
 
 function pageNumbers(cur, last) {
   const want = new Set([1, last, cur - 1, cur, cur + 1].filter((n) => n >= 1 && n <= last));
@@ -157,7 +171,7 @@ function renderList() {
     ps.length <= PER_PAGE ? `${ps.length} ${ps.length === 1 ? "problem" : "problems"}` :
     `Showing ${from + 1}–${from + shown.length} of ${ps.length} problems`;
   const list = $("plist");
-  list.innerHTML = shown.length ? shown.map(row).join("") : `<li class="empty">${LISTED.length ? `Nothing matches these filters. <button class="linkish" type="button" id="pclear2">Clear them</button> to see all ${LISTED.length} problems.` : "There are no problems in the bank yet."}</li>`;
+  list.innerHTML = shown.length ? rowsWithGroups(ps, shown) : `<li class="empty">${LISTED.length ? `Nothing matches these filters. <button class="linkish" type="button" id="pclear2">Clear them</button> to see all ${LISTED.length} problems.` : "There are no problems in the bank yet."}</li>`;
   if ($("pclear2")) $("pclear2").addEventListener("click", () => { F = blankFilters(); $("pq").value = ""; $("psort").value = F.sort; renderAfterClear(); });
   const pager = $("pager");
   pager.hidden = last < 2;

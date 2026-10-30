@@ -14,14 +14,14 @@ export function renderBoard() {
   rows.push({ h: S.handle, p: points(), r: Math.round(S.duel.rating), you: true });
   rows.sort((a, b) => boardMode === "pts" ? b.p - a.p : b.r - a.r);
   $("v-leaderboard").innerHTML = `
-  <div style="display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap">
-    <div><div class="eyebrow">Sample players plus you</div><h1 class="h2">Leaderboard</h1></div>
+  <div class="list-head">
+    <h1 class="h2">Leaderboard</h1>
     <div class="seg" role="group" aria-label="Rank by"><button type="button" data-m="pts" aria-pressed="${boardMode === "pts"}">Kyu points</button><button type="button" data-m="duel" aria-pressed="${boardMode === "duel"}">Duel rating</button></div>
   </div>
+  <p class="sample" style="margin:0"><b>Sample players.</b> Everyone here except you is made up to show the layout. Real rankings need accounts.</p>
   <div class="tablebox" tabindex="0" role="region" aria-label="Leaderboard table"><table>
     <thead><tr><th scope="col" class="num">#</th><th scope="col">Player</th><th scope="col">Rank</th><th scope="col" class="num">Points</th><th scope="col" class="num">Duel rating</th></tr></thead>
-    <tbody>${rows.map((x, i) => { const rk = rankOf(x.p).cur; return `<tr class="${x.you ? "you" : ""}"><td class="num">${i + 1}</td><td>${esc(x.h)}${x.you ? " (you)" : ""}</td><td>${badge(rk.k, rk.label)}</td><td class="num">${x.p.toLocaleString("en-GB")}</td><td class="num">${x.r}</td></tr>`; }).join("")}</tbody>
-  </table></div>
-  <p class="faint">These players are made up to show the layout. Real rankings need accounts. Clans, as on Codewars, could rank schools or maths circles against each other.</p>`;
+    <tbody>${rows.map((x, i) => { const rk = rankOf(x.p).cur; return `<tr class="${x.you ? "you" : ""}"><td class="num">${i + 1}</td><td>${esc(x.h)}${x.you ? `<span class="here">You</span>` : ""}</td><td>${badge(rk.k, rk.label)}</td><td class="num">${x.p.toLocaleString("en-GB")}</td><td class="num">${x.r}</td></tr>`; }).join("")}</tbody>
+  </table></div>`;
   $("v-leaderboard").querySelectorAll("[data-m]").forEach((b) => b.addEventListener("click", () => { boardMode = b.dataset.m; renderBoard(); }));
 }

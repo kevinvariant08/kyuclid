@@ -38,6 +38,18 @@ export function myKyu() {
   return S.placement && S.placement < k ? S.placement : k;
 }
 
+// A streak survives until the end of the next day, so it doesn't read 0 every morning.
+export function currentStreak() {
+  const DAY = 86400000;
+  const has = (d) => (S.activity[dayKey(d)] || 0) > 0;
+  const noon = (t) => { const d = new Date(t); d.setHours(12, 0, 0, 0); return d.getTime(); };
+  let t = noon(Date.now());
+  if (!has(t)) t -= DAY;
+  let n = 0;
+  while (has(t)) { n++; t = noon(t - DAY); }
+  return n;
+}
+
 // p needs id, kyu and title, so an index entry or a full problem both work.
 export function award(p, how, grade) {
   if (S.solved[p.id]) return 0;

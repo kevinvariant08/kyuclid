@@ -70,7 +70,7 @@ function draw() {
     const placed = S.placement;
     host.innerHTML = `
       <h2 class="sub" id="quizH">Find your level</h2>
-      <p class="muted">Up to three problems, from ${LADDER[0]} to ${LADDER[LADDER.length - 1]} kyu. They get harder when you're right and easier when you're not. No clock, one try each.</p>
+      <p class="muted">Up to three problems, from ${LADDER[0]} to ${LADDER[LADDER.length - 1]} kyu. They get harder when you're right and easier when you're not.</p>
       ${placed ? `<p class="faint">Last time you placed at ${placed} kyu.</p>` : ""}
       <div class="cta"><button class="btn primary" type="button" id="quizGo">${placed ? "Retake the quiz" : "Start the quiz"}</button></div>`;
     $("quizGo").addEventListener("click", () => { start(); });

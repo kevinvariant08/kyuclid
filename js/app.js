@@ -1,5 +1,5 @@
 // Boot and router. Routes are hash tokens: #home, #home-quiz, #problems[-filters] (see lib/hash.js), #p-<id>, #ranks, #duel, #profile, #leaderboard.
-import { $, renderMe, errorPanel, loadingPanel } from "./lib/ui.js";
+import { $, renderMe, initTheme, errorPanel, loadingPanel } from "./lib/ui.js";
 import { loadIndex } from "./lib/problems.js";
 import { loadTaxonomy } from "./lib/taxonomy.js";
 import { isListHash } from "./lib/hash.js";
@@ -53,6 +53,7 @@ function route() {
   if (toQuiz) showQuiz();
 }
 
+initTheme();
 renderMe();
 Promise.all([loadIndex(), loadTaxonomy()]).then(() => {
   window.addEventListener("hashchange", route);

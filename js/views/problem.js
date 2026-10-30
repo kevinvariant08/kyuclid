@@ -43,7 +43,7 @@ function solvedBanner(p, solved) {
   if (!solved) return "";
   const what = solved.how === "proof" ? `Self-graded ${solved.grade}/7` : solved.how === "duel" ? "Won in a duel" : "Solved";
   const pts = solved.how === "proof" ? `+${solved.pts} provisional pts` : `+${solved.pts} pts`;
-  return `<div class="solved-banner" id="solvedBanner" tabindex="-1"><span class="seal" aria-hidden="true">∴</span><div><b>${what}</b><span class="faint">${pts}${solved.at ? ` · ${fmtDate(solved.at)}` : ""}</span></div></div>`;
+  return `<div class="solved-banner" id="solvedBanner" tabindex="-1"><span class="qed" aria-hidden="true"></span><div><b>${what}</b><span class="faint">${pts}${solved.at ? ` · ${fmtDate(solved.at)}` : ""}</span></div></div>`;
 }
 
 function reportDialog(p) {
@@ -124,10 +124,9 @@ export async function renderProblem(id, opts = {}) {
     </div>
   </div>
   <div class="pgrid">
-    <article class="panel${solved ? " is-solved" : ""}">
+    <article class="panel belted${solved ? " is-solved" : ""}" style="--belt:${KYU[p.kyu].bg}">
       ${solvedBanner(p, solved)}
-      ${badge(p.kyu, null, "lg")}
-      <h1 class="ptitle">${esc(p.title)}</h1>
+      <div class="phead">${badge(p.kyu, null, "lg")}<h1 class="ptitle">${esc(p.title)}</h1></div>
       <div class="pmeta"><span>${TOPICS[p.topic]}</span><span>${p.type === "proof" ? "Proof, peer-reviewed" : "Single answer, auto-checked"}</span><span>${source ? "Source: " + esc(source) : "Original, by " + esc(authorOf(p))}</span></div>
       <div class="statement" id="statement">${paras(p.statement)}</div>
       ${work}
@@ -152,14 +151,14 @@ export async function renderProblem(id, opts = {}) {
         <dl class="kvlist">
           <dt>Rank</dt><dd>${p.kyu} kyu · ${KYU[p.kyu].belt}</dd>
           <dt>Worth</dt><dd>${base} pts</dd>
-          <dt>Solves</dt><dd>${p.stats.solves.toLocaleString("en-GB")}</dd>
-          <dt>Liked by</dt><dd>${likedPct(p)}</dd>
+          ${p.stats.solves ? `<dt>Solves</dt><dd>${p.stats.solves.toLocaleString("en-GB")}</dd>
+          <dt>Liked by</dt><dd>${likedPct(p)}</dd>` : ""}
           <dt>Your status</dt><dd>${solved ? (solved.how === "proof" ? "self-graded" : "solved") : "open"}</dd>
         </dl>
         ${p.subtopics.length ? `<div class="tags">${p.subtopics.map((s) => `<a class="tag" href="#problems?s=${encodeURIComponent(s)}">${esc(subtopicName(s))}</a>`).join("")}</div>` : ""}
       </div>
       ${p.type === "answer" ? `<div class="panel"><h2 class="side-h">Race someone on this kyu</h2><p class="faint" style="margin:4px 0 12px">A random ${p.kyu} kyu problem against the clock.</p><a class="btn" href="#duel" id="duelHere">Duel at ${p.kyu} kyu</a></div>` : ""}
-      ${upNext ? `<div class="panel"><h2 class="side-h">Next unsolved</h2><p style="margin:6px 0 10px"><b>${esc(upNext.title)}</b> ${badge(upNext.kyu)}</p><a class="btn small" href="#p-${upNext.id}">Open</a></div>` : ""}
+      ${upNext ? `<div class="panel"><h2 class="side-h">Next unsolved</h2><div class="side-next"><b>${esc(upNext.title)}</b>${badge(upNext.kyu, null, "solo")}</div><a class="btn small" href="#p-${upNext.id}">Open</a></div>` : ""}
     </aside>
   </div>
   ${prev ? `<nav class="pnav" aria-label="Other problems at ${p.kyu} kyu">

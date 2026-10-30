@@ -21,9 +21,16 @@ export const HINT_COST = 0.25;       // share of the points each opened hint rem
 export const MIN_HINT_SHARE = 0.25;  // the least a solve can be worth after hints
 export const PROOF_MARKS = 7;        // proofs score points x grade / 7
 export const LADDER = [8, 7, 6, 5, 4, 3, 2, 1];
-export const badge = (k, label, cls = "") => {
+// The rank mark: a belt tied at the waist, with the rank in the knot and the rank bar on each tail. Dan belts carry a stripe per dan.
+export const beltVars = (k) => `--belt:${KYU[k].bg}`;
+export const beltSvg = (k, num = k) => {
   const b = KYU[k];
-  return `<span class="kyu ${cls}" style="--belt:${b.bg};--belt-ink:${b.ink};--tape:${b.tape}">${label || k + " kyu"}</span>`;
+  const stripes = k === 0 ? Array.from({ length: num }, (_, i) => `<path d="M${37.5 + i * 2.6} 9v8.2"/>`).join("") : "";
+  return `<svg class="belt" viewBox="0 0 48 32" aria-hidden="true"><g fill="${b.bg}" stroke="var(--belt-edge)" stroke-width=".7"><path d="M20.5 19 13 29.5l5.5 2L25.5 20z"/><path d="M27.5 19 35 29.5l-5.5 2L22.5 20z"/><path d="M.5 7q23.5 3.5 47 0v9.5q-23.5 3.5-47 0z"/></g><g fill="${b.tape}"><path d="M15.1 26.6 13 29.5l5.5 2 2-3.2z"/><path d="M32.9 26.6 35 29.5l-5.5 2-2-3.2z"/></g>${stripes ? `<g stroke="#D9B44A" stroke-width="1.3">${stripes}</g>` : ""}<rect x="14.5" y="2.5" width="19" height="19.5" rx="3.5" fill="${b.bg}" stroke="${b.ink}" stroke-opacity=".38" stroke-width=".8"/><text x="24" y="17.8" text-anchor="middle" fill="${b.ink}">${num}</text></svg>`;
+};
+export const badge = (k, label, cls = "") => {
+  const text = label || k + " kyu";
+  return `<span class="kyu ${cls}">${beltSvg(k, parseInt(text, 10))}<span class="kyu-l">${text}</span></span>`;
 };
 export const rankOf = (pts) => {
   let i = 0; while (i + 1 < RANKS.length && pts >= RANKS[i + 1].min) i++;

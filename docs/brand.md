@@ -2,7 +2,7 @@
 
 **Kyuclid** = *kyu* (the martial-arts rank) + *Euclid*. Say it "cue-clid". In running text write **Kyuclid**: not KyuClid, Kyu-clid or KYUCLID (capitals are only for the wordmark). Kevin chose the name on 30 Oct 2026 to replace "MathWars"; [name-report.md](name-report.md) explains why.
 
-The identity carries over from the MathWars draft unchanged: a red seal with ∴, Big Shoulders Display with IBM Plex, a cool grey-blue light theme with a navy dark theme, and martial-arts belts for the kyu ranks.
+**Redesign in progress (branch `claude/kyuclid-redesign`, not on the live site yet).** The interface is now a dark-first app in aizome indigo with undyed-cotton text and shu vermilion, and belts appear on every rank. The Colour, Belts and Type sections below describe that. Kevin is choosing between three new logos in [logo-options/](logo-options/). Until he picks, the header shows the recommended option as a preview, and the Logo, Icons and link-preview sections and every file they list still describe the old ∴ seal. They get rewritten when the winner is built.
 
 ## Copy
 
@@ -54,30 +54,32 @@ The identity carries over from the MathWars draft unchanged: a red seal with ∴
 
 ## Colour
 
-Tokens are the CSS custom properties in `index.html`. The dark theme applies when `prefers-color-scheme: dark` is set, unless `data-theme="light"` overrides it, or when `data-theme="dark"` is set.
+Tokens are the CSS custom properties at the top of `css/site.css`. Dark comes first and is the bare `:root`. Light applies when `data-theme="light"` is set, which the theme button does and stores under `kyuclid:theme` (a separate key from `mathwars:v1`, so it isn't part of anyone's progress). The site doesn't follow the operating system's setting.
 
-| Token | Role | Light | Dark |
+| Token | Role | Dark | Light |
 |---|---|---|---|
-| `--bg` | page background | `#EEF0F4` | `#10121B` |
-| `--surface` | cards, top bar | `#FFFFFF` | `#181B28` |
-| `--sunk` | hover, wells | `#E4E7EE` | `#0C0E15` |
-| `--line` | borders | `#CED3DE` | `#2B3046` |
-| `--line-soft` | dividers | `#E0E3EA` | `#22263A` |
-| `--ink` | text | `#1B1E33` | `#E7E9F1` |
-| `--ink-soft` | secondary text | `#474B63` | `#AEB3C8` |
-| `--ink-faint` | captions, meta | `#62667E` | `#8E94AC` |
-| `--seal` | seal, primary buttons, accents | `#B42318` | `#E5534B` |
-| `--seal-hover` | primary hover | `#951B12` | `#F0716A` |
-| `--on-seal` | text and dots on seal | `#FFFFFF` | `#16070A` |
-| `--ok` | correct | `#22744C` | `#4CC38A` |
-| `--bad` | wrong | `#B8304F` | `#FF7A93` |
-| `--focus` | links, focus rings | `#3640A8` | `#9AA3FF` |
+| `--bg` | page background | `#0D1322` | `#F4F3EF` |
+| `--surface` | cards | `#151D31` | `#FFFFFF` |
+| `--raise` | hover, buttons, your row | `#1D2741` | `#ECEBE5` |
+| `--sunk` | wells, empty tracks | `#0A0F1C` | `#E7E6DF` |
+| `--line` | borders | `#2C3756` | `#D3D1C7` |
+| `--line-soft` | dividers | `#202A44` | `#E4E2DA` |
+| `--ink` | text | `#F1EFE9` | `#141B33` |
+| `--ink-soft` | secondary text | `#B6BDD0` | `#424A63` |
+| `--ink-faint` | captions, meta | `#8E97B0` | `#5C647C` |
+| `--shu` | logo triangle, primary buttons | `#F2583F` | `#C4301B` |
+| `--shu-hover` | primary hover | `#FF7059` | `#A32512` |
+| `--on-shu` | text on shu | `#1A0703` | `#FFFFFF` |
+| `--ok` | correct | `#4FCB8F` | `#1C7048` |
+| `--bad` | wrong | `#FF8097` | `#B42B4A` |
+| `--focus` | links, focus rings | `#A3B5FF` | `#2F3FA8` |
+| `--rail` | navigation rail and duel scoreboard | `#0A0F1C` | `#121A33` |
 
-Red is the only accent. Keep it for the seal, primary actions and one highlighted word, and let the belts carry the rest of the colour.
+The rail stays dark indigo in both themes, so light mode still looks like Kyuclid. Vermilion is the only accent. Keep it for the logo's triangle and primary actions, and let the belts carry the rest of the colour.
 
 ## Belts
 
-The kyu badge is a belt: a strip in the belt colour with a short dark tape near the right end. Belt colours mean rank and nothing else, so don't use them for decoration. Points per solve follow the Fibonacci numbers.
+The kyu badge is a tied belt, drawn by `beltSvg` in `js/lib/ranks.js`: a band, a square knot with the rank number in it, and two tails that each end in a rank bar. Black belts carry one gold stripe per dan. A problem card wears its belt as a strip along its top edge, and in the problem list the belt runs across the list as the divider above each kyu. Belt colours mean rank and nothing else, so don't use them for decoration. Points per solve follow the Fibonacci numbers.
 
 | Rank | Belt | Fill | Label ink | Tape | Points |
 |---|---|---|---|---|---|
@@ -91,7 +93,7 @@ The kyu badge is a belt: a strip in the belt colour with a short dark tape near 
 | 1 kyu | Red | `#B8232A` | `#FFFFFF` | `#15161C` | 55 |
 | dan | Black | `#15161C` | `#FFFFFF` | `#B8232A` (red tape) | — (book bosses) |
 
-Every badge has a 1 px inner outline at `rgba(0,0,0,.18)` so the white belt shows on light surfaces and the black belt shows on dark ones. The colours are defined once in `KYU` in `index.html`. The OG templates repeat them, so change all three together.
+Every belt has a thin outline in `--belt-edge` so the white belt shows on light surfaces and the black belt shows on dark ones. The colours are defined once in `KYU` in `js/lib/ranks.js`. The OG templates repeat them, so change them together.
 
 ## Type
 
@@ -99,7 +101,7 @@ All four families are from Google Fonts under the SIL Open Font License.
 
 | Family | Weights | Use |
 |---|---|---|
-| [Big Shoulders Display](https://fonts.google.com/specimen/Big+Shoulders+Display) | 800, 900 | Wordmark, headings, belt labels, big numbers. Always uppercase. Tracking +0.06 em for the wordmark, +0.08 em for belt labels and +0.01–0.03 em for headings. |
+| [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) | 700, 800 | Wordmark, headings, belt labels, big numbers. Sentence case, with the wordmark always lowercase. Tracking about −0.012 em at heading sizes. It replaces Big Shoulders Display in the interface; the old logo files and OG images still use Big Shoulders until the new logo is built. |
 | [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans) | 400–700 | Interface text and body copy |
 | [IBM Plex Serif](https://fonts.google.com/specimen/IBM+Plex+Serif) | 400, 600, italic | Problem statements, hints and solutions: anything you read carefully. MathJax sits beside it. |
 | [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono) | 400, 600 | Answers, points, clocks, ratings and other tabular numbers |
