@@ -20,7 +20,7 @@ export async function renderHome() {
     <div>
       <div class="eyebrow">Contest maths, ranked</div>
       <h1>From your first AMC to <em>IMO Problem 6</em></h1>
-      <p class="lede">MathWars is a dojo for competition problems. Start at 8 kyu with warm-ups, climb to 1 kyu olympiad proofs, and duel other solvers on the same problem with the clock running.</p>
+      <p class="lede">Kyuclid is a dojo for competition problems. Start at 8 kyu with warm-ups, climb to 1 kyu olympiad proofs, and duel other solvers on the same problem with the clock running.</p>
       <div class="cta"><a class="btn primary" href="#p-${potd.id}">Solve today's problem</a><a class="btn" href="#duel">Start a duel</a><a class="btn ghost" href="#problems">Browse all ${LISTED.length}</a></div>
     </div>
     <div class="rack" aria-label="Kyu ladder">
