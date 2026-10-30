@@ -88,7 +88,7 @@ More than half of modern AIME 1–5 landed at 6 kyu rather than 5. See decision 
 
 ### 1.5 Examples
 
-All of these are invented and are teaching aids. They do not go in the bank (decision D10). Each answer was computed by a program from the definitions, and each proof example has a full written proof. Section 10 records what the gate said about them. Only the two worked examples show their hints and solutions here.
+All of these are invented and are teaching aids. They do not go in the bank (decision D10). Each answer was computed by a program from the definitions, and each proof example has a full written proof, kept outside this repo with the other draft fields until Kevin decides D10. Section 10 records what the gate said about them. Only the two worked examples show their hints and solutions here.
 
 **8 kyu**
 1. Stickers are sold only in packs of $6$ and packs of $11$. What is the smallest number of packs that contains exactly $100$ stickers in total? (*Answer 10.*) *Reason: nothing to discover, but the greedy first try fails, so it teaches the reader to check.*
@@ -227,7 +227,7 @@ Each of these fails review, whatever the checks say.
 | **B3** | Ambiguity | "How many integers are between $3$ and $10$?" | Solvers who get it right can be marked wrong. Fix it with $3 < n < 10$ |
 | **B4** | Blind small cases find the answer | "Lines in general position: how many regions do $n$ lines make?" with a small $n$ | Drawing it gets the answer with no idea. Set $n$ too large to draw, and make the pattern not the obvious one |
 | **B5** | The "trick" is the wording | "A farmer has $17$ sheep and all but $9$ die. How many are left?" | It rewards a reading habit, not mathematics |
-| **B6** | Kyu and difficulty don't match | The seeds `factorial-sandwich` (rated 3 kyu; the gate estimated 6) and `round-table-no-neighbours` (rated 4 kyu; the gate estimated 7) | The rank loses its meaning. The gate's ruler is still provisional, and these seeds are well-known problems, which makes them look easier, but the mismatch is large |
+| **B6** | Kyu and difficulty don't match | The seeds `factorial-sandwich` (rated 3 kyu; the gate estimated 6) and `round-table-no-neighbours` (rated 4 kyu; the gate estimated 7) | The rank loses its meaning. This evidence is weak: it comes from the same provisional ruler that queries three of this document's own examples (section 10), and these seeds are well-known problems, which makes them look easier. Reviewers decide |
 | **B7** | A one-step exercise presented as a problem | The seed `divisor-census`, or `zeros-of-2026` | Fine as a textbook drill, but below even 8 kyu's bar if it is only a formula |
 | **B8** | Quoted contest text | The seeds `floor-staircase`, `factorial-sandwich`, `prime-power-desert`, `vieta-leap` | These quote contest problems, which rule 1 forbids. Task 11 removes them |
 | **B9** | A title that gives it away | The seeds `vieta-leap` and `nesbitts-guard` | It removes the crux before the solver starts (S13) |
@@ -299,7 +299,7 @@ Rules H1 to H6 apply. "One step short" (H4) means one routine step short of a co
 >
 > **Hint 1.** Do not start from $P$. Start from the point where the tangents at $B$ and $C$ meet, and call it $T$.
 >
-> **Hint 2.** Show that $T$, the circumcentre $O$, $B$, $C$ and $X$ all lie on one circle.
+> **Hint 2.** Angle-chase with directed angles to show that $T$, the circumcentre $O$, $B$, $C$ and $X$ all lie on one circle.
 >
 > **Hint 3.** That circle has diameter $OT$, so $\angle OXT$ is a right angle. Use this together with the fact that $OX$ is perpendicular to $AB$.
 >
@@ -314,9 +314,11 @@ Rules H1 to H6 apply. "One step short" (H4) means one routine step short of a co
 | Marks | Criterion |
 |---|---|
 | 1 | Introduces $T$, the meeting point of the tangents, and aims to show $P = T$, or an equivalent reformulation. |
-| 3 | Proves that $X$ lies on the circle through $B$, $O$, $C$ and $T$. Deduct 1 if only one position of $X$ is handled and the argument does not extend to the other. |
+| 3 | Proves that $X$ lies on the circle through $B$, $O$, $C$ and $T$, or an equivalent. Deduct 1 if only one position of $X$ is handled and the argument does not extend to the other. |
 | 2 | Deduces that the line through $X$ parallel to $AB$ passes through $T$. |
 | 1 | Applies the same argument to $Y$ and concludes that $P = T$. |
+
+A complete proof by another route, including coordinates or complex numbers, earns 7.
 
 ## 9. Open decisions for Kevin
 
@@ -336,7 +338,7 @@ Each has a default that this document already uses, so nothing is blocked. Chang
 | **D10** | May the examples here enter the bank? | No. They're published here with their answers | Otherwise they would need new wording and the gate |
 | **D11** | Should the schema get a separate deductions field? | No. They go inside `criterion` (P16) | Task 16's marker would find a separate field easier to apply. It's a schema change |
 | **D12** | Is the title rule right? | Yes (S13). IDs are permanent, so it only applies to new problems | It's an addition to the brief, and some community authors may find it restrictive |
-| **D13** | Are the examples at the right kyu? | Yes, as the author's estimate. The gate rates three of them easier (section 10), and the 2 and 1 kyu ones are unmeasured | Only you, or real solvers, can judge. Your acceptance of the ladder depends on these |
+| **D13** | Are the examples at the right kyu? | Yes, as the author's estimate. The gate rates three of them easier (section 10). The proofs are unmeasured and have not been compared with an olympiad corpus | Only you, or real solvers, can judge. Your acceptance of the ladder depends on these |
 
 The decisions already listed in `tasks/README.md` remain open: showing inspirations (the default here is no, see O5), famous problems outside the book (default: not used, see O7) and how much of a book solution a beaten boss shows.
 
@@ -366,6 +368,7 @@ Every example went through the real gate (task 05 branch at `8d13ea6`, with the 
 **What this does and doesn't show.**
 
 - **The three INVESTIGATE results are not failures,** but they may be right. The gate rates all three two kyus easier than the target. Its ruler is provisional and weak in this range, since models also solve nearly all real AIME problems 7/7. A reviewer should still look at these first.
+- **Originality was only tested against what the corpus holds.** The gate's corpus so far has AMC, AIME and AHSME and no olympiads, so the 3, 2 and 1 kyu proofs were compared with olympiad problems only through the judge's memory. They could still match a real olympiad problem.
 - **Proofs skip the blind solves and the difficulty check,** so a PASS there means only that the critics, solution audit and originality judge found nothing. Task 09's truth checks did not run. Separately: the lamp answer was confirmed by exhaustive search for odd $n \le 19$ and the construction by replaying its moves for odd $n \le 41$, and the three geometry statements were checked numerically on random triangles.
 - **The gate rejected seven earlier examples, and that was useful.** Five of my first answer problems were judged reskins or known problems, one was ambiguous about single-digit numbers, and one proof had a real error in its construction, now fixed. All were written by hand, in good faith, without looking at the corpus. Tasks 06 and 08 should expect the same at low kyu, where familiar structures are hard to avoid (D7).
 
@@ -445,5 +448,5 @@ Every example went through the real gate (task 05 branch at `8d13ea6`, with the 
 
 - **Calibration table and era rule:** `tasks/03-corpus-analysis.md`, and the task 03 first-pass prompt.
 - **First-pass statistics:** computed from `corpus/analysis_runs/full/pass1/` in the private corpus analysis, 248 records, 30 October 2026. They are aggregates only.
-- **Taxonomy:** version 1.0.0, approved by Kevin on 30 October 2026. It is on the task 03 branch and not yet merged. All IDs in this document are in it.
+- **Taxonomy:** version 1.0.0, approved by Kevin on 30 October 2026. It is at commit `32e43c0` on the task 03 session's local branch, not yet pushed when this was written. All IDs in this document are in it.
 - **Gate:** `claude/task-05-gate-018b5b` at commit `8d13ea6`, not yet merged.
