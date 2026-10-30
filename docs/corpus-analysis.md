@@ -33,6 +33,8 @@ It was built in three steps:
 
 Every disagreement was resolved by reading both records against the problem. Merging one near-duplicate pair afterwards only moves technique disagreement to 32%, so the miss comes mainly from which tag is listed first: in 7 of the 11 cases the passes broadly agreed on the set but not on the primary.
 
+These figures were measured under the original prompt. The prompt now defines the primary technique as the one the crux turns on, but that fix is untested. Both passes should re-run on the same 31 problems, with the reviewed taxonomy, before the full run.
+
 Kyu after resolution, measured against the starting value from position:
 
 | Era | Moved easier by one | Unchanged | Moved harder |
@@ -51,6 +53,28 @@ Position overrates classic problems by about one kyu, and the one-kyu cap may be
 | Second pass | Sonnet 5.5 | 31 | 193,857 | 9.3 min | 6.3k tokens, 18 s |
 
 No API money was spent.
+
+Estimate for the full AIME run, from the figures above:
+
+| Item | Estimate |
+|---|---|
+| First pass, 1,035 problems | about 7.0M tokens |
+| Second pass, all geometry plus 15% of the rest, about 420 problems | about 2.6M tokens |
+| Total | about 9.6M tokens, 15 times the pilot and mining together |
+| Plan usage | roughly 2 or more 5-hour windows and 20–35 weekly points |
+| Time, one batch at a time | about 11 hours |
+
+Plan usage is an upper bound and a rough one, since other sessions were running during the measurement.
+
+## Merge candidates
+
+Near-synonyms feed the technique disagreement. These are not merged yet:
+
+- `legendre-formula` and `p-adic-valuation`
+- `recursion`, `recurrence-manipulation` and `recurrence-unrolling`
+- `bounding`, `bound-and-construct` and `averaging-bound`
+- `periodicity` and `trig-periodicity-analysis`
+- `incircle-and-semiperimeter`, `equal-tangent-segments` and `inradius`
 
 ## Geometry configurations for review
 
