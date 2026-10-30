@@ -18,12 +18,13 @@ The brief asks for every claim to rest on the task 03 calibration table and synt
 | **[F]** | The first pass of the full AIME analysis: 248 of 1,035 records as of 30 October 2026. One model, no second pass and no review yet | Measured, but unreviewed and AIME only |
 | **[D]** | Derived from each contest's time per problem | Arithmetic, not measured solve data. Task 18 replaces it |
 | **[P]** | Proposed here, from task 02's kyu bands and judgement about the contests | Needs Kevin's approval (decision D3) |
+| **[B]** | *Beyond the Incenter*, which Kevin allowed as the reference for 2 and 1 kyu difficulty. Cited by source credit, with no statement quoted | Kevin's own ordering, but geometry only |
 | **[J]** | Judgement, with no data yet | Reviewers may overrule it |
 
 **What is missing:**
 
 - There are no 8 kyu records, and only 8 at 7 kyu, all from classic papers.
-- There is no olympiad data, because wave 3 of the corpus has not been analysed. Every proof claim is [T], [P] or [J].
+- There is no olympiad data, because wave 3 of the corpus has not been analysed. Every proof claim is [T], [B], [P] or [J].
 - MOHS is empty on every corpus record so far. The MOHS column is the task 03 table and nothing more.
 - Only AIME has been analysed. The AMC and UKMT positions are not yet tested against analysis records.
 
@@ -78,8 +79,8 @@ More than half of modern AIME 1–5 landed at 6 kyu rather than 5. See decision 
 | 5 | Green | AMC 10/12 21–25, modern AIME 1–5, classic AIME 6–10 [T]; UKMT SMC late; HMMT November late [P] | none | 1 | Near | Low [F] | 6–12 min [D] |
 | 4 | Blue | Modern AIME 6–10, classic AIME 11–15 [T]; HMMT February early [P] | none (see D1) | 1–2 | Near or hidden | Low, sometimes medium [F] | 10–20 min [D] |
 | 3 | Purple | Modern AIME 11–15 [T]; HMMT February late [P] | IMO P1/P4, ISL x1–x2, MOHS 10–15 [T]; BMO1 late, BMO2 P1, USAMO P1/P4, EGMO P1/P4, CGMO early [P] | 2 | Hidden | Medium [F] | Answer 20–40 min; proof 30–60 min [D] |
-| 2 | Brown | none (see D2) | IMO P2/P5, ISL x3–x5, MOHS 20–30 [T]; BMO2 late, USAMO P2/P5, EGMO P2/P5, CGMO late [P] | 2–3, or 1 deep | Hidden or deep | Whatever the proof needs. Long is fine; a slog is not (B2) | 60–120 min [D] |
-| 1 | Red | none | IMO P3/P6, ISL x6+, MOHS 35+ [T]; USAMO P3/P6, EGMO P6 [P] | 3 or more, or 1 very deep | Deep | As for 2 kyu | 2–4 hours, and many strong solvers will not finish [D, J] |
+| 2 | Brown | none (see D2) | IMO P2/P5, ISL x3–x5, MOHS 20–30 [T]; BMO2 late, USAMO P2/P5, EGMO P2/P5, CGMO late [P]; book references in 1.6 [B] | 2–3, or 1 deep | Hidden or deep | Whatever the proof needs. Long is fine; a slog is not (B2) | 60–120 min [D] |
+| 1 | Red | none | IMO P3/P6, ISL x6+, MOHS 35+ [T]; USAMO P3/P6, EGMO P6 [P]; book references in 1.6 [B] | 3 or more, or 1 very deep | Deep | As for 2 kyu | 2–4 hours, and many strong solvers will not finish [D, J] |
 | Boss | Black (dan) | none | No contest anchor. Chosen from Kevin's book (task 21) | Set by the book | Set by the book | Set by the book | Open-ended |
 
 **MOHS.** The table in task 03 leaves gaps (6–9, 16–19, 31–34), but MOHS ratings normally come in steps of 5, so they rarely matter. A value in a gap takes the harder kyu [J]. MOHS 0–5 is a 4 kyu calibration signal only (D1).
@@ -115,27 +116,40 @@ $$\sum_{k=1}^{n} \dfrac{1}{\sqrt{k} + \sqrt{k + 1}} < 20.$$
 **3 kyu**
 1. A subset $A$ of $\{1, 2, \dots, 30\}$ is called sparse if there are no $x, y \in A$ with $x = 2y$ or $x = 3y$. The empty set is sparse. Find the remainder when the number of sparse subsets is divided by $1000$. (*Answer 512.*) *Reason: the hidden step is seeing independent staircase-shaped grids, and counting in the largest one is real but manageable work.*
 2. The worked proof in section 8.5.
+3. Let $ABC$ be a triangle with $AB \ne AC$ and circumcircle $\Gamma$. Its incircle touches $BC$, $CA$ and $AB$ at $D$, $E$ and $F$, and its excircle opposite $A$ touches $BC$ at $D'$. Lines $EF$ and $BC$ meet at $J$. Let $UV$ be the diameter of $\Gamma$ perpendicular to $BC$. Prove that $J$, $D'$, $U$ and $V$ lie on a circle. *Reason: three standard facts linked through the midpoint of $BC$. It was first rated 2 kyu, and moved down after comparison with the book's 2 kyu references.*
 
 **2 kyu** (both proofs)
 1. Let $a > b$ be coprime positive integers. Prove that there are infinitely many positive integers $n$ such that $n$ divides $a^n + b^n$. *Reason: the main case is one tool, but the case with $a + b$ a power of $2$ needs a second idea.*
-2. Let $ABC$ be a triangle with $AB \ne AC$ and circumcircle $\Gamma$. Its incircle touches $BC$, $CA$ and $AB$ at $D$, $E$ and $F$, and its excircle opposite $A$ touches $BC$ at $D'$. Lines $EF$ and $BC$ meet at $J$. Let $UV$ be the diameter of $\Gamma$ perpendicular to $BC$. Prove that $J$, $D'$, $U$ and $V$ lie on a circle. *Reason: three separate facts must be linked through the midpoint of $BC$, which the statement never mentions.*
+2. Let $ABC$ be a triangle with $AB \ne AC$ and circumcircle $\Gamma$. Its incircle touches $CA$ and $AB$ at $E$ and $F$. A circle tangent to sides $AB$ and $AC$ and internally tangent to $\Gamma$ touches $\Gamma$ at $T$. The median from $A$ meets $\Gamma$ again at $R$. Prove that lines $EF$, $BC$ and $TR$ are concurrent. *Reason: it joins two distant configurations, and finding a route is the hard part. It was first rated 1 kyu, and moved down because the proof, once found, is far shorter in ideas than the book's 1 kyu references.*
 
-**1 kyu** (both proofs)
-1. Let $n \ge 3$ be an odd integer. There are $n$ lamps around a circle, and exactly one of them is on. In a move, you choose a lamp that is on and change the state of its two neighbours; the chosen lamp stays on. Determine, as a function of $n$, the smallest number of moves after which all $n$ lamps are on. *Reason: small cases give the formula, but the proof needs a new description of a position in which a move is a swap of particles on a line, and nothing in the statement suggests it.*
-2. Let $ABC$ be a triangle with $AB \ne AC$ and circumcircle $\Gamma$. Its incircle touches $CA$ and $AB$ at $E$ and $F$. A circle tangent to sides $AB$ and $AC$ and internally tangent to $\Gamma$ touches $\Gamma$ at $T$. The median from $A$ meets $\Gamma$ again at $R$. Prove that lines $EF$, $BC$ and $TR$ are concurrent. *Reason: it joins two distant configurations, and the only proof found so far is a projection followed by computation, so a clean route is the hard part.*
-
-Whether these two are truly 1 kyu is unmeasured. It is the author's estimate, and Kevin should overrule it freely.
+**1 kyu**
+1. Let $n \ge 3$ be an odd integer. There are $n$ lamps around a circle, and exactly one of them is on. In a move, you choose a lamp that is on and change the state of its two neighbours; the chosen lamp stays on. Determine, as a function of $n$, the smallest number of moves after which all $n$ lamps are on. *Reason: small cases give the formula, but the proof needs a new description of a position in which a move is a swap of particles on a line, and nothing in the statement suggests it. This is combinatorics, so the geometry references can't confirm its rating.*
+2. No invented example. The reference is IMOSL 2009 G7 from the book, by source credit only, because I could not invent a geometry problem at that level (decision D9).
 
 **Boss.** There are no invented examples here, which departs from the brief (decision D9). Bosses are not written: they are chosen from *Beyond the Incenter* with Kevin (task 21), and no invented problem can be shown to be harder than 1 kyu without real solvers.
 
-### 1.6 The boss tier
+### 1.6 Book references for 2 and 1 kyu
+
+These are problems in *Beyond the Incenter*, named by source credit. Their statements aren't quoted, because rule 1's exception for the book covers bosses. They are geometry only, so the other three topics still rest on the labels in the ladder.
+
+| Kyu | From the table in task 03 [T] | Proposed from the contest's position [P] |
+|---|---|---|
+| 3, as the floor | IMO 2015 P4, IMO 2014 P4, IMO 2024 P4, IMO 2006 P1, IMO 2003 P4, IMO 1995 P1 | USAMO 2021 P1, USAMO 2023 P1, USAMO 2009 P1 |
+| 2 | IMO 2012 P5, IMOSL 2009 G3, IMOSL 2011 G4, IMOSL 2025 G3 | CGMO 2018 P8, BMO2 2014 P4, BMO2 2017 P3 |
+| 1 | IMOSL 2011 G6, IMOSL 2009 G7, IMOSL 2009 G8 | USAMO 2006 P6, RMM 2017 P6 |
+
+The book's Challenge Problems are arranged in roughly increasing order of difficulty, and they place IMOSL 2009 G3, then IMOSL 2011 G4, then IMOSL 2009 G7, then IMOSL 2009 G8. This agrees with the table, and it is the only evidence so far that doesn't come from position alone.
+
+The length of the solutions in the book does not separate these kyus, so length is not a test: some 2 kyu solutions are longer than 1 kyu ones. The comparison has to be of how hidden the crux is.
+
+### 1.7 The boss tier
 
 Task 21 governs bosses. Where it differs from this standard, task 21 wins:
 
 - **BS1.** A boss statement is quoted from the book with its source credit exactly as printed, plus the book credit. Section 7 does not apply. `provenance.kind` is `classical`.
 - **BS2.** Hints follow task 21: hint 1 names the chapter's tool, and hint 2 comes from a Remark box. Section 5's H2 and H3 do not apply.
 - **BS3.** The rubric comes from Kevin's solution, totals 7, and Kevin approves it.
-- **BS4.** The bar for a boss: the hardest problem in its chapter, or one of the 3–5 hardest in the book, in Kevin's judgement.
+- **BS4.** The bar for a boss: the hardest problem in its chapter, or one of the 3–5 hardest in the book, in Kevin's judgement. A chapter's hardest problem may be easier than 1 kyu, because the tier follows the book and not the ladder.
 - **BS5.** Everything else here still applies to Kyuclid's own text (hints and solutions), including UK spelling. The book's title keeps its own spelling.
 
 ## 2. Statement rules
@@ -328,17 +342,17 @@ Each has a default that this document already uses, so nothing is blocked. Chang
 |---|---|---|---|
 | **D1** | Can proofs appear below 3 kyu? | No. MOHS 0–5 and easy UKMT or BMO1 problems only calibrate 4 kyu (K4) | The brief says proofs are 3–1 kyu, but task 03 puts MOHS 0–5 at 4 kyu and task 02 has UKMT olympiads at 5–3 |
 | **D2** | Can answer problems be 2 kyu? | No. The hardest answer problems stay at 3 kyu (K4, A1) | The first pass already rates 8 AIME problems at 2 kyu, and the brief's answer rules stop at 3 kyu |
-| **D3** | Do you accept the contest anchors marked [P]? | Yes, as a draft, until waves 2 and 3 test them | The task 03 table has no UKMT, HMMT, BMO, USAMO, EGMO or CGMO rows, though the brief asks for them |
+| **D3** | Do you accept the contest anchors marked [P], including the book references in that column of 1.6? | Yes, as a draft, until waves 2 and 3 test them | The task 03 table has no UKMT, HMMT, BMO, USAMO, EGMO or CGMO rows, though the brief asks for them |
 | **D4** | Should 5 kyu's AIME anchor move? | Keep AIME 1–5 at 5 kyu and recheck after the second pass | 59% of modern AIME 1–5 landed at 6 kyu in the first pass. If that holds, task 06's "5–3 kyu from AIME" needs rethinking |
 | **D5** | Allow AIME-style encoded answers at 5–3 kyu? | Yes (A4) | The brief's 0–999 rule would otherwise rule out every non-integer answer at those kyus |
 | **D6** | What happens to `answer_format: "expression"`? | Unused, left in the schema (A2) | Removing it is a schema change for task 01's owner |
 | **D7** | How strict is originality at 8–6 kyu? | A shared one-step structure is not by itself a reskin (O6) | The gate's judge currently rejects these. Stricter rules could make 8 kyu very hard to fill |
 | **D8** | "Incentre" or "incenter"? | UK in prose. Taxonomy IDs and the book's title keep their spelling (S8) | Your book and the taxonomy use the US form, and the brand sheet asks for UK |
-| **D9** | Do bosses need invented examples? | No. This departs from the brief (section 1.5) | Bosses are chosen from your book. You may prefer to name two real ones here |
+| **D9** | Do bosses and 1 kyu geometry need invented examples? | No. Both use book problems instead, which departs from the brief (section 1.5) | Bosses are chosen from your book. No invented problem here reached the book's 1 kyu geometry. You may prefer to name other references |
 | **D10** | May the examples here enter the bank? | No. They're published here with their answers | Otherwise they would need new wording and the gate |
 | **D11** | Should the schema get a separate deductions field? | No. They go inside `criterion` (P16) | Task 16's marker would find a separate field easier to apply. It's a schema change |
 | **D12** | Is the title rule right? | Yes (S13). IDs are permanent, so it only applies to new problems | It's an addition to the brief, and some community authors may find it restrictive |
-| **D13** | Are the examples at the right kyu? | Yes, as the author's estimate. The gate rates three of them easier (section 10). The proofs are unmeasured and have not been compared with an olympiad corpus | Only you, or real solvers, can judge. Your acceptance of the ladder depends on these |
+| **D13** | Are the examples at the right kyu? | Yes, as the author's estimate. The gate rates three of them easier (section 10). I moved two geometry proofs down one kyu against the book's references (1.6), which are my reading of them and not yours. The proofs are unmeasured and have not been compared with an olympiad corpus | Only you, or real solvers, can judge. Your acceptance of the ladder depends on these |
 
 The decisions already listed in `tasks/README.md` remain open: showing inspirations (the default here is no, see O5), famous problems outside the book (default: not used, see O7) and how much of a book solution a beaten boss shows.
 
@@ -360,15 +374,15 @@ Every example went through the real gate (task 05 branch at `8d13ea6`, with the 
 | 4 | Powers of two in powers of three | INVESTIGATE: difficulty | 7/7 | 6 |
 | 3 | No doubles and no triples | PASS | 6/7 | 3 |
 | 3 | A parallelogram and two tangents (proof) | PASS | n/a | n/a |
+| 3 | Four points and a diameter (proof) | PASS | n/a | n/a |
 | 2 | Infinitely many divisors (proof) | PASS | n/a | n/a |
-| 2 | Four points and a diameter (proof) | PASS | n/a | n/a |
+| 2 | Three lines and a side (proof) | PASS | n/a | n/a |
 | 1 | Lamps to all on (proof) | PASS | n/a | n/a |
-| 1 | Three lines and a side (proof) | PASS | n/a | n/a |
 
 **What this does and doesn't show.**
 
 - **The three INVESTIGATE results are not failures,** but they may be right. The gate rates all three two kyus easier than the target. Its ruler is provisional and weak in this range, since models also solve nearly all real AIME problems 7/7. A reviewer should still look at these first.
-- **Originality was only tested against what the corpus holds.** The gate's corpus so far has AMC, AIME and AHSME and no olympiads, so the 3, 2 and 1 kyu proofs were compared with olympiad problems only through the judge's memory. They could still match a real olympiad problem.
+- **Originality was only tested against what the corpus holds.** The gate's corpus so far has AMC, AIME and AHSME and no olympiads, so the proofs were compared with olympiad problems only through the judge's memory. They could still match a real olympiad problem.
 - **Proofs skip the blind solves and the difficulty check,** so a PASS there means only that the critics, solution audit and originality judge found nothing. Task 09's truth checks did not run. Separately: the lamp answer was confirmed by exhaustive search for odd $n \le 19$ and the construction by replaying its moves for odd $n \le 41$, and the three geometry statements were checked numerically on random triangles.
 - **The gate rejected seven earlier examples, and that was useful.** Five of my first answer problems were judged reskins or known problems, one was ambiguous about single-digit numbers, and one proof had a real error in its construction, now fixed. All were written by hand, in good faith, without looking at the corpus. Tasks 06 and 08 should expect the same at low kyu, where familiar structures are hard to avoid (D7).
 
@@ -450,3 +464,4 @@ Every example went through the real gate (task 05 branch at `8d13ea6`, with the 
 - **First-pass statistics:** computed from `corpus/analysis_runs/full/pass1/` in the private corpus analysis, 248 records, 30 October 2026. They are aggregates only.
 - **Taxonomy:** version 1.0.0, approved by Kevin on 30 October 2026. It is at commit `32e43c0` on the task 03 session's local branch, not yet pushed when this was written. All IDs in this document are in it.
 - **Gate:** `claude/task-05-gate-018b5b` at commit `8d13ea6`, not yet merged.
+- **Book:** the manuscript of *Beyond the Incenter*, 2026 edition, read on 30 October 2026. It isn't in this repo. References are by source credit, because the book's numbering is not used here.
