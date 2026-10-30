@@ -7,7 +7,9 @@ export const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", 
 
 export function renderMe() {
   const pts = points(); const r = rankOf(pts);
-  $("meChip").innerHTML = `${badge(r.cur.k, r.cur.label)}<span class="pts">${pts} pts</span>`;
+  const chip = $("meChip");
+  chip.setAttribute("aria-label", `Your rank: ${r.cur.label}, ${pts} points. Open your profile.`);
+  chip.innerHTML = `${badge(r.cur.k, r.cur.label)}<span class="pts">${pts} pts</span>`;
 }
 
 export const statusTag = (p) => {
@@ -19,7 +21,12 @@ export const statusTag = (p) => {
 };
 
 export const dayIndex = () => Math.floor(Date.now() / 86400000);
+export const fmtDate = (t) => new Date(t).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 
 // What the list and the problem page say about where a problem comes from.
 export const sourceLine = (p) => (p.provenance ? p.provenance.source : p.source);
 export const authorOf = (p) => (p.provenance ? p.provenance.author : p.author);
+
+// Shown when a view can't fetch what it needs.
+export const errorPanel = (what) => `<div class="panel state" role="alert"><h1 class="h2">Couldn't load ${what}</h1><p class="muted">Check your connection and <a href="">reload the page</a>. Your progress is safe in this browser.</p></div>`;
+export const loadingPanel = (what) => `<div class="panel state" role="status"><span class="spinner" aria-hidden="true"></span>Loading ${what}…</div>`;

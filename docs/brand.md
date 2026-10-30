@@ -84,7 +84,7 @@ The kyu badge is a belt: a strip in the belt colour with a short dark tape near 
 | 8 kyu | White | `#F4F4F1` | `#1B1E33` | `#15161C` | 2 |
 | 7 kyu | Yellow | `#E9C440` | `#1B1E33` | `#15161C` | 3 |
 | 6 kyu | Orange | `#E5832A` | `#1B1E33` | `#15161C` | 5 |
-| 5 kyu | Green | `#2E8B4E` | `#FFFFFF` | `#15161C` | 8 |
+| 5 kyu | Green | `#2B864B` | `#FFFFFF` | `#15161C` | 8 |
 | 4 kyu | Blue | `#2A64C8` | `#FFFFFF` | `#15161C` | 13 |
 | 3 kyu | Purple | `#6E43B8` | `#FFFFFF` | `#15161C` | 21 |
 | 2 kyu | Brown | `#7A4A2B` | `#FFFFFF` | `#15161C` | 34 |
