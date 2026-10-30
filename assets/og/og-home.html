@@ -4,21 +4,21 @@
 <meta charset="utf-8">
 <title>Kyuclid OG image (home)</title>
 <!-- Source for og-home.png. Render with: python tools/brand/render_png.py og -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;600&display=block">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;600&display=block">
 <style>
 html, body { margin: 0; }
-body { width: 1200px; height: 630px; overflow: hidden; background: #10121B; color: #E7E9F1; font-family: "IBM Plex Sans", sans-serif; }
+body { width: 1200px; height: 630px; overflow: hidden; background: #0D1322; color: #F1EFE9; font-family: "IBM Plex Sans", sans-serif; }
 .card { position: relative; box-sizing: border-box; height: 100%; padding: 64px 72px 56px; display: flex; flex-direction: column; }
-.card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(900px 520px at 100% 0%, rgba(229, 83, 75, .16), transparent 60%); }
+.card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(900px 520px at 100% 0%, rgba(242, 88, 63, .16), transparent 60%); }
 .card > * { position: relative; }
-.logo { height: 76px; align-self: flex-start; }
-h1 { font: 900 104px/.9 "Big Shoulders Display", sans-serif; text-transform: uppercase; letter-spacing: .01em; margin: 44px 0 0; }
-h1 em { font-style: normal; color: #E5534B; }
-p { font-size: 30px; line-height: 1.35; color: #AEB3C8; margin: 22px 0 0; max-width: 30ch; }
+.logo { height: 72px; align-self: flex-start; }
+h1 { font: 800 88px/1 "Bricolage Grotesque", sans-serif; letter-spacing: -.015em; margin: 38px 0 0; }
+h1 em { font-style: normal; color: #F2583F; }
+p { font-size: 30px; line-height: 1.35; color: #B6BDD0; margin: 22px 0 0; max-width: 30ch; }
 .rack { display: flex; gap: 10px; margin-top: auto; }
-.kyu { position: relative; flex: 1; height: 46px; border-radius: 4px; display: flex; align-items: center; padding-left: 12px; font: 800 21px/1 "Big Shoulders Display", sans-serif; letter-spacing: .08em; text-transform: uppercase; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .16); }
+.kyu { position: relative; flex: 1; height: 46px; border-radius: 4px; display: flex; align-items: center; padding-left: 12px; font: 800 18px/1 "Bricolage Grotesque", sans-serif; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .16); }
 .kyu::after { content: ""; position: absolute; right: 8px; top: 4px; bottom: 4px; width: 12px; border-radius: 2px; background: var(--tape); }
-.foot { display: flex; justify-content: space-between; margin-top: 22px; font: 500 22px/1 "IBM Plex Mono", monospace; color: #8E94AC; }
+.foot { display: flex; justify-content: space-between; margin-top: 22px; font: 500 22px/1 "IBM Plex Mono", monospace; color: #8E97B0; }
 </style>
 </head>
 <body>
@@ -30,7 +30,7 @@ p { font-size: 30px; line-height: 1.35; color: #AEB3C8; margin: 22px 0 0; max-wi
   <div class="foot"><span>kevinvariant08.github.io/kyuclid</span><span>a Kevinvariant project</span></div>
 </div>
 <script>
-// Belt colours: keep in sync with KYU in index.html and docs/brand.md.
+// Belt colours: keep in sync with KYU in js/lib/ranks.js and docs/brand.md.
 const BELTS = [
   [8, "#F4F4F1", "#1B1E33", "#15161C"], [7, "#E9C440", "#1B1E33", "#15161C"], [6, "#E5832A", "#1B1E33", "#15161C"],
   [5, "#2B864B", "#FFFFFF", "#15161C"], [4, "#2A64C8", "#FFFFFF", "#15161C"], [3, "#6E43B8", "#FFFFFF", "#15161C"],

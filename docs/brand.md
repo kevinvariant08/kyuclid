@@ -2,8 +2,6 @@
 
 **Kyuclid** = *kyu* (the martial-arts rank) + *Euclid*. Say it "cue-clid". In running text write **Kyuclid**: not KyuClid, Kyu-clid or KYUCLID (capitals are only for the wordmark). Kevin chose the name on 30 Oct 2026 to replace "MathWars"; [name-report.md](name-report.md) explains why.
 
-**Redesign in progress (branch `claude/kyuclid-redesign`, not on the live site yet).** The interface is now a dark-first app in aizome indigo with undyed-cotton text and shu vermilion, and belts appear on every rank. The Colour, Belts and Type sections below describe that. Kevin is choosing between three new logos in [logo-options/](logo-options/). Until he picks, the header shows the recommended option as a preview, and the Logo, Icons and link-preview sections and every file they list still describe the old ∴ seal. They get rewritten when the winner is built.
-
 ## Copy
 
 **Tagline:** Contest maths, belt by belt.
@@ -27,29 +25,32 @@
 
 ## Logo
 
+Kevin chose this logo on 31 Oct 2026.
+
 | File | Use |
 |---|---|
 | `assets/logo/kyuclid-horizontal.svg` | Main logo on light backgrounds |
 | `assets/logo/kyuclid-horizontal-dark.svg` | Main logo on dark backgrounds |
-| `assets/logo/kyuclid-square.svg`, `-square-dark.svg` | Avatars, link cards and anywhere square: seal above the wordmark on a solid tile |
-| `assets/logo/kyuclid-wordmark.svg`, `-wordmark-dark.svg` | Wordmark alone, where the seal is already shown nearby |
-| `assets/logo/kyuclid-seal.svg` | The seal alone (transparent) |
+| `assets/logo/kyuclid-square.svg`, `-square-dark.svg` | Avatars, link cards and anywhere square: the mark above the wordmark on a solid tile |
+| `assets/logo/kyuclid-wordmark.svg`, `-wordmark-dark.svg` | Wordmark alone, where the mark is already shown nearby |
+| `assets/logo/kyuclid-mark.svg`, `-mark-dark.svg` | The mark alone (transparent) |
+| `assets/logo/mark.svg` | The symbol the site header draws, using the current theme's colours |
 | `assets/favicon.svg`, `assets/icons/*` | Browser and app icons (see below) |
 
 **Construction.**
-- **Seal:** a rounded square (corner radius 6/34 of its side), tilted **−4°**, in seal red, with **∴** ("therefore") drawn as three dots in white.
-- **Wordmark:** KYUCLID set in Big Shoulders Display 900, tracked +0.06 em, then converted to outlines so it renders without the font.
-- **Lockup:** the seal is 1.63× the cap height and sits 0.48 × cap height from the wordmark. These are the same proportions as the site header (34 px seal, 26 px wordmark, 10 px gap).
-- **Favicon cut:** the favicon and app icons use bigger dots so the ∴ survives at 16–32 px.
+- **Mark:** Euclid's Elements, Book I, Proposition 1. Two solid discs of radius *r*, with centres *r* apart and their overlap cut out. The vermilion equilateral triangle has its corners exactly on the two centres and the upper crossing point. The mark is 3*r* wide and 2*r* tall.
+- **Wordmark:** kyuclid, always lowercase, in Bricolage Grotesque 800 at optical size 96, tracked −0.012 em and converted to outlines so it renders without the font.
+- **Lockup:** the discs are 0.86 em tall, centred on the middle of the x-height, with a 0.24 em gap before the wordmark.
+- **Icons:** a bare mark would vanish on a browser tab of the same colour, so the favicon and app icons put it on the dark indigo tile.
 
 **Usage.**
-- **Clear space:** leave at least half the seal's width clear on every side of the logo.
-- **Minimum size:** the horizontal logo is 96 px wide. Below that, use the seal alone.
+- **Clear space:** leave at least one disc radius clear on every side of the logo.
+- **Minimum size:** the horizontal logo is 80 px wide. Below that, use the mark alone.
 - **Backgrounds:** on photos or busy backgrounds, put the logo on a solid tile.
 - **Don't:**
-  - straighten or re-tilt the seal;
-  - set the wordmark in another typeface;
-  - recolour the seal outside the two seal reds;
+  - tilt the mark or change its proportions;
+  - set the wordmark in another typeface or in capitals;
+  - colour the triangle anything but the two vermilions;
   - add effects.
 
 ## Colour
@@ -101,7 +102,7 @@ All four families are from Google Fonts under the SIL Open Font License.
 
 | Family | Weights | Use |
 |---|---|---|
-| [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) | 700, 800 | Wordmark, headings, belt labels, big numbers. Sentence case, with the wordmark always lowercase. Tracking about −0.012 em at heading sizes. It replaces Big Shoulders Display in the interface; the old logo files and OG images still use Big Shoulders until the new logo is built. |
+| [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) | 700, 800 | Wordmark, headings, belt labels, big numbers. Sentence case, with the wordmark always lowercase. Tracking about −0.012 em at heading sizes. |
 | [IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans) | 400–700 | Interface text and body copy |
 | [IBM Plex Serif](https://fonts.google.com/specimen/IBM+Plex+Serif) | 400, 600, italic | Problem statements, hints and solutions: anything you read carefully. MathJax sits beside it. |
 | [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono) | 400, 600 | Answers, points, clocks, ratings and other tabular numbers |
@@ -112,19 +113,19 @@ All four families are from Google Fonts under the SIL Open Font License.
 |---|---|---|
 | `assets/favicon.svg` | vector | `<link rel="icon">` (modern browsers) |
 | `assets/icons/favicon-32.png`, `favicon-16.png` | 32, 16 | PNG fallback icons |
-| `assets/icons/apple-touch-icon.png` | 180 | iOS home screen: seal on navy, opaque |
-| `assets/icons/icon-192.png`, `icon-512.png` | 192, 512 | Web app manifest, `purpose: any` (transparent) |
-| `assets/icons/icon-maskable-192.png`, `-512.png` | 192, 512 | Manifest, `purpose: maskable`: seal inside the 80 % safe zone on navy |
+| `assets/icons/apple-touch-icon.png` | 180 | iOS home screen: mark on indigo, opaque |
+| `assets/icons/icon-192.png`, `icon-512.png` | 192, 512 | Web app manifest, `purpose: any`: mark on a rounded indigo tile |
+| `assets/icons/icon-maskable-192.png`, `-512.png` | 192, 512 | Manifest, `purpose: maskable`: mark inside the 80 % safe zone on indigo |
 | `site.webmanifest` | — | Scope and start URL `/kyuclid/`, so Kyuclid installs separately from Kevinvariant on the same origin |
 | `assets/og/og-home.png` | 1200×630 | Home page `og:image` and `twitter:image` |
 | `assets/og/problem-template.html` | 1200×630 | Per-problem card: belt, title, topic and answer or proof (example: `assets/og/problem-example.png`) |
 
-**Link previews** use the dark navy card for the home page and the light card for problems, so the two are easy to tell apart in a feed. A problem card shows only the title, belt, topic and mode, never the statement: contest problem text must stay out of this repo (see rule 1 in `tasks/README.md`).
+**Link previews** use the dark indigo card for the home page and the light card for problems, so the two are easy to tell apart in a feed. A problem card shows only the title, belt, topic and mode, never the statement: contest problem text must stay out of this repo (see rule 1 in `tasks/README.md`).
 
 **Problem pages can't use their cards yet.** Problems live at `#p-<id>`, and link-preview crawlers ignore the part after `#` and don't run JavaScript, so every problem link currently previews as the home page. A problem's card can only be used once the problem has its own static URL with its own `og:image` tags. That is for task 01 or 12 to decide.
 
 **Regenerating.** Install fontTools and Pillow, and have Chrome or Edge available.
-- `python tools/brand/build_logos.py <BigShouldersDisplay-900.ttf>` rebuilds every SVG.
+- `python tools/brand/build_logos.py <bricolage-800.ttf>` rebuilds every SVG.
 - `python tools/brand/render_png.py icons` renders the favicon and app-icon PNGs.
 - `python tools/brand/render_png.py og` renders `og-home.png`.
 - `python tools/brand/render_png.py problem --id … --title … --kyu … --topic … --mode Answer|Proof` renders one problem card.

@@ -8,7 +8,7 @@ Usage:
 
 It uses Chrome, or Edge if Chrome is missing (set BROWSER to override; headless Edge
 on Windows sometimes exits without writing the screenshot), and Pillow. The OG pages load
-IBM Plex and Big Shoulders Display from Google Fonts, so rendering needs a network.
+IBM Plex and Bricolage Grotesque from Google Fonts, so rendering needs a network.
 """
 import argparse
 import os

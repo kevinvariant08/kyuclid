@@ -1,17 +1,18 @@
-"""Build the Kyuclid logo SVGs in assets/ from the brand fonts.
+"""Build the Kyuclid logo SVGs in assets/ from the brand font.
+
+The mark comes from Euclid's Elements, Book I, Proposition 1: on a segment AB draw the circle centred A through B and
+the circle centred B through A. They cross at C, and ABC is equilateral. Two solid discs have their overlap cut out,
+and the triangle's corners sit exactly on the two centres and the crossing point.
 
 The wordmark is converted to outlines, so the SVGs render the same everywhere
-(an <img> or favicon SVG can't load web fonts). The ∴ in the seal is drawn as
-three circles for the same reason.
+(an <img> or favicon SVG can't load web fonts).
 
 Usage:
-    python tools/brand/build_logos.py path/to/BigShouldersDisplay-900.ttf
+    python tools/brand/build_logos.py path/to/bricolage-800.ttf
 
-Get the font from https://fonts.google.com/specimen/Big+Shoulders+Display.
-The Google Fonts repo ships it as a variable font; make a static 900 instance
-with fontTools:
-    from fontTools.varLib import instancer
-    instancer.instantiateVariableFont(TTFont("BigShouldersDisplay[wght].ttf"), {"wght": 900}).save("BSD-900.ttf")
+Get a static instance of the font (optical size 96, weight 800) from Google Fonts: request
+https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@96,800 with an old user agent and it returns a
+.ttf link.
 
 Then re-render the PNG icons and OG images with tools/brand/render_png.py.
 """
@@ -27,75 +28,61 @@ from fontTools.ttLib import TTFont
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "assets"
 
-NAME = "KYUCLID"
-TRACKING_EM = 0.06  # matches .wordmark { letter-spacing: .06em } in index.html
+NAME = "kyuclid"
+TRACKING_EM = -0.012  # matches .wordmark in css/site.css
 
 # Colours: see docs/brand.md. Light theme first, dark theme second.
-SEAL, ON_SEAL = "#B42318", "#FFFFFF"
-SEAL_DARK, ON_SEAL_DARK = "#E5534B", "#16070A"
-INK, INK_DARK = "#1B1E33", "#E7E9F1"
-BG, BG_DARK = "#EEF0F4", "#10121B"
-TILT = -4  # degrees, as in .seal { transform: rotate(-4deg) }
+INK, INK_DARK = "#141B33", "#F1EFE9"
+SHU, SHU_DARK = "#C4301B", "#F2583F"
+BG, BG_DARK = "#F4F3EF", "#0D1322"
+S3 = math.sqrt(3) / 2
 
 
-def wordmark(font_path, cap_height):
-    """Return (path_d, width) for NAME with its caps exactly cap_height tall, top at y=0."""
+def wordmark(font_path, size):
+    """Return (path_d, width, top, bottom) for NAME at this font size, with the baseline at y=0 and the ink from x=0."""
     font = TTFont(font_path)
     upm = font["head"].unitsPerEm
-    caps = font["OS/2"].sCapHeight
     cmap = font.getBestCmap()
     glyphs = font.getGlyphSet()
-    s = cap_height / caps
+    s = size / upm
     track = TRACKING_EM * upm
 
-    # First pass: find the ink bounds so the mark starts exactly at x=0.
+    # First pass: find the ink bounds so the wordmark starts exactly at x=0.
     x = 0
     bounds = BoundsPen(glyphs)
     for ch in NAME:
         g = glyphs[cmap[ord(ch)]]
         g.draw(TransformPen(bounds, (1, 0, 0, 1, x, 0)))
         x += g.width + track
-    xmin, _, xmax, _ = bounds.bounds
+    xmin, ymin, xmax, ymax = bounds.bounds
 
     pen = SVGPathPen(glyphs, ntos=lambda v: f"{v:.2f}".rstrip("0").rstrip("."))
     x = -xmin
     for ch in NAME:
         g = glyphs[cmap[ord(ch)]]
-        # flip y and put the cap line at y=0
-        g.draw(TransformPen(pen, (s, 0, 0, -s, x * s, caps * s)))
+        g.draw(TransformPen(pen, (s, 0, 0, -s, x * s, 0)))
         x += g.width + track
-    return pen.getCommands(), (xmax - xmin) * s
+    return pen.getCommands(), (xmax - xmin) * s, -ymax * s, -ymin * s
 
 
-def seal(cx, cy, size, fill, dots, bold=False):
-    """The rotated square seal with ∴ drawn as three dots. bold=True is the favicon cut."""
-    h = size / 2
-    rx = size * (6 / 34)
-    if bold:   # bigger dots so ∴ survives at 16–32 px
-        r, side, top = 0.10, 0.36, 0.335
-    else:      # close to IBM Plex Serif's ∴ at the header's size
-        r, side, top = 0.072, 0.29, 0.355
-    height = side * math.sqrt(3) / 2
-    pts = [(0.5, top), (0.5 - side / 2, top + height), (0.5 + side / 2, top + height)]
-    circles = "".join(
-        f'<circle cx="{cx - h + px * size:.2f}" cy="{cy - h + py * size:.2f}" r="{r * size:.2f}"/>'
-        for px, py in pts
-    )
+def x_height(font_path, size):
+    font = TTFont(font_path)
+    return font["OS/2"].sxHeight * size / font["head"].unitsPerEm
+
+
+def mark(x, cy, r, ink, red):
+    """The mark with its left edge at x and its discs centred on the line cy. It is 3r wide and 2r tall."""
+    a, b = x + r, x + 2 * r
+    disc = lambda c: f"M{c - r:.2f} {cy:.2f}a{r:.2f} {r:.2f} 0 1 0 {2 * r:.2f} 0a{r:.2f} {r:.2f} 0 1 0 {-2 * r:.2f} 0Z"
     return (
-        f'<g transform="rotate({TILT} {cx:.2f} {cy:.2f})">'
-        f'<rect x="{cx - h:.2f}" y="{cy - h:.2f}" width="{size:.2f}" height="{size:.2f}" rx="{rx:.2f}" fill="{fill}"/>'
-        f'<g fill="{dots}">{circles}</g></g>'
+        f'<path fill="{ink}" fill-rule="evenodd" d="{disc(a)}{disc(b)}"/>'
+        f'<polygon points="{a:.2f},{cy:.2f} {b:.2f},{cy:.2f} {(a + b) / 2:.2f},{cy - r * S3:.2f}" fill="{red}"/>'
     )
 
 
-def tilted_extent(size):
-    """Width of the square's bounding box once rotated by TILT."""
-    a = math.radians(abs(TILT))
-    return size * (math.cos(a) + math.sin(a))
-
-
-def svg(w, h, body, title, bg=None):
-    rect = f'<rect width="{w:g}" height="{h:g}" fill="{bg}"/>' if bg else ""
+def svg(w, h, body, title, bg=None, radius=0):
+    corner = f' rx="{radius:g}"' if radius else ""
+    rect = f'<rect width="{w:g}" height="{h:g}"{corner} fill="{bg}"/>' if bg else ""
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w:g} {h:g}" '
         f'width="{w:g}" height="{h:g}" role="img" aria-label="{title}">'
@@ -106,56 +93,56 @@ def svg(w, h, body, title, bg=None):
 def write(name, text):
     path = OUT / name
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(text, encoding="utf-8")
+    path.write_bytes(text.encode("utf-8"))
     print("wrote", path.relative_to(ROOT))
 
 
 def main(font_path):
-    # Horizontal lockup, in the header's proportions: seal 34 px, caps 20.8 px, gap 10 px.
-    cap = 100
-    d, wm_w = wordmark(font_path, cap)
-    size = cap * 34 / 20.8
-    ext = tilted_extent(size)
-    pad = (ext - size) / 2 + 2
-    gap = cap * 10 / 20.8
-    w = pad + size + pad + gap + wm_w + 2
-    h = ext + 4
-    cy = h / 2
-    for suffix, fill, dots, ink in (("", SEAL, ON_SEAL, INK), ("-dark", SEAL_DARK, ON_SEAL_DARK, INK_DARK)):
-        body = seal(pad + size / 2, cy, size, fill, dots) + (
-            f'<path transform="translate({pad * 2 + size + gap:.2f} {cy - cap / 2:.2f})" fill="{ink}" d="{d}"/>'
+    themes = (("", INK, SHU, BG), ("-dark", INK_DARK, SHU_DARK, BG_DARK))
+
+    # Horizontal lockup: discs 0.86 em tall, centred on the middle of the x-height.
+    size = 100
+    d, wm_w, top, bottom = wordmark(font_path, size)
+    r = size * 0.43
+    gap = size * 0.24
+    mid = -x_height(font_path, size) / 2
+    y0 = min(top, mid - r)
+    y1 = max(bottom, mid + r)
+    w, h = 3 * r + gap + wm_w + 2, y1 - y0 + 2
+    base = 1 - y0
+    for suffix, ink, red, _ in themes:
+        body = mark(1, base + mid, r, ink, red) + (
+            f'<path transform="translate({1 + 3 * r + gap:.2f} {base:.2f})" fill="{ink}" d="{d}"/>'
         )
         write(f"logo/kyuclid-horizontal{suffix}.svg", svg(round(w, 1), round(h, 1), body, "Kyuclid"))
 
     # Wordmark alone.
-    for suffix, ink in (("", INK), ("-dark", INK_DARK)):
+    for suffix, ink, _, _ in themes:
         write(f"logo/kyuclid-wordmark{suffix}.svg",
-              svg(round(wm_w + 2, 1), cap + 2, f'<path transform="translate(1 1)" fill="{ink}" d="{d}"/>', "Kyuclid"))
+              svg(round(wm_w + 2, 1), round(bottom - top + 2, 1),
+                  f'<path transform="translate(1 {1 - top:.2f})" fill="{ink}" d="{d}"/>', "Kyuclid"))
 
-    # Square lockup (avatars, link cards): seal over the wordmark on a solid tile.
+    # Square lockup (avatars, link cards): the mark over the wordmark on a solid tile.
     S = 512
-    seal_size = 200
-    cap_sq = 66
-    d_sq, wm_sq = wordmark(font_path, cap_sq)
-    gap_sq = 46
-    block = tilted_extent(seal_size) + gap_sq + cap_sq
-    top = (S - block) / 2
-    seal_cy = top + tilted_extent(seal_size) / 2
-    wm_top = top + tilted_extent(seal_size) + gap_sq
-    for suffix, fill, dots, ink, bg in (
-        ("", SEAL, ON_SEAL, INK, BG),
-        ("-dark", SEAL_DARK, ON_SEAL_DARK, INK_DARK, BG_DARK),
-    ):
-        body = seal(S / 2, seal_cy, seal_size, fill, dots) + (
-            f'<path transform="translate({(S - wm_sq) / 2:.2f} {wm_top:.2f})" fill="{ink}" d="{d_sq}"/>'
+    d_sq, wm_sq, top_sq, bottom_sq = wordmark(font_path, 92)
+    r_sq = 80
+    gap_sq = 40
+    block = 2 * r_sq + gap_sq + (bottom_sq - top_sq)
+    y = (S - block) / 2
+    for suffix, ink, red, bg in themes:
+        body = mark((S - 3 * r_sq) / 2, y + r_sq, r_sq, ink, red) + (
+            f'<path transform="translate({(S - wm_sq) / 2:.2f} {y + 2 * r_sq + gap_sq - top_sq:.2f})" fill="{ink}" d="{d_sq}"/>'
         )
         write(f"logo/kyuclid-square{suffix}.svg", svg(S, S, body, "Kyuclid", bg))
 
-    # The seal on its own (transparent), and the favicon cut with bigger dots.
-    write("logo/kyuclid-seal.svg", svg(64, 64, seal(32, 32, 58, SEAL, ON_SEAL), "Kyuclid"))
-    write("favicon.svg", svg(64, 64, seal(32, 32, 59, SEAL, ON_SEAL, bold=True), "Kyuclid"))
-    # App icon artwork: the seal inside the maskable safe zone on the dark theme's navy.
-    write("icons/app-icon.svg", svg(512, 512, seal(256, 256, 280, SEAL, ON_SEAL, bold=True), "Kyuclid", BG_DARK))
+    # The mark on its own (transparent).
+    for suffix, ink, red, _ in themes:
+        write(f"logo/kyuclid-mark{suffix}.svg", svg(92, 62, mark(1, 31, 30, ink, red), "Kyuclid"))
+
+    # Favicon: on a dark tile, because a browser tab can be light or dark and a bare mark would vanish on one of them.
+    write("favicon.svg", svg(64, 64, mark(4, 32, 56 / 3, INK_DARK, SHU_DARK), "Kyuclid", BG_DARK, 14))
+    # App icon artwork: the mark inside the maskable safe zone, full bleed on the dark theme's indigo.
+    write("icons/app-icon.svg", svg(512, 512, mark(91, 256, 110, INK_DARK, SHU_DARK), "Kyuclid", BG_DARK))
 
 
 if __name__ == "__main__":
