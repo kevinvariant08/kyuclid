@@ -10,9 +10,10 @@ Needs Chrome or Edge, Pillow, and a network connection for the wordmark's web fo
 docs/logo-options folder once a logo is picked; the winner then moves into tools/brand/build_logos.py.
 """
 import math
+import subprocess
 from pathlib import Path
 
-from render_png import screenshot
+from render_png import screenshot as render
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "docs" / "logo-options"
@@ -20,6 +21,16 @@ S3 = math.sqrt(3) / 2
 
 DARK = {"bg": "#0D1322", "ink": "#F1EFE9", "red": "#F2583F", "soft": "#B6BDD0", "tile": "#0A0F1C"}
 LIGHT = {"bg": "#F4F3EF", "ink": "#141B33", "red": "#C4301B", "soft": "#424A63", "tile": "#FFFFFF"}
+
+
+def screenshot(*args):
+    """Headless Chrome sometimes hangs on a render, so give it three goes."""
+    for attempt in range(3):
+        try:
+            return render(*args)
+        except subprocess.TimeoutExpired:
+            if attempt == 2:
+                raise
 
 
 def points(*pts):
@@ -44,12 +55,16 @@ def strip(x0, y0, deg, length, width, fill, tip_fill=None, tip=8):
     return out
 
 
-def proposition(ink, red):
-    """The figure as Euclid draws it: two rings and the solid triangle."""
-    r, y, w = 27, 50, 7.5
+def seal(ink, red):
+    """A round hanko stamp in vermilion, with Euclid's figure cut out of it in paper white. Its colours don't change with the theme."""
+    r, y, w, paper = 22, 53, 5, "#FFF6EC"
     a, b, c = construction(r, y)
-    rings = "".join(f'<circle cx="{p[0]:.2f}" cy="{y}" r="{r}" fill="none" stroke="{ink}" stroke-width="{w}"/>' for p in (a, b))
-    return rings + f'<polygon points="{points(a, b, c)}" fill="{red}" stroke="{red}" stroke-width="3" stroke-linejoin="round"/>'
+    rings = "".join(f'<circle cx="{p[0]:.2f}" cy="{y}" r="{r}" fill="none" stroke="{paper}" stroke-width="{w}"/>' for p in (a, b))
+    # Shrunk about its centre, so vermilion shows all round it and it stays a triangle instead of merging with the rings.
+    mid = (50, y - r * S3 / 3)
+    small = [(mid[0] + (p[0] - mid[0]) * .56, mid[1] + (p[1] - mid[1]) * .56) for p in (a, b, c)]
+    return (f'<circle cx="50" cy="50" r="47" fill="{red}"/>' + rings +
+            f'<polygon points="{points(*small)}" fill="{paper}" stroke="{paper}" stroke-width="1.5" stroke-linejoin="round"/>')
 
 
 def knot(ink, red):
@@ -72,12 +87,12 @@ def vesica(ink, red):
 
 
 OPTIONS = [
-    ("a", "proposition", "A. Proposition", proposition,
-     "Euclid's figure, drawn plainly: two rings and the triangle. The most literal of the three, and the one a mathematician recognises first. The rings get thin at favicon size."),
+    ("a", "seal", "A. Seal", seal,
+     "A round vermilion hanko stamp with Euclid's two circles and triangle cut out of it. It keeps the red seal from the old logo and looks the same in both themes. At 16 px the circles blur, leaving a red dot with a pale triangle."),
     ("b", "knot", "B. Knot", knot,
-     "The two circles become the loops of a tied belt, and each tail ends in a rank bar. It carries the belt idea on its own. Up close it can also read as glasses and a moustache, and it is the weakest of the three at 16 px."),
+     "The two circles become the loops of a tied belt, and each tail ends in a rank bar. It's the only option that shows a belt. Up close it can also read as glasses and a moustache, and it is the weakest of the three at 16 px."),
     ("c", "vesica", "C. Vesica (recommended)", vesica,
-     "Two solid discs with their overlap cut away, and the triangle's corners sitting exactly on the two centres and the crossing point. The strongest silhouette, the clearest at 16 px, and the most unlike anything else on a tab bar."),
+     "Two solid discs with their overlap cut away, and the triangle's corners sitting exactly on the two centres and the crossing point. The strongest outline and the clearest at 16 px. It's the one the preview uses."),
 ]
 
 
