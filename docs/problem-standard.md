@@ -134,11 +134,13 @@ These are problems in *Beyond the Incenter*, named by source credit. Their state
 
 | Kyu | From the table in task 03 [T] | Proposed from the contest's position [P] |
 |---|---|---|
-| 3, as the floor | IMO 2015 P4, IMO 2014 P4, IMO 2024 P4, IMO 2006 P1, IMO 2003 P4, IMO 1995 P1 | USAMO 2021 P1, USAMO 2023 P1, USAMO 2009 P1 |
-| 2 | IMO 2012 P5, IMOSL 2009 G3, IMOSL 2011 G4, IMOSL 2025 G3 | CGMO 2018 P8, BMO2 2014 P4, BMO2 2017 P3 |
-| 1 | IMOSL 2011 G6, IMOSL 2009 G7, IMOSL 2009 G8 | USAMO 2006 P6, RMM 2017 P6 |
+| 3, as the floor | IMO 2015 P4, IMO 2014 P4, IMO 2024 P4, IMO 2006 P1, IMO 2003 P4, IMO 1995 P1 | USAMO 2021 P1, USAMO 2023 P1, USAMO 2009 P1, BMO2 2017 P3 |
+| 2 | IMO 2012 P5, IMOSL 2009 G3, IMOSL 2011 G4, IMOSL 2025 G3 | CGMO 2018 P8, BMO2 2014 P4, USAMO 2006 P6 |
+| 1 | IMOSL 2011 G6, IMOSL 2009 G7, IMOSL 2009 G8 | RMM 2017 P6 |
 
 The book's Challenge Problems are arranged in roughly increasing order of difficulty, and they place IMOSL 2009 G3, then IMOSL 2011 G4, then IMOSL 2009 G7, then IMOSL 2009 G8. This agrees with the table, and it is the only evidence so far that doesn't come from position alone.
+
+Two placements differ from what position alone suggests, and both are judgement [J]. The book labels BMO2 2017 P3 a "warm-down", so it sits at 3 kyu rather than among the later BMO2 problems. USAMO 2006 P6 is the last problem on its paper, but one spiral similarity carries most of it, so it sits at 2 kyu. Kevin should check both.
 
 The length of the solutions in the book does not separate these kyus, so length is not a test: some 2 kyu solutions are longer than 1 kyu ones. The comparison has to be of how hidden the crux is.
 
