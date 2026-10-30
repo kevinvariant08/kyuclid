@@ -17,48 +17,49 @@ It was built in three steps:
 
 - 30 problems, 10 from each of positions 1–5, 6–10 and 11–15, 9 classic and 21 modern, with geometry oversampled by keyword. One problem from the paper with no collected solutions was added as a test case, making 31. The ids and seed are in the private repo.
 - First pass: `claude-opus-5-5`. Second pass: `claude-sonnet-5-5`, blind to the first pass.
-- The disagreement rule was fixed in code before any results were read. Topic disagrees if the topics differ. Techniques disagree if the primary technique differs or the Jaccard index of the two sets is below 0.5.
+- Topic disagrees if the topics differ. Techniques disagree if the Jaccard index of the two sets is below 0.5.
+- This is not the rule fixed before the pilot, which also required the same primary technique. Kevin changed it after seeing both runs, for the reasons under the re-run below. The old rule's results stay in this report.
 
 ## Pilot results
 
 | Measure | Result | Target |
 |---|---|---|
 | Topic disagreement | 3% (1 of 31) | under 10% |
-| Technique disagreement | 35% (11 of 31) | under 25%: **missed** |
-| Primary technique differs | 23% (7 of 31) | |
-| Jaccard below 0.5 | 13% (4 of 31) | |
+| Technique disagreement (Jaccard below 0.5) | 13% (4 of 31) | under 25% |
+| Primary technique differs | 23% (7 of 31) | information only |
+| Old strict rule | 35% (11 of 31) | missed under the old rule |
 | Mean Jaccard | 0.65 | |
 | Configuration sets differ | 3 of 6 records where either pass tagged one | |
 | Kyu differs | 19% (6 of 31), never by more than one | |
 
-Every disagreement was resolved by reading both records against the problem. Merging one near-duplicate pair afterwards only moves technique disagreement to 32%, so the miss comes mainly from which tag is listed first: in 7 of the 11 cases the passes broadly agreed on the set but not on the primary.
+Every disagreement was resolved by reading both records against the problem. Under the old strict rule, merging one near-duplicate pair afterwards only moved disagreement to 32%, so that miss came mainly from which tag is listed first: in 7 of the 11 cases the passes broadly agreed on the set but not on the primary.
 
 These figures were measured under the original prompt.
 
 ### Re-run with a tighter prompt
 
-Both passes ran again on the same 31 problems, blind, with taxonomy 0.2.0-draft. The prompt now defines the primary technique as the one the crux turns on, and tags configurations from any listed path. The fix did not work: technique disagreement went up.
+Both passes ran again on the same 31 problems, blind, with taxonomy 0.2.0-draft. The prompt now defines the primary technique as the one the crux turns on, and tags configurations from any listed path. The fix did not work: disagreement went up on every technique measure.
 
 | Measure | First run | Re-run | Target |
 |---|---|---|---|
 | Topic differs | 3% | 0% | under 10% |
-| Techniques differ (fixed rule) | 35% | **42%**: missed | under 25% |
-| Primary technique differs | 23% | 29% | |
-| Jaccard below 0.5 | 13% | 16% | |
+| Techniques differ (Jaccard below 0.5) | 13% | 16% | under 25% |
+| Primary technique differs | 23% | 29% | information only |
+| Old strict rule | 35% | 42% | missed under the old rule |
 | Mean Jaccard | 0.65 | 0.65 | |
 | Kyu differs | 19% | 10% | |
 | Configuration sets differ | 3 of 6 | 3 of 10 | |
 
-The checks below were chosen after seeing these results, so treat them as explanation and not as a passed target. Same-model figures compare the first run with the re-run, so the prompt change is part of the difference. All map the one merged synonym.
+The checks below were chosen after seeing these results, and they led to the change of rule, so the passes above come from a rule set after the data, not before it. Same-model figures compare the first run with the re-run, so the prompt change is part of the difference. All map the one merged synonym.
 
-| Comparison | Fixed rule | Primary differs | Jaccard below 0.5 | Mean Jaccard |
+| Comparison | Old strict rule | Primary differs | Jaccard below 0.5 | Mean Jaccard |
 |---|---|---|---|---|
 | Opus against Sonnet, re-run | 42% | 9 of 31 | 16% | 0.65 |
 | Opus against its own first run | 48% | 11 of 31 | 26% | 0.66 |
 | Sonnet against its own first run | 58% | 11 of 31 | 35% | 0.59 |
 | Opus against Sonnet, with all merge candidates | 35% | 9 of 31 | 10% | 0.67 |
 
-So one model run twice differs from itself at least as much as the two models differ from each other. A target of 25% on this rule looks out of reach through prompting, because which tag comes first and how many are listed vary from run to run. The understanding seems more stable: in 30 of 31 re-run records each pass's primary appears in the other's list, and the two top-two lists always overlap. 31 problems is a small sample.
+So one model run twice differs from itself at least as much as the two models differ from each other. A target of 25% on the old rule looks out of reach through prompting, because which tag comes first and how many are listed vary from run to run. The understanding seems more stable: in 30 of 31 re-run records each pass's primary appears in the other's list, and the two top-two lists always overlap. 31 problems is a small sample, so the full run should keep reporting the old rule and primary agreement beside the new one.
 
 Kyu after resolution, measured against the starting value from position:
 
