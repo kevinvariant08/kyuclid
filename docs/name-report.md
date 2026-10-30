@@ -1,5 +1,7 @@
 # Name report: "MathWars"
 
+> **Decision (30 Oct 2026):** Kevin chose **Kyuclid**. The brand sheet is [brand.md](brand.md). Before any money is spent on the name, the UK IPO search for "Kyuclid" still needs doing (see below).
+
 Task 19, part 1. Checked on **30 October 2026**. Every claim below links to the record or page it comes from. Registers and websites change, so re-check anything before acting on it.
 
 > **This is not legal advice.** It is a desk search by a non-lawyer, done to decide whether a rename is worth considering. Searching a register can show a conflict, but it can't show that a name is safe to use. Before filing a trade mark, buying a domain for real money or launching commercially, get a UK trade mark attorney to run a proper clearance search.
