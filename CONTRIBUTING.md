@@ -37,7 +37,7 @@ Copy a problem of the same type and edit it. [`data/problems/the-13-14-15-triang
 - **Answer problems** need `answer_hash` and `answer_format` (`integer_0_999`, `integer`, `rational` or `expression`). The plain answer never goes in the file.
 - **Proof problems** need a `rubric` of `{ "marks": n, "criterion": "..." }` items totalling 7.
 - **`provenance.kind`** is `original` or `classical`. A classical problem also needs a `source`, such as `"IMO 1988 P6"`. A generated problem records its `pipeline_run`. Contest problem texts stay out of this repo (see rule 1 in [`tasks/README.md`](tasks/README.md)).
-- **`status`** starts as `draft`, which keeps the problem out of every list. `beta` and `ranked` problems are listed. They also need a `verification` report ID from the verification gate (task 05). `retired` problems drop out of lists, but their pages still work.
+- **`status`** starts as `draft`, which keeps the problem out of every list. `beta` and `ranked` problems are listed. They also need a `verification` report ID from the verification gate (task 05). Until that gate exists, a hand-checked problem uses `"verification": "seed-unverified"`, the marker the 21 seed problems carry, and task 05 replaces it with a real report ID. `retired` problems drop out of lists, but their pages still work.
 - **`stats`** stay at zero. Only real data goes there.
 
 ### 2. Hash the answer
