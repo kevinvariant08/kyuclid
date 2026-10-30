@@ -1,6 +1,6 @@
 # Kyuclid brand sheet
 
-**Kyuclid** = *kyu* (the martial-arts rank) + *Euclid*. Say it "KYOO-klid". In running text write **Kyuclid**: not KyuClid, Kyu-clid or KYUCLID (capitals are only for the wordmark). Kevin chose the name on 30 Oct 2026 to replace "MathWars"; [name-report.md](name-report.md) explains why.
+**Kyuclid** = *kyu* (the martial-arts rank) + *Euclid*. Say it "cue-clid". In running text write **Kyuclid**: not KyuClid, Kyu-clid or KYUCLID (capitals are only for the wordmark). Kevin chose the name on 30 Oct 2026 to replace "MathWars"; [name-report.md](name-report.md) explains why.
 
 The identity carries over from the MathWars draft unchanged: a red seal with ∴, Big Shoulders Display with IBM Plex, a cool grey-blue light theme with a navy dark theme, and martial-arts belts for the kyu ranks.
 
