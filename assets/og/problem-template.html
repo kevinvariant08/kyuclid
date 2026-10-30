@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kyuclid OG image (problem template)</title>
+<!--
+  Per-problem Open Graph template, 1200×630. Fill it from the query string and screenshot it:
+    problem-template.html?id=circle-in-the-square&title=Circle%20in%20the%20square&kyu=6&topic=Geometry&mode=Answer
+  python tools/brand/render_png.py problem --id ... --title ... --kyu 6 --topic Geometry --mode Answer
+  writes assets/og/problems/<id>.png. kyu is 8..1, or 0 for dan (book bosses).
+  Never put a contest problem's text here: title, topic and rank only.
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;600&display=block">
+<style>
+html, body { margin: 0; }
+body { width: 1200px; height: 630px; overflow: hidden; background: #EEF0F4; color: #1B1E33; font-family: "IBM Plex Sans", sans-serif; }
+.card { box-sizing: border-box; height: 100%; padding: 56px 72px 52px; display: flex; flex-direction: column; }
+.top { display: flex; justify-content: space-between; align-items: center; }
+.top img { height: 56px; }
+.top span { font: 500 22px/1 "IBM Plex Mono", monospace; color: #62667E; }
+.rank { display: flex; align-items: center; gap: 22px; margin-top: 54px; font-size: 26px; color: #474B63; }
+.kyu { position: relative; display: inline-flex; align-items: center; height: 64px; padding: 0 58px 0 22px; border-radius: 5px; font: 800 36px/1 "Big Shoulders Display", sans-serif; letter-spacing: .08em; text-transform: uppercase; box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .18); }
+.kyu::after { content: ""; position: absolute; right: 14px; top: 6px; bottom: 6px; width: 20px; border-radius: 2px; background: var(--tape); }
+h1 { font: 900 96px/.95 "Big Shoulders Display", sans-serif; text-transform: uppercase; letter-spacing: .02em; margin: 30px 0 0; max-width: 1056px; overflow-wrap: anywhere; }
+.meta { margin-top: auto; display: flex; gap: 14px; align-items: center; font-size: 26px; color: #474B63; }
+.meta b { font-weight: 600; color: #1B1E33; }
+.tag { font: 600 17px/1 "IBM Plex Sans", sans-serif; letter-spacing: .1em; text-transform: uppercase; padding: 7px 11px; border-radius: 4px; border: 1.5px solid #CED3DE; color: #62667E; }
+.tag.proof { border-color: #B42318; color: #B42318; }
+.ladder { display: flex; gap: 6px; margin-top: 26px; }
+.ladder i { flex: 1; height: 12px; border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .18); opacity: .28; }
+.ladder i.on { opacity: 1; height: 12px; outline: 3px solid #1B1E33; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="top"><img src="../logo/kyuclid-horizontal.svg" alt="Kyuclid"><span>kevinvariant08.github.io/kyuclid</span></div>
+  <div class="rank"><span class="kyu" id="kyu"></span><span id="belt"></span></div>
+  <h1 id="title"></h1>
+  <div class="meta"><span class="tag" id="mode"></span><b id="topic"></b></div>
+  <div class="ladder" id="ladder"></div>
+</div>
+<script>
+// Belt colours and points: keep in sync with KYU in index.html and docs/brand.md.
+const KYU = {
+  8: ["White", "#F4F4F1", "#1B1E33", "#15161C", 2], 7: ["Yellow", "#E9C440", "#1B1E33", "#15161C", 3],
+  6: ["Orange", "#E5832A", "#1B1E33", "#15161C", 5], 5: ["Green", "#2E8B4E", "#FFFFFF", "#15161C", 8],
+  4: ["Blue", "#2A64C8", "#FFFFFF", "#15161C", 13], 3: ["Purple", "#6E43B8", "#FFFFFF", "#15161C", 21],
+  2: ["Brown", "#7A4A2B", "#FFFFFF", "#15161C", 34], 1: ["Red", "#B8232A", "#FFFFFF", "#15161C", 55],
+  0: ["Black", "#15161C", "#FFFFFF", "#B8232A", 0],
+};
+const q = new URLSearchParams(location.search);
+const k = KYU[q.get("kyu")] ? Number(q.get("kyu")) : 5;
+const [belt, bg, ink, tape, pts] = KYU[k];
+const kyu = document.getElementById("kyu");
+kyu.textContent = k ? `${k} kyu` : "Dan";
+kyu.style.cssText = `background:${bg};color:${ink};--tape:${tape}`;
+document.getElementById("belt").textContent = k ? `${belt} belt · ${pts} pts` : "Black belt · boss problem";
+const title = document.getElementById("title");
+title.textContent = q.get("title") || "Problem title";
+const mode = (q.get("mode") || "Answer").toLowerCase() === "proof" ? "Proof" : "Answer";
+const tag = document.getElementById("mode");
+tag.textContent = mode;
+tag.classList.toggle("proof", mode === "Proof");
+document.getElementById("topic").textContent = q.get("topic") || "";
+document.getElementById("ladder").innerHTML = [8, 7, 6, 5, 4, 3, 2, 1, 0].map((n) =>
+  `<i class="${n === k ? "on" : ""}" style="background:${KYU[n][1]}"></i>`).join("");
+// Shrink long titles until they fit in three lines.
+const fit = () => {
+  let s = 96;
+  title.style.fontSize = s + "px";
+  while (title.scrollHeight > 3 * s * 0.95 + 4 && s > 52) { s -= 4; title.style.fontSize = s + "px"; }
+};
+document.fonts.ready.then(fit);
+</script>
+</body>
+</html>
