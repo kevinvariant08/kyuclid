@@ -1,4 +1,4 @@
-# MathWars
+# Kyuclid
 
 A ranked dojo for contest maths, in the spirit of Codewars. Problems are graded on a kyu ladder from 8 kyu warm-ups (UKMT Junior, AMC 8) up to 1 kyu (IMO Problems 3 and 6).
 

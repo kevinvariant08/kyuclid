@@ -1,10 +1,10 @@
 {
-  "id": "/mathwars/",
+  "id": "/kyuclid/",
   "name": "Kyuclid",
   "short_name": "Kyuclid",
   "description": "Contest maths, belt by belt. Ranked problems from 8 kyu warm-ups to 1 kyu IMO proofs.",
-  "start_url": "/mathwars/",
-  "scope": "/mathwars/",
+  "start_url": "/kyuclid/",
+  "scope": "/kyuclid/",
   "display": "standalone",
   "background_color": "#EEF0F4",
   "theme_color": "#FFFFFF",

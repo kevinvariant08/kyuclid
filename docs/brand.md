@@ -113,7 +113,7 @@ All four families are from Google Fonts under the SIL Open Font License.
 | `assets/icons/apple-touch-icon.png` | 180 | iOS home screen: seal on navy, opaque |
 | `assets/icons/icon-192.png`, `icon-512.png` | 192, 512 | Web app manifest, `purpose: any` (transparent) |
 | `assets/icons/icon-maskable-192.png`, `-512.png` | 192, 512 | Manifest, `purpose: maskable`: seal inside the 80 % safe zone on navy |
-| `site.webmanifest` | — | Scope and start URL `/mathwars/`, so Kyuclid installs separately from Kevinvariant on the same origin |
+| `site.webmanifest` | — | Scope and start URL `/kyuclid/`, so Kyuclid installs separately from Kevinvariant on the same origin |
 | `assets/og/og-home.png` | 1200×630 | Home page `og:image` and `twitter:image` |
 | `assets/og/problem-template.html` | 1200×630 | Per-problem card: belt, title, topic and answer or proof (example: `assets/og/problem-example.png`) |
 
@@ -126,5 +126,7 @@ All four families are from Google Fonts under the SIL Open Font License.
 - `python tools/brand/render_png.py icons` renders the favicon and app-icon PNGs.
 - `python tools/brand/render_png.py og` renders `og-home.png`.
 - `python tools/brand/render_png.py problem --id … --title … --kyu … --topic … --mode Answer|Proof` renders one problem card.
+
+The OG pages load their fonts from Google Fonts. If a fetch fails, the render quietly falls back to a system font, so look at each PNG before committing it and re-run if the lettering is wrong.
 
 After any change, bump `?v=` in `index.html` and `site.webmanifest`. Kevinvariant's service worker caches images forever, so without a new `?v=`, browsers keep the old icon.
