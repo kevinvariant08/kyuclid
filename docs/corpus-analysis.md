@@ -46,7 +46,7 @@ Both passes ran again on the same 31 problems, blind, with taxonomy 0.2.0-draft.
 | Techniques differ (Jaccard below 0.5) | 13% | 16% | under 25% |
 | Primary technique differs | 23% | 29% | information only |
 | Old strict rule | 35% | 42% | missed under the old rule |
-| Mean Jaccard | 0.65 | 0.65 | |
+| Mean Jaccard | 0.65 | 0.66 | |
 | Kyu differs | 19% | 10% | |
 | Configuration sets differ | 3 of 6 | 3 of 10 | |
 
