@@ -33,7 +33,7 @@ The brief asks for every claim to rest on the task 03 calibration table and synt
 
 From the 248 first-pass AIME records [F]:
 
-| Kyu | Records | Short solution | Long solution | Low computation | Medium or high computation | Easiest listed route rated easy | Rated hard |
+| Kyu | Records | Short solution | Long solution | Low computation | Medium or high computation | First listed route rated easy | Rated hard |
 |---|---|---|---|---|---|---|---|
 | 7 | 8 | 100% | 0% | 100% | 0% | 100% | 0% |
 | 6 | 53 | 100% | 0% | 100% | 0% | 100% | 0% |
@@ -41,8 +41,6 @@ From the 248 first-pass AIME records [F]:
 | 4 | 83 | 37% | 1% | 65% | 35% | 14% | 2% |
 | 3 | 33 | 3% | 9% | 33% | 67% | 0% | 21% |
 | 2 | 8 | 0% | 62% | 38% | 62% | 0% | 100% |
-
-(The "route" columns use the first route the analyst listed.)
 
 The same analyst rated difficulty and kyu, so these columns are not independent of the kyu they sit beside.
 
@@ -90,30 +88,32 @@ More than half of modern AIME 1–5 landed at 6 kyu rather than 5. See decision 
 
 ### 1.5 Examples
 
-All of these are invented and are teaching aids. They do not go in the bank (decision D10). Each answer was computed by a program from the definitions, and each proof example has a full written proof. Section 10 records what the gate said about them.
+All of these are invented and are teaching aids. They do not go in the bank (decision D10). Each answer was computed by a program from the definitions, and each proof example has a full written proof. Section 10 records what the gate said about them. Only the two worked examples show their hints and solutions here.
 
 **8 kyu**
 1. Stickers are sold only in packs of $6$ and packs of $11$. What is the smallest number of packs that contains exactly $100$ stickers in total? (*Answer 10.*) *Reason: nothing to discover, but the greedy first try fails, so it teaches the reader to check.*
 2. A rectangular patio is made of square slabs, laid in $5$ rows of $12$ slabs each. How many of the slabs touch the edge of the patio? (*Answer 30.*) *Reason: one short count, with the corners as the only trap.*
 
 **7 kyu**
-1. How many three-digit positive integers have digits whose product is $12$? (*Answer 15.*) *Reason: list the sets, then count orderings; the repeated digit is the small care needed.*
-2. A $4 \times 4$ grid has rows and columns numbered from $1$ to $4$. How many squares made of whole grid cells, of any size from $1 \times 1$ to $4 \times 4$, contain the cell in row $2$ and column $2$? (*Answer 10.*) *Reason: splitting by size is the one choice, and it is nearly forced.*
+1. A $4 \times 4$ grid has rows and columns numbered from $1$ to $4$. How many squares made of whole grid cells, of any size from $1 \times 1$ to $4 \times 4$, contain the cell in row $2$ and column $2$? (*Answer 10.*) *Reason: splitting by size is the one choice, and it is nearly forced.*
+2. A machine doubles the number put into it and then subtracts $3$. A number is put in, the result is put in again, and that result is put in a third time. The final result is $43$. What number was put in first? (*Answer 8.*) *Reason: working backwards is the single idea, and an equation also works.*
 
 **6 kyu**
-1. Square $ABCD$ has side length $10$. Point $M$ is the midpoint of side $BC$, and segments $AM$ and $BD$ meet at $P$. Find the area of triangle $ABP$. Give your answer as a fraction in lowest terms. (*Answer 50/3.*) *Reason: spot one pair of similar triangles, then use a shared height.*
-2. Find the sum of all positive integers that are equal to $7$ times the sum of their own digits. (*Answer 210.*) *Reason: one idea, bounding the length, and then short algebra.*
+1. In triangle $ABC$ the angle at $C$ is a right angle, $AC = 20$ and $BC = 21$. A circle with its centre on side $AB$ is tangent to sides $AC$ and $BC$. Find its radius. Give your answer as a fraction in lowest terms. (*Answer 420/41.*) *Reason: one idea, that the radii are heights, and then an area equation.*
+2. A positive integer has rising digits if each digit is greater than the digit before it, and every single-digit number counts as having rising digits. How many positive integers with rising digits are divisible by $5$? (*Answer 16.*) *Reason: seeing that a rising number is just a subset of digits turns a search into one count.*
 
 **5 kyu**
-1. How many integers $n$ with $1 \le n \le 999$ are such that $n^2 + n$ is divisible by $20$? (*Answer 199.*) *Reason: coprime factors split the condition; the crux is near, and the count at the end needs care.*
-2. The worked example in section 4.
+1. The worked example in section 4.
+2. Find the largest positive integer $n$ such that
+$$\sum_{k=1}^{n} \dfrac{1}{\sqrt{k} + \sqrt{k + 1}} < 20.$$
+(*Answer 439.*) *Reason: the one crux is rationalising a term, which is near, and the rest follows quickly.*
 
 **4 kyu**
-1. How many subsets of $\{1, 2, \dots, 10\}$, including the empty set, have a sum of elements divisible by $3$? (*Answer 344.*) *Reason: a filter or a recursion is needed, and uneven residue classes block the symmetry shortcut.*
-2. Triangle $ABC$ has $AB = 7$, $AC = 8$ and $BC = 9$. The internal bisector of angle $A$ meets the circumcircle of $ABC$ again at $D$. Then $AD^2 = \frac{m}{n}$, where $m$ and $n$ are coprime positive integers. Find $m + n$. (*Answer 177.*) *Reason: two tools have to be combined, the equal chords and Ptolemy, and then some computation.*
+1. Triangle $ABC$ has $AB = 7$, $AC = 8$ and $BC = 9$. The internal bisector of angle $A$ meets the circumcircle of $ABC$ again at $D$. Then $AD^2 = \frac{m}{n}$, where $m$ and $n$ are coprime positive integers. Find $m + n$. (*Answer 177.*) *Reason: two tools have to be combined, the equal chords and Ptolemy, and then some computation.*
+2. For a positive integer $n$, let $a(n)$ be the largest integer $k$ such that $2^k$ divides $3^n - 1$. Find the remainder when $a(1) + a(2) + \dots + a(1000)$ is divided by $1000$. (*Answer 494.*) *Reason: two linked steps, a formula for $a(n)$ and then a sum that must not be listed.*
 
 **3 kyu**
-1. For a positive integer $n$, let $a(n)$ be the largest integer $k$ such that $2^k$ divides $3^n - 1$. Find the remainder when $a(1) + a(2) + \dots + a(1000)$ is divided by $1000$. (*Answer 494.*) *Reason: an answer problem with two linked steps, a formula for $a(n)$ and then a sum that must not be listed.*
+1. A subset $A$ of $\{1, 2, \dots, 30\}$ is called sparse if there are no $x, y \in A$ with $x = 2y$ or $x = 3y$. The empty set is sparse. Find the remainder when the number of sparse subsets is divided by $1000$. (*Answer 512.*) *Reason: the hidden step is seeing independent staircase-shaped grids, and counting in the largest one is real but manageable work.*
 2. The worked proof in section 8.5.
 
 **2 kyu** (both proofs)
@@ -193,19 +193,19 @@ Task 21 governs bosses. Where it differs from this standard, task 21 wins:
 - **M6. Independent check.** A draft's `check_program` computes the quantity from the problem's definitions, not from the solution's formula (task 05).
 - **M7. No appeal to the program.** The written solution stands by itself.
 
-**Worked example (5 kyu).** Two hints would also fit; this one has three.
+**Worked example (5 kyu).**
 
-> **Circle on the hypotenuse.** In triangle $ABC$ the angle at $C$ is a right angle, $AC = 20$ and $BC = 21$. A circle with its centre on side $AB$ is tangent to sides $AC$ and $BC$. Its radius can be written as $\frac{m}{n}$, where $m$ and $n$ are coprime positive integers. Find $m + n$.
+> **Consecutive product.** How many integers $n$ with $1 \le n \le 999$ are such that $n^2 + n$ is divisible by $20$?
 >
-> **Hint 1.** Call the centre $P$ and join it to $C$.
+> **Hint 1.** Factorise $n^2 + n$ and split $20$ into coprime parts.
 >
-> **Hint 2.** The radius is a height of each of the two triangles formed by the segment $PC$.
+> **Hint 2.** Since $n$ and $n + 1$ are coprime, each prime power in $20$ must divide just one of them. This is the Chinese remainder theorem at work.
 >
-> **Hint 3.** Triangles $APC$ and $BPC$ have bases $20$ and $21$ and the same height. Their areas add up to the area of $ABC$.
+> **Hint 3.** Combine the conditions modulo $4$ and modulo $5$ into residues modulo $20$, then count up to $999$.
 >
-> **Solution.** Let $P$ be the centre and $r$ the radius. The radii to the points of tangency are perpendicular to $AC$ and $BC$, so $r$ is the height of triangles $APC$ and $BPC$ on those bases. Their areas add up to the area of $ABC$, so $\frac{1}{2} \cdot 20r + \frac{1}{2} \cdot 21r = \frac{1}{2} \cdot 20 \cdot 21$. Hence $r = \frac{420}{41}$. These are coprime, because $41$ is prime and does not divide $420$. So $m + n = 461$.
+> **Solution.** We have $n^2 + n = n(n + 1)$ with $n$ and $n + 1$ coprime. So $4$ divides it exactly when $n \equiv 0$ or $3 \pmod 4$, and $5$ divides it exactly when $n \equiv 0$ or $4 \pmod 5$. By the Chinese remainder theorem this gives four residues modulo $20$: $0, 4, 15, 19$. Now $999 = 49 \cdot 20 + 19$. The $980$ integers from $1$ to $980$ contain $49 \cdot 4 = 196$ solutions, and $981$ to $999$ have residues $1$ to $19$, which contain $3$ more. The answer is $199$.
 >
-> **Why this works.** `area-by-decomposition`, `tangency`: the tangent radii are heights, so one area can be counted in two ways.
+> **Why this works.** `crt`, `coprime-divisibility`: coprime factors split one divisibility condition into independent conditions on residues.
 
 ## 5. Hint rules
 
@@ -333,16 +333,41 @@ Each has a default that this document already uses, so nothing is blocked. Chang
 | **D7** | How strict is originality at 8–6 kyu? | A shared one-step structure is not by itself a reskin (O6) | The gate's judge currently rejects these. Stricter rules could make 8 kyu very hard to fill |
 | **D8** | "Incentre" or "incenter"? | UK in prose. Taxonomy IDs and the book's title keep their spelling (S8) | Your book and the taxonomy use the US form, and the brand sheet asks for UK |
 | **D9** | Do bosses need invented examples? | No. This departs from the brief (section 1.5) | Bosses are chosen from your book. You may prefer to name two real ones here |
-| **D10** | May the examples here enter the bank? | No. They're published with hints and answers | Otherwise they would need new wording and the gate |
+| **D10** | May the examples here enter the bank? | No. They're published here with their answers | Otherwise they would need new wording and the gate |
 | **D11** | Should the schema get a separate deductions field? | No. They go inside `criterion` (P16) | Task 16's marker would find a separate field easier to apply. It's a schema change |
 | **D12** | Is the title rule right? | Yes (S13). IDs are permanent, so it only applies to new problems | It's an addition to the brief, and some community authors may find it restrictive |
-| **D13** | Are the 1 kyu examples truly 1 kyu? | Treated as 1 kyu, unmeasured | Only you, or real solvers, can judge. If they're 2 kyu, the ladder's top examples need replacing |
+| **D13** | Are the examples at the right kyu? | Yes, as the author's estimate. The gate rates three of them easier (section 10), and the 2 and 1 kyu ones are unmeasured | Only you, or real solvers, can judge. Your acceptance of the ladder depends on these |
 
 The decisions already listed in `tasks/README.md` remain open: showing inspirations (the default here is no, see O5), famous problems outside the book (default: not used, see O7) and how much of a book solution a beaten boss shows.
 
 ## 10. The examples through the gate
 
-GATE_RESULTS
+Every example went through the real gate (task 05 branch at `8d13ea6`, with the private corpus) so that the standard's own examples meet it. It used 260 model calls on Kevin's plan, about $3.27 at API list prices. That measures usage; no money was spent.
+
+| Kyu | Example | Verdict | Blind solves | Estimated kyu |
+|---|---|---|---|---|
+| 8 | Sticker packs | PASS | 7/7 | 7 |
+| 8 | Patio border | PASS | 7/7 | 8 |
+| 7 | Squares through a cell | PASS | 7/7 | 7 |
+| 7 | Number machine | PASS | 7/7 | 7 |
+| 6 | Circle on the hypotenuse | PASS | 7/7 | 7 |
+| 6 | Rising digits | PASS | 7/7 | 7 |
+| 5 | Consecutive product | PASS | 7/7 | 6 |
+| 5 | A sum below twenty | INVESTIGATE: difficulty | 7/7 | 7 |
+| 4 | Bisector to the circle | INVESTIGATE: difficulty | 7/7 | 6 |
+| 4 | Powers of two in powers of three | INVESTIGATE: difficulty | 7/7 | 6 |
+| 3 | No doubles and no triples | PASS | 6/7 | 3 |
+| 3 | A parallelogram and two tangents (proof) | PASS | n/a | n/a |
+| 2 | Infinitely many divisors (proof) | PASS | n/a | n/a |
+| 2 | Four points and a diameter (proof) | PASS | n/a | n/a |
+| 1 | Lamps to all on (proof) | PASS | n/a | n/a |
+| 1 | Three lines and a side (proof) | PASS | n/a | n/a |
+
+**What this does and doesn't show.**
+
+- **The three INVESTIGATE results are not failures,** but they may be right. The gate rates all three two kyus easier than the target. Its ruler is provisional and weak in this range, since models also solve nearly all real AIME problems 7/7. A reviewer should still look at these first.
+- **Proofs skip the blind solves and the difficulty check,** so a PASS there means only that the critics, solution audit and originality judge found nothing. Task 09's truth checks did not run. Separately: the lamp answer was confirmed by exhaustive search for odd $n \le 19$ and the construction by replaying its moves for odd $n \le 41$, and the three geometry statements were checked numerically on random triangles.
+- **The gate rejected seven earlier examples, and that was useful.** Five of my first answer problems were judged reskins or known problems, one was ambiguous about single-digit numbers, and one proof had a real error in its construction, now fixed. All were written by hand, in good faith, without looking at the corpus. Tasks 06 and 08 should expect the same at low kyu, where familiar structures are hard to avoid (D7).
 
 ## Appendix A. Which rules can be checked, and how
 
