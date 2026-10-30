@@ -8,9 +8,9 @@ The identity carries over from the MathWars draft unchanged: a red seal with ∴
 
 **Tagline:** Contest maths, belt by belt.
 
-**Kevinvariant link card** (replaces the MathWars paragraph in Kevinvariant's `compete.html`):
+**Kevinvariant link card** (replaces the MathWars paragraph in Kevinvariant's `compete.html`; once live duels ship (task 14), change "a timed ghost" to "another solver"):
 
-> Kyuclid ranks contest problems like martial-arts belts, from 8 kyu warm-ups at UKMT Junior and AMC 8 level up to 1 kyu IMO proofs. Answers are checked instantly, proofs are marked against a rubric, and you can duel another solver on the same problem with the clock running. Every solve earns points and moves you up the belts. A separate site, still in beta.
+> Kyuclid ranks contest problems like martial-arts belts, from 8 kyu warm-ups at UKMT Junior and AMC 8 level up to 1 kyu IMO proofs. Answers are checked instantly, proofs are marked against a rubric, and you can duel a timed ghost on the same problem. Every solve earns points and moves you up the belts. A separate site, still a first draft.
 
 **Kevinvariant menu note** (`site.js`): Ranked contest problems, 8 kyu to IMO
 
@@ -21,7 +21,7 @@ The identity carries over from the MathWars draft unchanged: a red seal with ∴
 | X / Bluesky / Threads (≤160) | Contest maths, belt by belt. Ranked problems from 8 kyu warm-ups to 1 kyu IMO proofs. Solve, climb, duel. A Kevinvariant project. |
 | Instagram / TikTok (≤80) | Contest maths, belt by belt. 8 kyu → IMO. |
 | GitHub repo description | Kyuclid: a ranked dojo for contest maths, from 8 kyu warm-ups to 1 kyu IMO proofs. |
-| YouTube / Discord (longer) | Kyuclid is a ranked dojo for competition maths. Every problem has a belt, from 8 kyu warm-ups at UKMT Junior and AMC 8 level to 1 kyu olympiad proofs. Solve to earn points, climb the belts and duel other solvers on the same problem. Made by Kevin Hu, a Kevinvariant project. |
+| YouTube / Discord (longer) | Kyuclid is a ranked dojo for competition maths. Every problem has a belt, from 8 kyu warm-ups at UKMT Junior and AMC 8 level to 1 kyu olympiad proofs. Solve to earn points, climb the belts and duel a timed ghost on the same problem. Made by Kevin Hu, a Kevinvariant project. |
 
 **Voice:** plain British English (maths, colour, practise as a verb). Short, specific sentences. Name the contests (AMC, AIME, UKMT, BMO, IMO) rather than saying "competitions". The dojo framing is a seasoning: use "belt", "kyu" and "dan" because they're the rank system, and skip "sensei", "grasshopper" and similar.
 
