@@ -1,0 +1,39 @@
+{
+  "provisional": true,
+  "fitted_on": "30 corpus problems (5 per kyu from 8 to 3), kyu from contest position",
+  "too_easy_tokens": 124,
+  "medians_by_kyu": {
+    "8": 0.0,
+    "7": 0.15,
+    "6": 2.97,
+    "5": 3.07,
+    "4": 3.17,
+    "3": 3.64
+  },
+  "cuts": [
+    {
+      "kyu": 8,
+      "max_score": 0.07
+    },
+    {
+      "kyu": 7,
+      "max_score": 1.56
+    },
+    {
+      "kyu": 6,
+      "max_score": 3.02
+    },
+    {
+      "kyu": 5,
+      "max_score": 3.12
+    },
+    {
+      "kyu": 4,
+      "max_score": 3.41
+    },
+    {
+      "kyu": 3,
+      "max_score": 5.64
+    }
+  ]
+}

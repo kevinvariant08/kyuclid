@@ -1,0 +1,12 @@
+{
+  "auto_fail": 0.87,
+  "fitted_on": "tests/originality_pairs.json: 20 reskins, 20 same-technique pairs",
+  "same_technique_max": 0.461,
+  "same_technique_mean": 0.1,
+  "reskin_mean": 0.155,
+  "reskin_max": 0.471,
+  "reskins_auto_caught": 0,
+  "indexed_records": 3331,
+  "corpus_p97_top_similarity": 0.87,
+  "note": "TF-IDF only catches reskins that keep the wording. The judge catches the rest; see README."
+}

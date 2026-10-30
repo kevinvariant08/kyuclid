@@ -1,0 +1,30 @@
+{
+  "id": "near-copy-of-bank-zeros",
+  "title": "Near copy of bank zeros",
+  "kyu": 6,
+  "topic": "N",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "How many zeros does $3025!$ end with?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "b52e8616",
+  "hints": [
+    "Write the number in terms of its tens digit and its units digit.",
+    "The condition becomes a simple relation between the two digits."
+  ],
+  "solution": "The power of $5$ in $3025!$ is $605 + 121 + 24 + 4 = 754$, and there are more $2$s than $5$s, so there are $754$ zeros.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "754",
+  "check_program": "from math import factorial\ns = str(factorial(3025))\nprint(len(s) - len(s.rstrip('0')))"
+}

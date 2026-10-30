@@ -1,0 +1,30 @@
+{
+  "id": "reskin-gauss",
+  "title": "Reskin gauss",
+  "kyu": 7,
+  "topic": "A",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "A runner's training plan adds one lap each day: $1$ lap on day $1$, $2$ laps on day $2$, and so on. How many laps has the runner done in total after $40$ days?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "5d66fbd3",
+  "hints": [
+    "Pair the first day with the last.",
+    "Each pair has the same total."
+  ],
+  "solution": "Pair day $k$ with day $41 - k$: each pair totals $41$ laps and there are $20$ pairs, so the total is $820$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "820",
+  "check_program": "print(sum(range(1, 41)))"
+}

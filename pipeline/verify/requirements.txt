@@ -1,0 +1,5 @@
+jsonschema>=4.25
+sympy>=1.14
+numpy>=2.0
+# Only for --backend api, which needs ANTHROPIC_API_KEY. The default CLI backend doesn't use it.
+# anthropic

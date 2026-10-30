@@ -1,0 +1,30 @@
+{
+  "id": "ok-grid-blue-red",
+  "title": "Ok grid blue red",
+  "kyu": 5,
+  "topic": "C",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "Each cell of a $3 \\times 3$ grid is coloured red or blue. In how many colourings does every row contain at least one blue cell and every column contain at least one red cell?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "9ced3d0f",
+  "hints": [
+    "Count the complement with inclusion and exclusion.",
+    "Choose which rows are all red and which columns are all blue."
+  ],
+  "solution": "A column that is all blue already gives every row a blue cell. So the colourings with no all-red row number $(2^3 - 1)^3 = 343$, and we must remove those with some all-blue column. Colourings with no all-blue column also number $343$ by symmetry, so $512 - 343 = 169$ colourings have an all-blue column, and every one of them has no all-red row. The answer is $343 - 169 = 174$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "174",
+  "check_program": "from itertools import product\nc = 0\nfor g in product([0, 1], repeat=9):\n    rows = [g[0:3], g[3:6], g[6:9]]\n    if all(1 in r for r in rows) and all(any(r[i] == 0 for r in rows) for i in range(3)):\n        c += 1\nprint(c)"
+}

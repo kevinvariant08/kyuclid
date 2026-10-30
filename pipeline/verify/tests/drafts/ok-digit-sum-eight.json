@@ -1,0 +1,30 @@
+{
+  "id": "ok-digit-sum-eight",
+  "title": "Ok digit sum eight",
+  "kyu": 7,
+  "topic": "C",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "How many four-digit numbers use only the digits $1$, $2$ and $3$ (repeats allowed) and have digit sum $8$?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "e70bf99f",
+  "hints": [
+    "Lower every digit by one so the digits become $0$, $1$, $2$.",
+    "Split into cases by how many digits equal $2$ after the shift."
+  ],
+  "solution": "Subtract $1$ from each digit: we want four values from $\\{0,1,2\\}$ with sum $4$. Sort by the number of $2$s. Two $2$s and two $0$s: $\\binom42 = 6$ ways. One $2$, two $1$s and one $0$: $4\\cdot 3 = 12$ ways. No $2$s: four $1$s, $1$ way. Three or more $2$s would exceed the sum. The total is $6 + 12 + 1 = 19$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "19",
+  "check_program": "from itertools import product\nprint(sum(1 for t in product([1, 2, 3], repeat=4) if sum(t) == 8))"
+}

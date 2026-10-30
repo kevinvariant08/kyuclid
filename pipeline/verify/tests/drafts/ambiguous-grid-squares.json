@@ -1,0 +1,30 @@
+{
+  "id": "ambiguous-grid-squares",
+  "title": "Ambiguous grid squares",
+  "kyu": 7,
+  "topic": "C",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "How many squares are there on a $4 \\times 4$ grid?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "49d4a2ee",
+  "hints": [
+    "Sort the squares by side length.",
+    "A square of side $s$ has $5 - s$ positions in each direction."
+  ],
+  "solution": "A square of side $s$ can be placed in $(5-s)^2$ ways, so the total is $16 + 9 + 4 + 1 = 30$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "30",
+  "check_program": "c = 0\nfor s in range(1, 5):\n    for x in range(5 - s):\n        for y in range(5 - s):\n            c += 1\nprint(c)"
+}

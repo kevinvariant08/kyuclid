@@ -1,0 +1,30 @@
+{
+  "id": "standard-answer-range",
+  "title": "Standard answer range",
+  "kyu": 4,
+  "topic": "N",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "Find the sum of the first $100$ positive multiples of $3$.",
+  "answer_format": "integer",
+  "answer_hash": "80027d61",
+  "hints": [
+    "Factor out the common multiplier.",
+    "Then use the sum of the first $100$ integers."
+  ],
+  "solution": "The sum is $3(1 + 2 + \\dots + 100) = 3 \\cdot 5050 = 15150$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "15150",
+  "check_program": "print(sum(3 * k for k in range(1, 101)))"
+}

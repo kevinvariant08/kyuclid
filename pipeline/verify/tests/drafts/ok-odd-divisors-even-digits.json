@@ -1,0 +1,30 @@
+{
+  "id": "ok-odd-divisors-even-digits",
+  "title": "Ok odd divisors even digits",
+  "kyu": 6,
+  "topic": "N",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "How many positive integers at most $300$ have an odd number of positive divisors and an even digit sum?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "becb637a",
+  "hints": [
+    "When do the divisors of a number fail to pair up?",
+    "Only perfect squares have an odd divisor count, so list the squares up to $300$."
+  ],
+  "solution": "A positive integer has an odd number of divisors exactly when it is a perfect square, because divisors pair up as $d, n/d$ except when $d^2 = n$. The squares up to $300$ are $1^2, \\dots, 17^2$. Their digit sums are $1,4,9,7,7,9,13,10,9,1,4,9,16,16,9,13,19$. The even ones belong to $4, 64, 121, 169, 196$, which gives $5$ numbers.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "5",
+  "check_program": "from sympy import divisor_count\nprint(sum(1 for n in range(1, 301) if divisor_count(n) % 2 == 1 and sum(map(int, str(n))) % 2 == 0))"
+}

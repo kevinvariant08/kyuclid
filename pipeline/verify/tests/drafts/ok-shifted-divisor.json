@@ -1,0 +1,30 @@
+{
+  "id": "ok-shifted-divisor",
+  "title": "Ok shifted divisor",
+  "kyu": 5,
+  "topic": "N",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "How many positive integers $n$ are such that $n + 30$ divides $n^2 + 300$?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "e75caeae",
+  "hints": [
+    "Reduce the right-hand side modulo $n + 30$.",
+    "The remainder is a constant, so $n + 30$ must be a divisor of it."
+  ],
+  "solution": "Since $n \\equiv -30 \\pmod{n+30}$, we have $n^2 + 300 \\equiv 900 + 300 = 1200 \\pmod{n+30}$. So the condition is that $n + 30$ divides $1200$, with $n + 30 > 30$. The number $1200 = 2^4\\cdot 3\\cdot 5^2$ has $5\\cdot 2\\cdot 3 = 30$ divisors. They pair up as $d \\cdot (1200/d)$. Those at most $30$ are $1,2,3,4,5,6,8,10,12,15,16,20,24,25,30$, which is $15$ divisors, leaving $15$ above $30$. So there are $15$ values of $n$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "15",
+  "check_program": "from sympy import divisors\n# n + 30 divides n^2 + 300 forces n + 30 to be at most about n^2 + 300, so test n directly up to a generous bound\nprint(sum(1 for n in range(1, 5000) if (n*n + 300) % (n + 30) == 0))"
+}
