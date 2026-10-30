@@ -416,7 +416,8 @@
   },
   "too-easy-sum": {
     "verdict": [
-      "FAIL"
+      "FAIL",
+      "INVESTIGATE"
     ],
     "checks": [
       "blind_solves",
@@ -428,7 +429,8 @@
   },
   "too-easy-divisors": {
     "verdict": [
-      "FAIL"
+      "FAIL",
+      "INVESTIGATE"
     ],
     "checks": [
       "blind_solves",
@@ -440,7 +442,8 @@
   },
   "too-easy-difference": {
     "verdict": [
-      "FAIL"
+      "FAIL",
+      "INVESTIGATE"
     ],
     "checks": [
       "blind_solves",

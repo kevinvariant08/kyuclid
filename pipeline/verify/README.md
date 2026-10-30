@@ -47,7 +47,7 @@ They run in this order, and the first failure stops the run. `--keep-going` runs
 
 The brief's order puts `standard` and originality last. The free parts run early here so a draft they would fail costs nothing. If several checks fail under `--keep-going`, the verdict names the first in the brief's order.
 
-Blind solves: at least 4 of 7 on the key passes. If 4 or more agree on something else the result is INVESTIGATE (wrong key or ambiguous). With no majority it's also INVESTIGATE (too hard or ambiguous; the brief doesn't define this case). All 7 right at very few tokens fails as too easy, at 5 kyu or harder. INVESTIGATE doesn't stop the run, so a reviewer sees what the critics say too.
+Blind solves: at least 4 of 7 on the key passes. If 4 or more agree on something else the result is INVESTIGATE (wrong key or ambiguous). With no majority it's also INVESTIGATE (too hard or ambiguous; the brief doesn't define this case). All 7 right at very few tokens counts as too easy, at 5 kyu or harder. That's INVESTIGATE while `thresholds.json` is provisional, because 1 of the 15 real 5 to 3 kyu problems in the fit falls under the threshold, and FAIL after the full fit. INVESTIGATE doesn't stop the run, so a reviewer sees what the critics say too.
 
 Proof problems skip checks 2, 3 and 6. Task 09 adds its own.
 
@@ -96,6 +96,8 @@ The automatic-fail threshold comes from `fit_similarity.py` and sits above both 
 
 **A routine exercise in a story isn't flagged.** `reskin-gauss`, the sum 1 to 40 told as a runner's laps, passes. The judge calls it routine with no specific source. That fits rule 2's purpose, but it means low-kyu problems need the reviewer's eye for staleness.
 
+**The judge isn't repeatable on borderline cases.** The seed `there-and-back` was called a reskin of a corpus problem in one run and not in the next, because the judge's replies aren't cached when corpus text is involved. A clear reskin is caught reliably; a borderline one may not be.
+
 **At low kyu, the judge can be strict.** Simple problems have few possible structures, and it matched one of my two-equation warm-ups to a real AMC 10 problem with the same structure. Task 08 should watch how often this rejects honest 8 to 6 kyu drafts.
 
 ## Difficulty, and how far to trust it
@@ -140,13 +142,13 @@ From the live runs on 30 October 2026. Figures are API-equivalent dollars, so on
 |---|---|---|---|
 | A draft that fails a free check (25 of the 55 in the suite) | 0 | 0 | $0 |
 | A draft that goes through every check (median of 15) | 11 | 2,600 | $0.10 |
-| The same, on a hard problem (`mis-rated-hard`) | 11 | 126,000 | $0.91 |
-| Seed problems, every check run (mean of 21) | 9 | 2,700 | $0.09 |
+| The same, on a hard problem (`mis-rated-hard`) | 11 | 74,000 | $0.77 |
+| Seed problems, every check run (mean of 21) | 9 | 2,700 | $0.08 |
 | Blind solves alone on an AIME or AMC problem (mean of 30) | 7 | 5,200 | $0.07 |
 | The judge on one reskin pair (mean of 40) | 1 | 180 | $0.013 |
 
 Expect generated 5 to 3 kyu problems to sit between the second and third rows, because harder problems take far more reasoning.
 
-The output cap is 16,000 tokens per solve, but the CLI retries a capped reply up to four times, so one call can use up to 64,000. There's no flag to stop that. Haiku hit it on the hard problem, which cost $0.03. A Sonnet call hitting it would cost about $0.64, though the hardest Sonnet solve so far used 10,400 tokens.
+The output cap is 16,000 tokens per solve. Left alone, the CLI retries a capped reply up to four times, so each call also carries `--max-budget-usd` set to the cost of one capped reply. A solver that hits the cap counts as giving no answer. A live run confirmed this stops the retries: Haiku stopped at 16,000 tokens on the hard problem, where it had used 64,000 without the budget. The hardest Sonnet solve used about 11,000 tokens.
 
-Live results: 55 of 55 suite drafts got their expected verdict. Given only the pair, the judge caught 20 of 20 reskins and raised no false alarm on 20 same-technique pairs. Those pairs are ones I wrote, so treat that as a check that the prompt works, not as its real accuracy. Model verdicts vary between runs: the suite's expected verdicts allow more than one check where several would rightly reject a draft.
+Live results: 54 of 54 suite drafts got their expected verdict, plus `reskin-gauss`, which accepts any verdict because it documents a known limit. While writing the suite, two of my "correct" fixtures were replaced after the live gate rejected them as a near-copy or reskin of a corpus problem, and two more were fixed after a critic or judge found real faults in them. Given only the pair, the judge caught 20 of 20 reskins and raised no false alarm on 20 same-technique pairs. Those pairs are ones I wrote, so treat that as a check that the prompt works, not as its real accuracy. Model verdicts vary between runs: the suite's expected verdicts allow more than one check where several would rightly reject a draft.

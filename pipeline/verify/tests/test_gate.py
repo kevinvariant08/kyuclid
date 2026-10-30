@@ -10,7 +10,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from .. import answers, backend, blind, difficulty, gate, originality, sandbox, standard
+from .. import answers, backend, blind, difficulty, gate, originality, run_seeds, sandbox, standard
 from ..config import ROOT, corpus_path
 from .scripted import ScriptedBackend
 
@@ -106,6 +106,9 @@ class Blind(unittest.TestCase):
         self.assertEqual(blind.analyse(self.d, self.solves(["6.25"] * 7, 100), 400)[0], "fail")
         self.assertEqual(blind.analyse({**self.d, "kyu": 6}, self.solves(["6.25"] * 7, 100), 400)[0], "pass")
         self.assertEqual(blind.analyse(self.d, self.solves(["6.25"] * 7, 2000), 400)[0], "pass")
+
+    def test_too_easy_only_investigates_on_a_provisional_ruler(self):
+        self.assertEqual(blind.analyse(self.d, self.solves(["6.25"] * 7, 100), 400, provisional=True)[0], "investigate")
 
 
 class Answers(unittest.TestCase):
@@ -258,6 +261,19 @@ class Backends(unittest.TestCase):
         self.assertTrue(r.truncated)
         self.assertEqual((r.output, run.call_count), (1200, 1))
         self.assertEqual(blind._extract(r.text), "")
+
+    def test_cli_budget_stops_retries_and_counts_as_no_answer(self):
+        out = dict(subtype="error_max_budget_usd", is_error=True, stop_reason="max_tokens", usage={"output_tokens": 0}, total_cost_usd=0.17)
+        with mock.patch("shutil.which", return_value="claude"), mock.patch("subprocess.run", return_value=mock.Mock(stdout=json.dumps(out), stderr="", returncode=1)) as run:
+            r = backend.CliBackend()._send("claude-sonnet-5-5", "s", "p", "low", 16000, "", "", "")
+        self.assertTrue(r.truncated)
+        self.assertEqual((r.output, r.usd), (16000, 0.17))
+        args = run.call_args.args[0]
+        self.assertEqual(args[args.index("--max-budget-usd") + 1], "0.1600")
+
+    def test_seed_table_keeps_only_ids_and_names(self):
+        self.assertEqual(run_seeds.public("FAIL originality: reskin of AMC8-1991-09: Same moduli and steps."), "FAIL originality: reskin of AMC8-1991-09")
+        self.assertEqual(run_seeds.public("FAIL originality: known problem: Lockers: details here."), "FAIL originality: known problem: Lockers")
 
     def test_api_refuses_without_a_key(self):
         with mock.patch.dict(os.environ):

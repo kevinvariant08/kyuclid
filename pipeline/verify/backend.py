@@ -113,7 +113,9 @@ class CliBackend(Backend):
     def _send(self, model, system, prompt, effort, max_tokens, role, draft_id, salt):
         env = {k: v for k, v in os.environ.items() if k not in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN")}
         env["CLAUDE_CODE_MAX_OUTPUT_TOKENS"] = str(max_tokens)
-        args = [self.exe, "-p", "--model", model, "--effort", effort, "--system-prompt", system, *self.FLAGS]
+        # A capped reply makes the CLI retry up to four times. A budget of exactly one capped reply stops that.
+        budget = max_tokens * PRICES.get(model, PRICES["claude-opus-5-5"])[3] / 1e6
+        args = [self.exe, "-p", "--model", model, "--effort", effort, "--system-prompt", system, "--max-budget-usd", f"{budget:.4f}", *self.FLAGS]
         last = None
         for attempt in range(3):
             with tempfile.TemporaryDirectory(prefix="kyuclid-call-") as cwd:
@@ -128,7 +130,11 @@ class CliBackend(Backend):
                 last = f"unreadable CLI output (exit {p.returncode}): {(p.stdout + p.stderr)[:200]}"
                 time.sleep(5 * (attempt + 1))
                 continue
-            result = str(d.get("result", ""))
+            result = str(d.get("result") or "")
+            if d.get("subtype") == "error_max_budget_usd":
+                r = self._reply(d, model, truncated=True)
+                r.output = max(r.output, max_tokens)
+                return r
             if d.get("api_error_status") == 429 or (d.get("is_error") and "limit" in result.lower()):
                 raise PlanLimit(result[:200] or "rate limited")
             if d.get("is_error"):

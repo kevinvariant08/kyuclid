@@ -6,6 +6,7 @@
 """
 import argparse
 import json
+import re
 import sys
 
 from . import answers, computational, gate
@@ -60,9 +61,15 @@ def main():
     return 0
 
 
+def public(reason):
+    """This file is public, and a judge's reason beside a seed can come close to describing the corpus problem. Keep only the ID or the name."""
+    reason = re.sub(r"(reskin of [\w-]+):.*", r"\1", reason)
+    return re.sub(r"(known problem: [^:]+):.*", r"\1", reason)
+
+
 def write_table(reports, summary):
     lines = ["# Seed problem verdicts", "",
-             "From `python -m pipeline.verify.run_seeds`, which runs every check even after a failure. The verdict names the first failure in the brief's order; the last column lists any others.",
+             "From `python -m pipeline.verify.run_seeds`, which runs every check even after a failure. The verdict names the first failure in the brief's order; the last column lists any others. Judges' full reasons are in the private reports under `out/seeds/`.",
              "", "| Problem | Verdict | Blind solves | Estimated kyu | Other failures |", "|---|---|---|---|---|"]
     for r in sorted(reports, key=lambda r: r["id"]):
         checks = {c["check"]: c for c in r["checks"]}
@@ -70,8 +77,8 @@ def write_table(reports, summary):
         solved = f"{b['right']}/{b['total']}" if "right" in b else "n/a"
         est = checks.get("difficulty", {}).get("evidence", {}).get("estimated_kyu", "n/a")
         fails = [c for c in r["checks"] if c["status"] in ("fail", "investigate")]
-        rest = "; ".join(f"{c['check']}: {c['reason']}" for c in fails if not r["verdict"].split(":")[0].endswith(c["check"].replace("_lexical", "")))
-        lines.append(f"| {r['id']} | {r['verdict'].replace('|', '/')} | {solved} | {est} | {rest.replace('|', '/')} |")
+        rest = "; ".join(f"{c['check']}: {public(c['reason'])}" for c in fails if not r["verdict"].split(":")[0].endswith(c["check"].replace("_lexical", "")))
+        lines.append(f"| {r['id']} | {public(r['verdict']).replace('|', '/')} | {solved} | {est} | {rest.replace('|', '/')} |")
     lines += ["", "## Usage", "", f"{summary['model_calls']} model calls across {summary['drafts_reaching_a_model']} problems, {summary['output_tokens_per_model_draft']} output tokens a problem, about ${summary['api_equivalent_usd_per_model_draft']} a problem at API list prices. On the plan this is usage, not money.", ""]
     (HERE / "SEED_VERDICTS.md").write_text("\n".join(lines), encoding="utf-8", newline="\n")
 

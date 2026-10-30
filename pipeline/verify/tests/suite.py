@@ -139,11 +139,11 @@ draft("ambiguous-grid-squares", 7, "C", "How many squares are there on a $4 \\ti
 
 # ---- Too easy for the kyu.
 draft("too-easy-sum", 4, "A", "Find $17 + 26$.", 43, "t = 0\nfor _ in range(17):\n    t += 1\nfor _ in range(26):\n    t += 1\nprint(t)", "Adding gives $17 + 26 = 43$.",
-      ["Add the tens first.", "Then add the units."], expect=["FAIL"], checks=["blind_solves", "originality"], sim=dict(solve_tokens=40))
+      ["Add the tens first.", "Then add the units."], expect=["FAIL", "INVESTIGATE"], checks=["blind_solves", "originality"], sim=dict(solve_tokens=40))
 draft("too-easy-divisors", 3, "N", "What is the total number of factors of $12$, including $1$ and $12$ themselves?", 6, "print(sum(1 for d in range(1, 13) if 12 % d == 0))", "The divisors are $1, 2, 3, 4, 6, 12$, so there are $6$.",
-      ["List them in pairs.", "Each divisor $d$ pairs with $12/d$."], expect=["FAIL"], checks=["blind_solves", "originality"], sim=dict(solve_tokens=40))
+      ["List them in pairs.", "Each divisor $d$ pairs with $12/d$."], expect=["FAIL", "INVESTIGATE"], checks=["blind_solves", "originality"], sim=dict(solve_tokens=40))
 draft("too-easy-difference", 5, "A", "Find $7^2 - 3^2$.", 40, "print(sum(1 for a in range(7*7) for b in [a] if b >= 3*3))", "We have $49 - 9 = 40$.",
-      ["Work out each square.", "Then subtract."], expect=["FAIL"], checks=["blind_solves", "program_judge", "originality"], sim=dict(solve_tokens=40))
+      ["Work out each square.", "Then subtract."], expect=["FAIL", "INVESTIGATE"], checks=["blind_solves", "program_judge", "originality"], sim=dict(solve_tokens=40))
 
 # ---- Reskins of famous public puzzles. None of these sources is in the corpus.
 RESKIN = dict(originality={"neighbours": [], "known": {"is_known": True, "name": "a famous puzzle", "reason": "same structure, new setting"}})

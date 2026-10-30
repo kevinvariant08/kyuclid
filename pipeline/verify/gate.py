@@ -59,7 +59,7 @@ def verify(draft, backend, keep_going=False, sandbox_seconds=None, thresholds=No
             record("program_judge", computational.judge(draft, backend, usage))
             statement_only = {k: draft[k] for k in ("id", "statement", "figure_alt") if k in draft}
             solves = blind.solve_all(statement_only, backend, usage)
-            status, reason, blind_ev = blind.analyse(draft, solves, th["too_easy_tokens"])
+            status, reason, blind_ev = blind.analyse(draft, solves, th["too_easy_tokens"], th.get("provisional", False))
             record("blind_solves", (status, reason, blind_ev))
         else:
             report["notes"].append("Proof problem: no computation or blind solves (task 09 adds its own checks).")

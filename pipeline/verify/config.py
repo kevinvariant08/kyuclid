@@ -18,8 +18,7 @@ PRICES = {HAIKU: (0.10, 0.01, 0.125, 0.50), SONNET: (2.0, 0.20, 2.5, 10.0), OPUS
 SOLVERS = [SONNET] * 5 + [HAIKU, OPUS]
 PASS_SOLVES = 4
 
-# role: (model, effort, max output tokens). The cap includes thinking. The CLI retries a capped reply up
-# to four times, so one call can use four times this.
+# role: (model, effort, max output tokens). The cap includes thinking.
 ROLES = {
     "solve": (None, "medium", 16000),
     "program_judge": (SONNET, "medium", 4000),
