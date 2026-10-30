@@ -16,7 +16,7 @@ Collect the last **15 years** (2012–2026) unless a row says otherwise. Each ro
 ### Wave 1: the pilot
 | Competition | Type | Kyu band | Notes |
 |---|---|---|---|
-| AIME I and II | answer, 0–999 | 5–3 | About 450 problems. Proves the pipeline end to end. |
+| AIME, every year 1983–2026 | answer, 0–999 | 5–3 | About 1,035 problems from the Random Math Wiki (wiki.randommath.com/aime). Its `robots.txt` allows crawling, and its pages credit the MAA. There is one paper a year until 1999, then I and II; 2025 and 2026 have AIME I only. Tag each record with `era` (`classic` before 2000, `modern` from 2000). Proves the pipeline end to end. |
 
 ### Wave 2: answer-based contests (8–3 kyu)
 | Competition | Type | Kyu band | Notes |
@@ -75,8 +75,9 @@ One shared format for every exam:
 ## Spec
 1. **Sources, in order of preference:**
    - Official sites and PDFs: imo-official.org, the EGMO site, UKMT and BMO past papers, the MAA, HMMT and ARML archives.
-   - The AoPS wiki (the AMC and AIME series), and AoPS contest collections for olympiad solutions.
+   - **The Random Math Wiki** (wiki.randommath.com) for the AIME, AMC 8, AMC 10, AMC 12 and AHSME. Its `robots.txt` allows crawling. Its AMC 12 index skips 2019 and 2020.
    - PDFs Kevin owns.
+   - **Not AoPS** for now. Its wiki is behind a Cloudflare bot check, and its `robots.txt` says `ai-train=no`. Kevin is asking AoPS for permission; until they say yes, don't fetch AoPS pages. This matters most for wave 3, where olympiad solutions mostly live on AoPS.
 
    For every source, read its terms of use and `robots.txt` first. If automated fetching isn't allowed, stop and ask Kevin for the papers instead. Fetch politely: at most 1 request every 2 seconds, with a descriptive User-Agent, caching everything in `raw/` so each page is fetched only once.
 2. **Solutions.** Keep the official solution and **up to three** high-quality alternative solutions. Prefer ones that use a different method, and record their authors. Task 03 needs several solution paths to understand a problem properly.
