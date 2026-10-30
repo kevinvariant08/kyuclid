@@ -1,0 +1,30 @@
+{
+  "id": "square-hunting",
+  "title": "Square Hunting",
+  "kyu": 4,
+  "topic": "N",
+  "subtopics": [
+    "difference-of-squares",
+    "parity"
+  ],
+  "type": "answer",
+  "status": "beta",
+  "statement": "Find the sum of all positive integers $n$ for which $n^2 + 12n - 2028$ is a perfect square.",
+  "answer_format": "integer",
+  "answer_hash": "23d83cad",
+  "hints": [
+    "Complete the square, then factor a difference of two squares.",
+    "Both factors must have the same parity."
+  ],
+  "solution": "Write $(n+6)^2 - m^2 = 2064$ with $m\\ge 0$, so $(n+6-m)(n+6+m) = 2064 = 2^4\\cdot 3\\cdot 43$. The factors have the same parity, so both are even: $(2,1032), (4,516), (6,344), (8,258), (12,172), (24,86)$. Then $n+6$ is their average: $517, 260, 175, 133, 92, 55$, giving $n = 511, 254, 169, 127, 86, 49$. The sum is $1196$.",
+  "provenance": {
+    "kind": "original",
+    "author": "kevinvariant"
+  },
+  "verification": "seed-unverified",
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  }
+}

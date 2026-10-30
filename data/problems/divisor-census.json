@@ -1,0 +1,29 @@
+{
+  "id": "divisor-census",
+  "title": "Divisor Census",
+  "kyu": 8,
+  "topic": "N",
+  "subtopics": [
+    "divisor-counting"
+  ],
+  "type": "answer",
+  "status": "beta",
+  "statement": "How many positive divisors does $360$ have?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "390f7e2f",
+  "hints": [
+    "Write $360$ as a product of prime powers.",
+    "A divisor chooses an exponent for each prime independently."
+  ],
+  "solution": "$360 = 2^3\\cdot 3^2\\cdot 5$. A divisor is $2^a3^b5^c$ with $0\\le a\\le 3$, $0\\le b\\le 2$, $0\\le c\\le 1$, so there are $4\\cdot 3\\cdot 2 = 24$ of them.",
+  "provenance": {
+    "kind": "original",
+    "author": "kevinvariant"
+  },
+  "verification": "seed-unverified",
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  }
+}

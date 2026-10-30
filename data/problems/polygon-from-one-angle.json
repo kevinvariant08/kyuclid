@@ -1,0 +1,28 @@
+{
+  "id": "polygon-from-one-angle",
+  "title": "Polygon from One Angle",
+  "kyu": 7,
+  "topic": "G",
+  "subtopics": [
+    "polygon-angles"
+  ],
+  "type": "answer",
+  "status": "beta",
+  "statement": "Every interior angle of a regular polygon is $140^\\circ$. How many sides does the polygon have?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "35651d38",
+  "hints": [
+    "The exterior angles of any convex polygon add up to $360^\\circ$."
+  ],
+  "solution": "Each exterior angle is $180^\\circ - 140^\\circ = 40^\\circ$, and they total $360^\\circ$, so there are $360/40 = 9$ sides.",
+  "provenance": {
+    "kind": "original",
+    "author": "kevinvariant"
+  },
+  "verification": "seed-unverified",
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  }
+}

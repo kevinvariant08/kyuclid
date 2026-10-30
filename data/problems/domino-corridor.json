@@ -1,0 +1,29 @@
+{
+  "id": "domino-corridor",
+  "title": "Domino Corridor",
+  "kyu": 6,
+  "topic": "C",
+  "subtopics": [
+    "recursion",
+    "tilings"
+  ],
+  "type": "answer",
+  "status": "beta",
+  "statement": "In how many ways can a $2\\times 10$ rectangle be tiled with $1\\times 2$ dominoes?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "3b3c4bdd",
+  "hints": [
+    "Look at the left end. It is covered either by one vertical domino or by two stacked horizontal ones."
+  ],
+  "solution": "If $t_n$ counts tilings of a $2\\times n$ strip, the left end gives $t_n = t_{n-1} + t_{n-2}$ with $t_1 = 1$, $t_2 = 2$. These are Fibonacci numbers: $1,2,3,5,8,13,21,34,55,89$, so $t_{10} = 89$.",
+  "provenance": {
+    "kind": "original",
+    "author": "kevinvariant"
+  },
+  "verification": "seed-unverified",
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  }
+}

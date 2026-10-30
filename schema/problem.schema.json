@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kevinvariant08.github.io/mathwars/schema/problem.schema.json",
+  "title": "MathWars problem",
+  "description": "One problem, stored as data/problems/<id>.json. Text fields are Markdown with $…$ and $$…$$ LaTeX; the site currently renders blank-line-separated paragraphs and passes inline HTML through.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "kyu", "topic", "subtopics", "type", "status", "statement", "hints", "solution", "provenance", "stats"],
+  "properties": {
+    "id": {
+      "description": "Kebab-case, unique, stable forever: it is the URL (#p-<id>), the file name and the hash salt.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 64
+    },
+    "title": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "kyu": { "description": "8 (warm-up) to 1 (IMO P3/P6).", "type": "integer", "minimum": 1, "maximum": 8 },
+    "topic": { "description": "Algebra, Combinatorics, Geometry, Number theory.", "enum": ["A", "C", "G", "N"] },
+    "subtopics": {
+      "description": "Technique and configuration slugs. Once data/taxonomy.json (task 03) exists, validate.mjs checks them against it.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" }
+    },
+    "type": { "enum": ["answer", "proof"] },
+    "status": {
+      "description": "draft: not shown in lists. beta: shown, kyu not yet confirmed. ranked: official. retired: hidden from lists, but its page still resolves.",
+      "enum": ["draft", "beta", "ranked", "retired"]
+    },
+    "statement": { "type": "string", "minLength": 1 },
+    "figure": {
+      "description": "An SVG beside the statement (task 10). The service worker caches SVGs forever, so a changed figure needs a new file name.",
+      "type": "string",
+      "pattern": "^figures/[a-z0-9][a-z0-9._-]*\\.svg$"
+    },
+    "figure_alt": { "description": "Text alternative for the figure.", "type": "string", "minLength": 1 },
+    "answer_format": {
+      "description": "What the answer looks like. The checker accepts any number, decimal or fraction; this tells the UI and the pipeline what to expect.",
+      "enum": ["integer_0_999", "integer", "rational", "expression"]
+    },
+    "answer_hash": {
+      "description": "fnv(id + \"|\" + canon(answer)) from js/lib/answers.js. Make it with scripts/hash-answer.mjs.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}$"
+    },
+    "hints": {
+      "description": "Gentlest first, strongest last.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "solution": { "type": "string", "minLength": 1 },
+    "rubric": {
+      "description": "Proof problems only. The marks total 7 (checked by validate.mjs).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["marks", "criterion"],
+        "properties": {
+          "marks": { "type": "integer", "minimum": 1, "maximum": 7 },
+          "criterion": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "author"],
+      "properties": {
+        "kind": { "enum": ["original", "classical"] },
+        "author": { "description": "Who wrote this version: the wording, hints and solution.", "type": "string", "minLength": 1 },
+        "source": { "description": "Classical only: where the problem comes from, e.g. \"IMO 1988 P6\".", "type": "string", "minLength": 1 },
+        "book": { "description": "Classical only: e.g. \"Beyond the Incenter, Problem 50\" (task 21).", "type": "string", "minLength": 1 },
+        "pipeline_run": { "description": "Generated problems only: the pipeline run that produced it.", "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "classical" } } },
+          "then": { "required": ["source"], "not": { "required": ["pipeline_run"] } },
+          "else": { "not": { "anyOf": [{ "required": ["source"] }, { "required": ["book"] }] } }
+        }
+      ]
+    },
+    "verification": {
+      "description": "The task 05 verification report ID. Required unless status is draft. The 21 seed problems carry \"seed-unverified\" until task 05 or 11 runs them through the gate.",
+      "type": "string",
+      "minLength": 1
+    },
+    "stats": {
+      "description": "Real counts only; all zeros until there is data.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["solves", "attempts", "liked"],
+      "properties": {
+        "solves": { "type": "integer", "minimum": 0 },
+        "attempts": { "type": "integer", "minimum": 0 },
+        "liked": { "description": "How many solvers liked it.", "type": "integer", "minimum": 0 }
+      }
+    }
+  },
+  "dependentRequired": { "figure": ["figure_alt"] },
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "answer" } } },
+      "then": { "required": ["answer_format", "answer_hash"], "not": { "required": ["rubric"] } },
+      "else": { "required": ["rubric"], "not": { "anyOf": [{ "required": ["answer_hash"] }, { "required": ["answer_format"] }] } }
+    },
+    {
+      "if": { "properties": { "status": { "not": { "const": "draft" } } } },
+      "then": { "required": ["verification"] }
+    }
+  ]
+}

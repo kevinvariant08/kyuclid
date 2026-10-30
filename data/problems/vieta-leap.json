@@ -1,0 +1,46 @@
+{
+  "id": "vieta-leap",
+  "title": "The Vieta Leap",
+  "kyu": 1,
+  "topic": "N",
+  "subtopics": [
+    "vieta-jumping"
+  ],
+  "type": "proof",
+  "status": "beta",
+  "statement": "Positive integers $a$ and $b$ are such that $ab + 1$ divides $a^2 + b^2$. Prove that\n$$\\frac{a^2 + b^2}{ab + 1}$$\nis a perfect square.",
+  "hints": [
+    "Fix the quotient $k$ and suppose it is not a square. Among all pairs giving that $k$, take one with $a + b$ minimal.",
+    "View $a^2 - (kb)a + (b^2 - k) = 0$ as a quadratic in $a$. What can you say about its other root?"
+  ],
+  "solution": "Suppose $k = \\frac{a^2+b^2}{ab+1}$ is not a square, and choose such a pair with $a \\ge b$ and $a + b$ minimal. Then $a$ is a root of $t^2 - kb\\,t + b^2 - k = 0$, and the other root is $a' = kb - a = \\frac{b^2-k}{a}$, an integer.\n\nIf $a' = 0$ then $k = b^2$, a square. If $a' < 0$ then $a'^2 - kba' + b^2 - k \\ge a'^2 + k + b^2 - k > 0$, impossible. So $a' > 0$, and $(a', b)$ gives the same $k$. But $a' = \\frac{b^2-k}{a} < \\frac{b^2}{a} \\le b \\le a$, so $a' + b < a + b$, contradicting minimality.",
+  "rubric": [
+    {
+      "marks": 1,
+      "criterion": "setting up the quadratic in a"
+    },
+    {
+      "marks": 2,
+      "criterion": "showing the other root is a positive integer"
+    },
+    {
+      "marks": 2,
+      "criterion": "showing it is smaller"
+    },
+    {
+      "marks": 2,
+      "criterion": "completing the descent argument"
+    }
+  ],
+  "provenance": {
+    "kind": "classical",
+    "author": "kevinvariant",
+    "source": "IMO 1988, Problem 6"
+  },
+  "verification": "seed-unverified",
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  }
+}

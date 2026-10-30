@@ -17,7 +17,7 @@ Points per solve follow the Fibonacci numbers: 2, 3, 5, 8, 13, 21, 34, 55 from 8
 
 ## How it runs
 
-It's one static `index.html` with no build step. MathJax 3 (SVG output) loads from jsDelivr and fonts load from Google Fonts. Progress is saved in `localStorage`, so it stays in one browser.
+It is static files with no build step: a small `index.html` shell, `css/site.css`, native ES modules in `js/`, and one JSON file per problem in `data/problems/`. The problem list loads only `data/index.json`; each full problem loads when you open it. MathJax 3 (SVG output) loads from jsDelivr and fonts load from Google Fonts. Progress is saved in `localStorage` under `mathwars:v1`, so it stays in one browser.
 
 To run it locally:
 
@@ -33,15 +33,4 @@ Accounts, friend duels, real leaderboards, peer review of proofs and problem sub
 
 ## Adding a problem
 
-Problems live in the `PROBLEMS` array in `index.html`. An answer problem needs `h`, the FNV-1a hash of `id + "|" + canonical answer`. The canonical form is the number rounded to 6 decimal places, written without trailing zeros, so `25/4` and `6.25` both become `6.25`. This Python snippet prints the hash:
-
-```python
-def fnv(s):
-    h = 0x811c9dc5
-    for ch in s:
-        h ^= ord(ch)
-        h = (h * 0x01000193) & 0xffffffff
-    return format(h, "08x")
-
-print(fnv("circle-in-the-square|6.25"))  # a7169a50
-```
+Write `data/problems/<id>.json`, hash its answer with `node scripts/hash-answer.mjs <id> <answer>`, then run `node scripts/build-index.mjs` and `node scripts/validate.mjs`. [CONTRIBUTING.md](CONTRIBUTING.md) explains each field, and [schema/problem.schema.json](schema/problem.schema.json) is the full format.

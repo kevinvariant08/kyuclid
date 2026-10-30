@@ -1,0 +1,28 @@
+{
+  "id": "closest-approach",
+  "title": "Closest Approach",
+  "kyu": 5,
+  "topic": "A",
+  "subtopics": [
+    "cauchy-schwarz"
+  ],
+  "type": "answer",
+  "status": "beta",
+  "statement": "Real numbers $x$ and $y$ satisfy $3x + 4y = 10$. Find the minimum value of $x^2 + y^2$.",
+  "answer_format": "integer_0_999",
+  "answer_hash": "2f66b273",
+  "hints": [
+    "Geometrically: how close does the line $3x+4y=10$ come to the origin?"
+  ],
+  "solution": "By Cauchy–Schwarz, $(3x+4y)^2 \\le (3^2+4^2)(x^2+y^2)$, so $x^2+y^2 \\ge 100/25 = 4$, with equality at $(x,y) = (\\tfrac65, \\tfrac85)$. The minimum is $4$.",
+  "provenance": {
+    "kind": "original",
+    "author": "kevinvariant"
+  },
+  "verification": "seed-unverified",
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  }
+}

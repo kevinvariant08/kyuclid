@@ -1,0 +1,28 @@
+{
+  "id": "last-two-digits",
+  "title": "Last Two Digits",
+  "kyu": 5,
+  "topic": "N",
+  "subtopics": [
+    "orders-mod-n"
+  ],
+  "type": "answer",
+  "status": "beta",
+  "statement": "Find the last two digits of $3^{2026}$.",
+  "answer_format": "integer_0_999",
+  "answer_hash": "10df797c",
+  "hints": [
+    "Find the smallest $m$ with $3^m \\equiv 1 \\pmod{100}$. Start from $3^4 = 81$."
+  ],
+  "solution": "$81^2 \\equiv 61$, $81^4 \\equiv 21$ and $81^5 \\equiv 21\\cdot 81 \\equiv 1 \\pmod{100}$, so $3^{20}\\equiv 1$. Since $2026 = 20\\cdot 101 + 6$, we get $3^{2026}\\equiv 3^6 = 729 \\equiv 29$.",
+  "provenance": {
+    "kind": "original",
+    "author": "kevinvariant"
+  },
+  "verification": "seed-unverified",
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  }
+}
