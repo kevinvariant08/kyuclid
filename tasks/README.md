@@ -66,7 +66,10 @@ graph LR
 4. **Models.** Use `claude-opus-5-5` for generation and judging and `claude-sonnet-5-5` for bulk blind solves. Where a brief asks for an independent second opinion, use a different model so the errors aren't correlated. Log the model ID and the cost of every pipeline run.
 5. **Pilot, then scale.** Any task that calls a model in bulk runs a pilot of about 30 items first and stops for Kevin to look at it before the full run.
 6. **No build step for the site** unless task 01 decides otherwise. It must keep working as static files on GitHub Pages.
-7. **Same origin as Kevinvariant.** The site is served from `kevinvariant08.github.io/mathwars/`, so it shares an origin with Kevinvariant: `localStorage` and the Supabase session are shared. Prefix every storage key with `mathwars:`.
+7. **Same origin as Kevinvariant.** The site is served from `kevinvariant08.github.io/mathwars/`, so it shares an origin with Kevinvariant: `localStorage` and the Supabase session are shared. Prefix every storage key with `mathwars:`. Kevinvariant's service worker (`/sw.js`, scope `/`) also controls MathWars pages:
+   - HTML is fetched network-first.
+   - Any URL with `?v=` and any image or font is cached forever, cache-first. So give MathWars JS and CSS a `?v=` and change it on every release, or leave it off so they are fetched network-first.
+   - Offline, MathWars falls back to Kevinvariant's `offline.html`.
 
 ## Decisions Kevin should make before the content line scales
 
