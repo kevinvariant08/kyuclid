@@ -4,7 +4,7 @@
 Retire the 21 draft problems where they don't meet the standard, and make sure every belt has enough reviewed problems for launch.
 
 ## Depends on
-06, 07 and 08. It also uses 09 for 3–1 kyu.
+06, 07, 08, 09 (3–1 kyu proofs) and 21 (book problems and bosses).
 
 ## Spec
 1. Run all 21 seed problems through the verification gate (05) and the standard (04). Then follow these rules:
@@ -13,11 +13,11 @@ Retire the 21 draft problems where they don't meet the standard, and make sure e
    - The two AIME problems reproduced in the draft (AIME 1985 P10, AIME 1990 P11) must be retired, or replaced by originals that use their ideas, unless Kevin decides otherwise.
 2. **Launch minimums** for problems with `status` ranked or beta:
 
-   | kyu | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 |
-   |---|---|---|---|---|---|---|---|---|
-   | problems | 60 | 60 | 60 | 100 | 100 | 100 | 20 | 10 |
+   | kyu | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 | Bosses |
+   |---|---|---|---|---|---|---|---|---|---|
+   | problems | 60 | 60 | 60 | 100 | 100 | 120 | 50 | 25 | every boss Kevin approved |
 
-   Each topic needs at least 15% of its kyu, except at 2–1 kyu.
+   At 3–1 kyu the counts include proof problems (task 09) and non-boss book geometry (task 21). Each topic needs at least 15% of its kyu. At 2–1 kyu, geometry may go above its share because of the book, but every topic still needs at least 5 problems.
 3. Update the homepage copy and the "belt rack" counts so they come from `data/index.json` rather than being hard-coded.
 4. Remove "first draft" wording from the site once the minimums are met.
 

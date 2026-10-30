@@ -7,13 +7,13 @@ Write one document that defines a good MathWars problem at each kyu. The generat
 03, which supplies the calibration data.
 
 ## Read first
-- `docs/aime-analysis.md` and `data/taxonomy.json` from task 03.
+- `docs/corpus-analysis.md` and `data/taxonomy.json` from task 03.
 - The current problems in `data/problems/` (after task 01) or in `index.html`, to use as examples of what to avoid.
 
 ## Deliverable
 `docs/problem-standard.md`, covering:
 
-1. **The kyu ladder in detail.** For each of 8 → 1 kyu: the contest anchor, the number of non-routine steps, the computation load, the expected solve time for a solver at that rank, and two invented example problems with one-line reasons. Use the task 03 data for 5–3 kyu. For 8–6 kyu, use the UKMT JMC/IMC/SMC and AMC 8/10 positions, flagged as provisional until task 08.
+1. **The kyu ladder in detail.** For each of 8 → 1 kyu, plus the boss tier (task 21): the contest anchors (AMC/UKMT/AIME/HMMT positions for answer problems; BMO, USAMO, EGMO, CGMO, ISL positions and MOHS for proofs), the number of non-routine steps, how hidden the crux is, the computation load, the expected solve time for a solver at that rank, and two invented example problems with one-line reasons. Base every claim on the task 03 calibration table and synthesis report.
 2. **Statement rules.** One question per problem. Every object is defined. The answer format is stated where it isn't obvious ("Give your answer as a fraction in lowest terms"). There is no hidden case-splitting, no reading tricks and no culturally specific knowledge. Use UK spelling. LaTeX conventions: `\dfrac` in display, `\cdot` for products and so on.
 3. **Answer rules.** 5–3 kyu answers are integers from 0 to 999, as on the AIME. 8–6 kyu answers can be any integer or a simple rational. Every answer is unique, and it must not be guessable from the setup (no "the answer is 0 or 1").
 4. **Solution rules.** Give the shortest complete solution first, with any alternatives after. Every step is justified. State the final answer clearly. Include a "Why this works" line naming the technique, using taxonomy IDs.
