@@ -1,6 +1,6 @@
 {
- "version": "0.2.0-draft",
- "status": "draft: awaiting Kevin's review before the full AIME run",
+ "version": "1.0.0",
+ "status": "approved by Kevin on 2026-10-30 for the AIME run. Slugs may still be added from analysts' proposals.",
  "description": "Controlled vocabulary for Kyuclid. status: observed = found in the 150-problem AIME taxonomy sample; seeded = expected from the task brief or later waves, not yet seen; seed-problem = used by the seed problems; pilot-proposed = asked for by the analysis passes on the pilot. legacy = kept only so that seed problems validate, not for new tagging. sample_count counts sample problems.",
  "topics": {
   "A": "Algebra",
@@ -61,13 +61,6 @@
    "legacy": true
   },
   {
-   "id": "averaging-bound",
-   "topic": "A",
-   "definition": "Bound an individual term because too many large terms would exceed a fixed total.",
-   "status": "observed",
-   "sample_count": 1
-  },
-  {
    "id": "binomial-theorem",
    "topic": "A",
    "definition": "Expand a power of a sum, or recognise an expression as one.",
@@ -80,13 +73,6 @@
    "definition": "Group the terms of a sum into blocks on which the summand is constant or repeats.",
    "status": "observed",
    "sample_count": 6
-  },
-  {
-   "id": "bound-and-construct",
-   "topic": "A",
-   "definition": "Prove an extremal bound, then exhibit an example attaining it.",
-   "status": "observed",
-   "sample_count": 5
   },
   {
    "id": "cauchy-fe",
@@ -331,7 +317,7 @@
   {
    "id": "periodicity",
    "topic": "A",
-   "definition": "Compute initial terms of an iteration, detect eventual periodicity, and reduce the index.",
+   "definition": "Use the periods of a sequence or of trigonometric functions to reduce an index or an angle condition.",
    "status": "observed",
    "sample_count": 3
   },
@@ -413,20 +399,6 @@
    "sample_count": 0
   },
   {
-   "id": "recurrence-manipulation",
-   "topic": "A",
-   "definition": "Subtract or divide consecutive instances of a recurrence to expose a simpler relation or invariant.",
-   "status": "observed",
-   "sample_count": 2
-  },
-  {
-   "id": "recurrence-unrolling",
-   "topic": "A",
-   "definition": "Apply a recurrence repeatedly to express a far term as an explicit sum.",
-   "status": "observed",
-   "sample_count": 1
-  },
-  {
    "id": "remainder-factor-theorem",
    "topic": "A",
    "definition": "Evaluate a polynomial at a root of a divisor to read off a remainder or factor.",
@@ -495,13 +467,6 @@
    "definition": "Rewrite terms as differences so that a sum or product collapses.",
    "status": "seeded",
    "sample_count": 0
-  },
-  {
-   "id": "trig-periodicity-analysis",
-   "topic": "A",
-   "definition": "Use periods and quadrant signs of trigonometric functions to reduce angle conditions.",
-   "status": "observed",
-   "sample_count": 3
   },
   {
    "id": "trig-substitution",
@@ -779,7 +744,7 @@
   {
    "id": "recursion",
    "topic": "C",
-   "definition": "Count by a recurrence, table or tree built from smaller states.",
+   "definition": "Count or compute by a recurrence, table or tree built from smaller states, including rewriting or unrolling the recurrence.",
    "status": "observed",
    "sample_count": 2
   },
@@ -953,13 +918,6 @@
    "sample_count": 3
   },
   {
-   "id": "equal-tangent-segments",
-   "topic": "G",
-   "definition": "Assign equal lengths to tangents from a point and solve for them from side lengths.",
-   "status": "observed",
-   "sample_count": 2
-  },
-  {
    "id": "euler-polyhedron-formula",
    "topic": "G",
    "definition": "Relate the numbers of vertices, edges and faces of a convex polyhedron.",
@@ -990,7 +948,7 @@
   {
    "id": "inradius",
    "topic": "G",
-   "definition": "Use that a tangential polygon's area equals inradius times semiperimeter.",
+   "definition": "Use a tangential polygon: equal tangent lengths from a point, and area equal to inradius times semiperimeter.",
    "status": "observed",
    "sample_count": 3
   },
@@ -1222,7 +1180,7 @@
   {
    "id": "bounding",
    "topic": "N",
-   "definition": "Use inequalities to restrict integer unknowns to a small range and then check them.",
+   "definition": "Use inequalities to restrict unknowns to a small range or to prove an extremal bound, then check candidates or exhibit an example attaining it.",
    "status": "observed",
    "sample_count": 14
   },
@@ -1330,7 +1288,9 @@
    "topic": "N",
    "definition": "Find the exponent of a prime in a factorial by summing floors.",
    "status": "seed-problem",
-   "sample_count": 0
+   "sample_count": 0,
+   "legacy": true,
+   "merged_into": "p-adic-valuation"
   },
   {
    "id": "linear-diophantine-solving",
@@ -1377,7 +1337,7 @@
   {
    "id": "p-adic-valuation",
    "topic": "N",
-   "definition": "Track the exponent of a prime in a factorial, binomial coefficient or product.",
+   "definition": "Track the exponent of a prime in a factorial, binomial coefficient or product, including Legendre formula.",
    "status": "observed",
    "sample_count": 2
   },
