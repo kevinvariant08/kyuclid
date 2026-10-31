@@ -4,3 +4,6 @@ node_modules/
 out/
 __pycache__/
 *.pyc
+
+# Review queue: drafts, reports and decisions hold answers, check programs and inspired_by.
+review/
