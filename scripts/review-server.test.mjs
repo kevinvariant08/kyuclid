@@ -2,6 +2,7 @@
 // Every test runs on a temporary copy of the bank, so the real data/ is never touched.
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { request } from "node:http";
 import { tmpdir } from "node:os";
@@ -54,7 +55,7 @@ const index = () => JSON.parse(readFileSync(join(root, "data", "index.json"), "u
 
 before(() => {
   root = mkdtempSync(join(tmpdir(), "kyuclid-review-"));
-  for (const p of ["scripts", "schema", "data", "docs/problem-standard.md", "js", "tools", "index.html"]) cpSync(join(REPO, p), join(root, p), { recursive: true });
+  for (const p of ["scripts", "schema", "data", "figures", "docs/problem-standard.md", "js", "tools", "index.html"]) cpSync(join(REPO, p), join(root, p), { recursive: true });
   symlinkSync(join(REPO, "node_modules"), join(root, "node_modules"), "junction");
 });
 after(() => rmSync(root, { recursive: true, force: true }));
@@ -118,6 +119,39 @@ test("no report, FAIL and ERROR can't be approved; INVESTIGATE needs a second co
   assert.match(first.reasons[0], /estimated 7/);
   assert.ok(!existsSync(published()));
   assert.equal((await decide({ id: ID, action: "approve", confirm: true })).status, "approved");
+});
+
+test("approving a draft that carries its figures writes them, and keeps the sources out of the public form", async () => {
+  const svg = readFileSync(join(root, "figures", "twenty-to-four-solution.svg"), "utf8").replaceAll("twenty-to-four-solution-", "carried-fig-solution-");
+  const version = createHash("sha256").update(svg).digest("hex").slice(0, 8);
+  const id = "carried-fig";
+  const d = draft({ id, answer_hash: hashAnswer(id, "10"), solution_figures: [{ src: `figures/${id}-solution.svg?v=${version}`, alt: "A clock.", after_paragraph: 1 }], figure_sources: [{ name: `${id}-solution`, tex: "% source", svg }] });
+  putPending({ draft: d, report: { ...PASS, id } }, id);
+  const r = await decide({ id, action: "approve" });
+  assert.equal(r.status, "approved", r.reason);
+  const p = JSON.parse(readFileSync(join(root, "data", "problems", `${id}.json`), "utf8"));
+  assert.equal(p.solution_figures.length, 1);
+  assert.equal(p.figure_sources, undefined);
+  assert.equal(readFileSync(join(root, "figures", `${id}-solution.svg`), "utf8"), svg);
+  assert.ok(existsSync(join(root, "figures", `${id}-solution.tex`)));
+  rmSync(join(root, "data", "problems", `${id}.json`));
+  rmSync(join(root, "figures", `${id}-solution.svg`));
+  rmSync(join(root, "figures", `${id}-solution.tex`));
+  spawnSync(process.execPath, [join(root, "scripts", "build-index.mjs")]);
+});
+
+test("a figure that fails validation is removed again with its draft", async () => {
+  const id = "bad-fig";
+  const svg = "<svg stroke='#808080'></svg>";
+  const version = createHash("sha256").update(svg).digest("hex").slice(0, 8);
+  const d = draft({ id, answer_hash: hashAnswer(id, "10"), solution_figures: [{ src: `figures/${id}-solution.svg?v=${version}`, alt: "A clock.", after_paragraph: 1 }], figure_sources: [{ name: `${id}-solution`, tex: "% source", svg }] });
+  putPending({ draft: d, report: { ...PASS, id } }, id);
+  const r = await decide({ id, action: "approve" });
+  assert.equal(r.status, "blocked");
+  assert.match(r.reason, /#808080/);
+  assert.ok(!existsSync(join(root, "figures", `${id}-solution.svg`)));
+  assert.ok(existsSync(pendingPath(id)));
+  rmSync(pendingPath(id));
 });
 
 test("the bank's validator rolls back a bad approval", async () => {

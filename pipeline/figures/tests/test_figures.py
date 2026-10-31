@@ -14,7 +14,10 @@ from unittest import mock
 from pipeline.figures import attach
 from pipeline.figures.build import FIGURES, ToolchainError, _compile, _run, all_names, build_source, check_layout, figure_paths, preflight, svg_version, theme_svg
 from pipeline.figures.source import Figure, FigureError, fact_numbers
-from pipeline.verify import figure_check
+from pipeline.generate import drafts, prompts, run
+from pipeline.verify import answers, figure_check, gate, originality
+from pipeline.verify.config import GATE_FIELDS
+from pipeline.verify.tests.scripted import ScriptedBackend
 
 TANGENT = r"""%! alt A circle with centre O touching line AB at T.
 %! after_paragraph 1
@@ -40,7 +43,7 @@ TANGENT = r"""%! alt A circle with centre O touching line AB at T.
 MOVED_POINT = TANGENT.replace("%! T = (0, 4)", "%! T = (1, 4)").replace(r"\tkzDefPoint(0.000000,2.000000){T}", r"\tkzDefPoint(0.500000,2.000000){T}")
 MOVED_LINE = TANGENT.replace("%! A = (-6, 4)", "%! A = (-6, 5)").replace("%! B = (6, 4)", "%! B = (6, 5)").replace("(-3.000000,2.000000)", "(-3.000000,2.500000)").replace("(3.000000,2.000000)", "(3.000000,2.500000)")
 
-SOLUTION = "The line $AB$ has length $12$ and touches the circle.\n\nSo the answer is $7$."
+SOLUTION = "The line $AB$ has length $12$ and touches the circle.\n\nSo the answer is $7$.\n\n<b>Why this works.</b> <code>casework</code>: it is short."
 
 
 def draft(tex, name="demo-solution", topic="G", svg=None):
@@ -175,6 +178,38 @@ class WithoutTeX(unittest.TestCase):
             self.assertNotRegex(p.read_text(encoding="utf-8") if p.suffix != ".png" else "", r"AIME|AMC|inspired_by")
 
 
+class Generator(unittest.TestCase):
+    def test_write_up_keeps_its_figures_and_its_reason_for_none(self):
+        w = prompts.parse_write_up(f"<subtopics>x</subtopics><hint>h</hint><solution>s</solution><figure>{TANGENT}</figure><figure>second</figure>")
+        self.assertEqual(len(w["figures"]), 2)
+        self.assertIn(r"\tkzDefPoint", w["figures"][0])
+        w = prompts.parse_write_up("<subtopics>x</subtopics><hint>h</hint><solution>s</solution><no_figure>Only algebra.</no_figure>")
+        self.assertEqual((w["figures"], w["no_figure"]), ([], "Only algebra."))
+
+    def test_a_geometry_write_up_without_a_figure_is_sent_back(self):
+        d = dict(id="x", topic="G", statement="s", solution="t")
+        self.assertIn("needs a figure", drafts.attach_figures(d, dict(figures=[], no_figure="I would rather not.")))
+
+    def test_a_reason_excuses_only_a_non_geometry_draft(self):
+        d = dict(id="x", topic="A", statement="s", solution="In the complex plane...")
+        self.assertIn("picture", drafts.attach_figures(d, dict(figures=[], no_figure="")))
+        self.assertIsNone(drafts.attach_figures(d, dict(figures=[], no_figure="The plane is only a name here.")))
+        self.assertEqual(d["figure_exempt"], "The plane is only a name here.")
+
+    def test_figure_failures_keep_the_statement_and_go_back_to_the_writer(self):
+        self.assertIn("figure", run.WRITE_UP_FAULTS)
+        self.assertIn("figure_critic", run.WRITE_UP_FAULTS)
+
+    def test_the_prompt_teaches_the_format_it_enforces(self):
+        self.assertIn(r"\tkzDefPoint(0,0){O} %! O = (0, 0)", prompts.FIGURE_RULES)
+        prompt_shape = Figure("x", TANGENT)
+        self.assertTrue(prompt_shape.facts)
+
+    def test_gate_fields_stay_out_of_the_public_schema_check(self):
+        for field in ("figure_sources", "figure_exempt"):
+            self.assertIn(field, GATE_FIELDS)
+
+
 @unittest.skipUnless(shutil.which("pdflatex") and shutil.which("dvisvgm"), "TeX isn't installed, so compile tests are skipped")
 class WithTeX(unittest.TestCase):
     def test_a_good_figure_passes_the_gate_check(self):
@@ -223,6 +258,39 @@ class WithTeX(unittest.TestCase):
             status, _, ev = figure_check.run(draft(TANGENT), d)
             self.assertEqual(status, "pass")
             self.assertGreater(Path(ev["renders"][0]).stat().st_size, 1000)
+
+    def _gate(self, d, sim=None):
+        full = {**dict(id="demo", title="Demo", kyu=4, topic="G", subtopics=["casework"], type="answer", status="draft", answer_format="integer_0_999", answer="7",
+                       answer_hash=answers.answer_hash("demo", "7"), hints=["Think about the line and the circle.", "Think about where they touch."], provenance=dict(kind="original", author="t", pipeline_run="r"), stats=dict(solves=0, attempts=0, liked=0),
+                       check_program="print(sum(1 for n in range(1, 8)))", inspired_by="SRC-1", variation_recipe="transplant"), **d}
+        be = ScriptedBackend({"demo": full}, {"demo": sim or {}})
+        return gate.verify(full, be, sandbox_seconds=8, thresholds={"provisional": True, "too_easy_tokens": 1, "cuts": [{"kyu": 4, "max_score": 99}]}, index=originality.Index([]), has_corpus=False, auto_fail=1.1), be
+
+    def test_the_gate_fails_a_broken_figure_before_any_model_call(self):
+        d = draft(TANGENT)
+        d["figure_sources"][0]["tex"] = MOVED_POINT
+        report, be = self._gate(d)
+        self.assertTrue(report["verdict"].startswith("FAIL figure"), report["verdict"])
+        self.assertEqual(be.prompts, [])
+
+    def test_the_gate_fails_a_figure_that_will_not_compile(self):
+        d = draft(TANGENT)
+        d["figure_sources"][0]["tex"] = TANGENT.replace(r"\tkzDrawSegment(A,B)", r"\tkzDrawSegment(A,B")
+        report, be = self._gate(d)
+        self.assertIn("doesn't compile", report["verdict"])
+        self.assertEqual(be.prompts, [])
+
+    def test_the_critic_sees_a_render_and_can_fail_the_draft(self):
+        report, be = self._gate(draft(TANGENT))
+        self.assertEqual([c["status"] for c in report["checks"] if c["check"] == "figure_critic"], ["pass"], report["verdict"])
+        self.assertEqual(sum(1 for role, _, _ in be.prompts if role == "figure_critic"), 1)
+        report, _ = self._gate(draft(TANGENT), dict(figure=[dict(severity="material", issue="T is on the wrong side.")]))
+        self.assertIn("figure_critic", report["verdict"])
+
+    def test_the_critic_skips_a_draft_with_no_figure(self):
+        d = dict(topic="N", statement="How many integers are there from $1$ to $7$?", solution="Count them. The answer is $7$.\n\n<b>Why this works.</b> <code>casework</code>: it is short.")
+        _, be = self._gate(d)
+        self.assertFalse(any(role == "figure_critic" for role, _, _ in be.prompts))
 
     def test_preflight_passes_here(self):
         preflight()

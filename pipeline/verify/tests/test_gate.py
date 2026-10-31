@@ -29,6 +29,12 @@ def ruler_for(d):
 
 def run(pid, **kw):
     be = ScriptedBackend(DRAFTS, {k: v["sim"] for k, v in EXPECTED.items()})
+    # Figures have their own tests in pipeline/figures, and these drafts are about everything else.
+    with mock.patch.object(gate.figure_check, "run", return_value=("pass", "stubbed", dict(figures=[], renders=[]))):
+        return _verify(pid, be, **kw)
+
+
+def _verify(pid, be, **kw):
     return gate.verify(DRAFTS[pid], be, sandbox_seconds=8, thresholds=TH if pid == "mis-rated-hard" else ruler_for(DRAFTS[pid]), index=BANK_INDEX, has_corpus=False, auto_fail=0.6, **kw), be
 
 
