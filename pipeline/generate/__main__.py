@@ -70,7 +70,7 @@ def main():
     if args.plan:
         done = run.done_inputs(name)
         ids = [i for i in ids if i not in done]
-        if args.limit:
+        if args.limit is not None:
             ids = ids[:args.limit]
 
     # Earlier drafts join the index, so the bank isn't filled with siblings of what's already pending.
