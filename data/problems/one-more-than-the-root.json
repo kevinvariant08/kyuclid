@@ -1,0 +1,33 @@
+{
+  "id": "one-more-than-the-root",
+  "title": "One More Than the Root",
+  "kyu": 5,
+  "topic": "N",
+  "subtopics": [
+    "modular-arithmetic",
+    "block-grouping-of-sums",
+    "arithmetic-series-sum"
+  ],
+  "type": "answer",
+  "status": "beta",
+  "statement": "For each positive integer $n$, let $c(n)$ be the largest integer whose cube is at most $n$. How many positive integers $n$ with $n \\le 5000$ are divisible by $c(n) + 1$?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "90f0cbc2",
+  "hints": [
+    "Fix a value $k$ of $c(n)$ and look at the block of all integers $n$ with $c(n) = k$. Within this block the divisor $c(n) + 1$ is the constant $k + 1$. Which integers does the block contain?",
+    "The block with $c(n) = k$ is $k^3 \\le n < (k+1)^3$. Use modular arithmetic with modulus $k + 1$ to find the first and last multiples of $k + 1$ in the block: since $k \\equiv -1 \\pmod{k+1}$, we can read off the residue of $k^3$.",
+    "Since $k^3 \\equiv -1 \\pmod{k+1}$, the first multiple in the block is $k^3 + 1$, and the last is $(k+1)^3 - (k+1)$. Writing $n = (k+1)q$ gives $k^2 - k + 1 \\le q \\le k^2 + 2k$, which is $3k$ values of $q$. Because $17^3 = 4913 \\le 5000 < 18^3$, the blocks $k = 1, \\dots, 16$ are complete, and only the multiples of $18$ from $4914$ to $5000$ remain to be counted from the block $k = 17$."
+  ],
+  "solution": "For a positive integer $k$, we have $c(n) = k$ exactly when $k^3 \\le n < (k+1)^3$. These blocks, for $k \\ge 1$, partition the positive integers. Within block $k$, we must count the multiples of $k + 1$.\n\nSince $k \\equiv -1 \\pmod{k+1}$, we have $k^3 \\equiv -1 \\pmod{k+1}$. As $k + 1 \\ge 2$, this means $k^3$ is not a multiple of $k + 1$, but $k^3 + 1 = (k+1)(k^2 - k + 1)$ is, so $k^3 + 1$ is the first multiple in the block. The value $(k+1)^3$ lies just outside the block, so the last multiple is $(k+1)^3 - (k+1) = (k+1)(k^2 + 2k)$. Writing $n = (k+1)q$, the multiples in the block are exactly those with $k^2 - k + 1 \\le q \\le k^2 + 2k$. This gives $(k^2 + 2k) - (k^2 - k + 1) + 1 = 3k$ values of $q$.\n\nNow $17^3 = 4913 \\le 5000 < 5832 = 18^3$, so the blocks $k = 1, \\dots, 16$ lie entirely within the range $n \\le 5000$, and they contribute $3(1 + 2 + \\dots + 16) = 3 \\cdot 136 = 408$ integers.\n\nThe remaining integers are $4913 \\le n \\le 5000$, which all have $c(n) = 17$, so we need the multiples of $18$ among them. The first is $4914 = 18 \\cdot 273$. Since $18 \\cdot 277 = 4986 \\le 5000 < 5004 = 18 \\cdot 278$, the last is $18 \\cdot 277$. So $q$ runs from $273$ to $277$, which gives $5$ integers.\n\nThe answer is $408 + 5 = 413$.\n\n<b>Why this works.</b> <code>modular-arithmetic</code>, <code>block-grouping-of-sums</code>: on each block the divisor is constant, and working modulo $k + 1$ pins down the first and last multiples, so every complete block contributes exactly $3k$.",
+  "provenance": {
+    "kind": "original",
+    "author": "kyuclid",
+    "pipeline_run": "full-1"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "verification": "gate-2026-10-31-one-more-than-the-root"
+}
