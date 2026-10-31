@@ -1,0 +1,30 @@
+{
+  "id": "bad-key-digit-product",
+  "title": "Bad key digit product",
+  "kyu": 8,
+  "topic": "N",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "How many two-digit positive integers are exactly $4$ times the sum of their digits?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "cdf1b5e7",
+  "hints": [
+    "Write the number in terms of its tens digit and its units digit.",
+    "The condition becomes a simple relation between the two digits."
+  ],
+  "solution": "Write the number as $10a + b$ with $a \\ge 1$. The condition $10a + b = 4a + 4b$ simplifies to $6a = 3b$, so $b = 2a$. Since $b \\le 9$, we have $a \\in \\{1, 2, 3, 4\\}$, which gives $12, 24, 36, 48$. So the answer is $4$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "5",
+  "check_program": "print(sum(1 for n in range(10, 100) if n == 4 * ((n // 10) + (n % 10))))"
+}

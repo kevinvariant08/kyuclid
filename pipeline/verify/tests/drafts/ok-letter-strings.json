@@ -1,0 +1,30 @@
+{
+  "id": "ok-letter-strings",
+  "title": "Ok letter strings",
+  "kyu": 4,
+  "topic": "C",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "Each character of a string of length $12$ is one of the letters $A$, $B$ and $C$, and not every letter need appear. No $A$ is immediately followed by a $B$, and the first and last letters are different. Find the number of such strings, modulo $1000$.",
+  "answer_format": "integer_0_999",
+  "answer_hash": "863f39c1",
+  "hints": [
+    "Track the strings by their current last letter.",
+    "Use a transfer matrix, once for each choice of first letter."
+  ],
+  "solution": "Let $M$ be the $3\\times 3$ matrix of allowed letter pairs, with rows and columns in the order $A, B, C$: every entry is $1$ except the $(A,B)$ entry. Strings of length $n$ correspond to walks of $n-1$ steps. Let $T_n$ be the number of strings of length $n$. Appending any letter gives $3T_{n-1}$ strings, and we remove those ending in $AB$, of which there are $T_{n-2}$, so $T_n = 3T_{n-1} - T_{n-2}$ with $T_1 = 3$, $T_2 = 8$. This gives $T_{12} = 121393$. Strings with equal first and last letters number $\\operatorname{tr} M^{11}$. The matrix $M$ has trace $3$, determinant $0$ and characteristic polynomial $x(x^2 - 3x + 1)$, so $t_n = \\operatorname{tr} M^n$ satisfies $t_n = 3t_{n-1} - t_{n-2}$ with $t_1 = 3$, $t_2 = 7$, which gives $t_{11} = 39603$. The count is $121393 - 39603 = 81790$, which is $790$ modulo $1000$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "790",
+  "check_program": "from itertools import product\nallowed = [(a, b) for a in 'ABC' for b in 'ABC' if not (a == 'A' and b == 'B')]\nt = 0\nfor first in 'ABC':\n    cur = {c: (1 if c == first else 0) for c in 'ABC'}\n    for _ in range(11):\n        cur = {b: sum(cur[a] for a, bb in allowed if bb == b) for b in 'ABC'}\n    t += sum(v for c, v in cur.items() if c != first)\nprint(t % 1000)"
+}

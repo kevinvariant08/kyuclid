@@ -1,0 +1,29 @@
+{
+  "id": "schema-missing-solution",
+  "title": "Schema missing solution",
+  "kyu": 8,
+  "topic": "N",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "How many two-digit positive integers are exactly $4$ times the sum of their digits?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "f412f909",
+  "hints": [
+    "Write the number in terms of its tens digit and its units digit.",
+    "The condition becomes a simple relation between the two digits."
+  ],
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "4",
+  "check_program": "print(sum(1 for n in range(10, 100) if n == 4 * ((n // 10) + (n % 10))))"
+}

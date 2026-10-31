@@ -1,0 +1,30 @@
+{
+  "id": "too-easy-difference",
+  "title": "Too easy difference",
+  "kyu": 5,
+  "topic": "A",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "Find $7^2 - 3^2$.",
+  "answer_format": "integer_0_999",
+  "answer_hash": "720f6f46",
+  "hints": [
+    "Work out each square.",
+    "Then subtract."
+  ],
+  "solution": "We have $49 - 9 = 40$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "40",
+  "check_program": "print(sum(1 for a in range(7*7) for b in [a] if b >= 3*3))"
+}

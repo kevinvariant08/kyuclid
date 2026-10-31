@@ -1,0 +1,30 @@
+{
+  "id": "too-easy-sum",
+  "title": "Too easy sum",
+  "kyu": 4,
+  "topic": "A",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "Find $17 + 26$.",
+  "answer_format": "integer_0_999",
+  "answer_hash": "e5a45b29",
+  "hints": [
+    "Add the tens first.",
+    "Then add the units."
+  ],
+  "solution": "Adding gives $17 + 26 = 43$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "43",
+  "check_program": "t = 0\nfor _ in range(17):\n    t += 1\nfor _ in range(26):\n    t += 1\nprint(t)"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "mis-rated-hard",
+  "title": "Mis rated hard",
+  "kyu": 8,
+  "topic": "C",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "Find the number of subsets of $\\{1, 2, \\dots, 16\\}$ containing no two elements that differ by $3$ or by $5$, modulo $1000$.",
+  "answer_format": "integer_0_999",
+  "answer_hash": "64cbe5cc",
+  "hints": [
+    "Encode a subset as a binary string.",
+    "Scan left to right, remembering the last five positions."
+  ],
+  "solution": "Scan the numbers from $1$ to $16$ in order, remembering which of the last five were chosen. A transfer over these $32$ states gives $1324$ subsets, which is $324$ modulo $1000$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "324",
+  "check_program": "c = 0\nfor m in range(1 << 16):\n    if not (m & (m >> 3)) and not (m & (m >> 5)):\n        c += 1\nprint(c % 1000)"
+}

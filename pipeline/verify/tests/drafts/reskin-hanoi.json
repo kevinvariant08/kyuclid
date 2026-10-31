@@ -1,0 +1,30 @@
+{
+  "id": "reskin-hanoi",
+  "title": "Reskin hanoi",
+  "kyu": 6,
+  "topic": "C",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "A warehouse robot moves a stack of $7$ crates of different sizes from bay $X$ to bay $Z$, using bay $Y$ as a holding area. Each bay holds a single stack. It moves one crate at a time, always the top crate of a stack, and a crate may never rest on a smaller crate. What is the least number of moves?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "764a552b",
+  "hints": [
+    "Think about the moment the largest crate moves.",
+    "Set up a recursion in the number of crates."
+  ],
+  "solution": "To move the largest crate, the other six must first sit on the holding bay, so $m_7 = 2m_6 + 1$, and in general $m_n = 2m_{n-1} + 1$ with $m_1 = 1$. Thus $m_n = 2^n - 1$ and $m_7 = 127$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "127",
+  "check_program": "from collections import deque\nN = 7\nstart = (tuple(range(N, 0, -1)), (), ())\nseen = {start: 0}\nq = deque([start])\nwhile q:\n    s = q.popleft()\n    if len(s[2]) == N:\n        print(seen[s])\n        break\n    for a in range(3):\n        for b in range(3):\n            if a != b and s[a] and (not s[b] or s[b][-1] > s[a][-1]):\n                t = list(s)\n                t[b] = s[b] + (s[a][-1],)\n                t[a] = s[a][:-1]\n                t = tuple(t)\n                if t not in seen:\n                    seen[t] = seen[s] + 1\n                    q.append(t)"
+}

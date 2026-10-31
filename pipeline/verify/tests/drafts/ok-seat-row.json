@@ -1,0 +1,30 @@
+{
+  "id": "ok-seat-row",
+  "title": "Ok seat row",
+  "kyu": 8,
+  "topic": "A",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "A row has $20$ seats numbered $1$ to $20$ from the left. Ann sits in the seventh seat from the left and Ben sits in the fifth seat from the right. How many seats lie strictly between them?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "7c9a91aa",
+  "hints": [
+    "Turn each description into a seat number.",
+    "Counting from the right, the first seat is seat $20$."
+  ],
+  "solution": "Ann is in seat $7$. The fifth seat from the right is seat $20 - 4 = 16$, so Ben is in seat $16$. The seats strictly between them are $8, 9, \\dots, 15$, and there are $8$ of them.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "8",
+  "check_program": "seats = list(range(1, 21))\nann = seats[6]\nben = seats[-5]\nprint(sum(1 for s in seats if min(ann, ben) < s < max(ann, ben)))"
+}

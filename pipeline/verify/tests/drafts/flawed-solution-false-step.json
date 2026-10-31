@@ -1,0 +1,30 @@
+{
+  "id": "flawed-solution-false-step",
+  "title": "Flawed solution false step",
+  "kyu": 7,
+  "topic": "N",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "Find the smallest positive integer that leaves remainder $2$ when divided by $5$, leaves remainder $3$ when divided by $7$, and is a multiple of $4$.",
+  "answer_format": "integer_0_999",
+  "answer_hash": "32d3f1b0",
+  "hints": [
+    "Deal with two of the conditions first and list what is left.",
+    "Numbers satisfying the conditions for $5$ and $7$ repeat every $35$."
+  ],
+  "solution": "By the Chinese remainder theorem the three conditions have a unique solution modulo $5 + 7 + 4 = 16$. Adding the remainders gives $2 + 3 + 0 = 5$, and $5 + 3 \\cdot 16 + (-1) = 52$, so the answer is $52$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "52",
+  "check_program": "print(next(n for n in range(1, 10000) if n % 5 == 2 and n % 7 == 3 and n % 4 == 0))"
+}

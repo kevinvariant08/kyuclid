@@ -1,0 +1,30 @@
+{
+  "id": "ok-rectangle-point",
+  "title": "Ok rectangle point",
+  "kyu": 6,
+  "topic": "G",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "Rectangle $ABCD$ has $AB = 12$ and $BC = 5$, with vertices in that order. Point $P$ lies on side $AB$ with $AP = 4$. Find $PC^2 + PD^2$.",
+  "answer_format": "integer_0_999",
+  "answer_hash": "5031bea4",
+  "hints": [
+    "Two right angles at $A$ and $B$ are available.",
+    "Use Pythagoras in triangles $PAD$ and $PBC$."
+  ],
+  "solution": "Put $A = (0,0)$, $B = (12,0)$, $C = (12,5)$, $D = (0,5)$, so $P = (4,0)$. Then $PC^2 = 8^2 + 5^2 = 89$ and $PD^2 = 4^2 + 5^2 = 41$, by Pythagoras in the right-angled triangles $PBC$ and $PAD$. The sum is $89 + 41 = 130$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "130",
+  "check_program": "from sympy import Point\nA, B = Point(0, 0), Point(12, 0)\nC, D = Point(12, 5), Point(0, 5)\nP = Point(4, 0)\nprint(P.distance(C)**2 + P.distance(D)**2)"
+}

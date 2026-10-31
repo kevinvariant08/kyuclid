@@ -1,0 +1,30 @@
+{
+  "id": "reskin-snail",
+  "title": "Reskin snail",
+  "kyu": 7,
+  "topic": "A",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "A hiker on a $26$ km mountain trail gains $5$ km each day and slides back $4$ km each night. Starting at the bottom on day $1$, on which day does the hiker first reach the $26$ km mark?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "939c5273",
+  "hints": [
+    "Look at where the hiker is each morning.",
+    "The final day has no slide back."
+  ],
+  "solution": "Each full day and night gains $1$ km. After $21$ days and nights the hiker is at $21$ km, and on day $22$ the hiker climbs $5$ km to reach $26$ km. Before that the daily peak is at most $25$ km, so day $22$ is the first time.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "22",
+  "check_program": "pos, day = 0, 0\nwhile True:\n    day += 1\n    pos += 5\n    if pos >= 26:\n        print(day)\n        break\n    pos -= 4"
+}

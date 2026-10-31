@@ -1,0 +1,30 @@
+{
+  "id": "ambiguous-between",
+  "title": "Ambiguous between",
+  "kyu": 8,
+  "topic": "N",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "How many multiples of $4$ are there between $12$ and $48$?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "da61589f",
+  "hints": [
+    "List them from the smallest.",
+    "Write each as $4$ times something."
+  ],
+  "solution": "The multiples are $12, 16, \\dots, 48$, that is $4\\cdot 3$ to $4 \\cdot 12$, and the multiplier runs from $3$ to $12$, so there are $10$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "10",
+  "check_program": "print(sum(1 for n in range(12, 49) if n % 4 == 0))"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "near-copy-of-bank-divisors",
+  "title": "Near copy of bank divisors",
+  "kyu": 8,
+  "topic": "N",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "How many positive divisors does $720$ have?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "87b9d5ab",
+  "hints": [
+    "Write the number in terms of its tens digit and its units digit.",
+    "The condition becomes a simple relation between the two digits."
+  ],
+  "solution": "Since $720 = 2^4\\cdot 3^2\\cdot 5$, there are $5\\cdot 3\\cdot 2 = 30$ divisors.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "30",
+  "check_program": "print(sum(1 for d in range(1, 721) if 720 % d == 0))"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "proof-ok",
+  "title": "Proof ok",
+  "kyu": 3,
+  "topic": "N",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "status": "draft",
+  "statement": "Prove that for every integer $n$ the number $n^5 + 5n^3 - 6n$ is divisible by $6$.",
+  "hints": [
+    "Check small moduli.",
+    "Divisibility by $6$ splits into two conditions."
+  ],
+  "solution": "Write $n^5 + 5n^3 - 6n = n(n^2 - 1)(n^2 + 6) $, which holds because $(n^2-1)(n^2+6) = n^4 + 5n^2 - 6$. The product $(n-1)n(n+1)$ of three consecutive integers is divisible by both $2$ and $3$, hence by $6$, and it divides the expression. So the expression is divisible by $6$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "type": "proof",
+  "rubric": [
+    {
+      "marks": 2,
+      "criterion": "Factorises the expression or reduces to residues."
+    },
+    {
+      "marks": 5,
+      "criterion": "Shows divisibility by both $2$ and $3$."
+    }
+  ]
+}

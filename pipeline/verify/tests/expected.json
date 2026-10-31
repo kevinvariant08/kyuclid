@@ -1,0 +1,663 @@
+{
+  "ok-digit-product": {
+    "verdict": [
+      "PASS"
+    ],
+    "checks": null,
+    "sim": {}
+  },
+  "ok-seat-row": {
+    "verdict": [
+      "PASS"
+    ],
+    "checks": null,
+    "sim": {}
+  },
+  "ok-three-remainders": {
+    "verdict": [
+      "PASS"
+    ],
+    "checks": null,
+    "sim": {}
+  },
+  "ok-digit-sum-eight": {
+    "verdict": [
+      "PASS"
+    ],
+    "checks": null,
+    "sim": {}
+  },
+  "ok-rectangle-point": {
+    "verdict": [
+      "PASS"
+    ],
+    "checks": null,
+    "sim": {}
+  },
+  "ok-odd-divisors-even-digits": {
+    "verdict": [
+      "PASS"
+    ],
+    "checks": null,
+    "sim": {}
+  },
+  "ok-quadratic-residues": {
+    "verdict": [
+      "PASS"
+    ],
+    "checks": null,
+    "sim": {}
+  },
+  "ok-grid-blue-red": {
+    "verdict": [
+      "PASS"
+    ],
+    "checks": null,
+    "sim": {}
+  },
+  "ok-shifted-divisor": {
+    "verdict": [
+      "PASS"
+    ],
+    "checks": null,
+    "sim": {}
+  },
+  "ok-letter-strings": {
+    "verdict": [
+      "PASS"
+    ],
+    "checks": null,
+    "sim": {}
+  },
+  "bad-key-digit-product": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "computational"
+    ],
+    "sim": {}
+  },
+  "bad-key-off-by-one": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "computational"
+    ],
+    "sim": {}
+  },
+  "bad-key-three-remainders": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "computational"
+    ],
+    "sim": {}
+  },
+  "bad-key-buggy-program": {
+    "verdict": [
+      "FAIL",
+      "INVESTIGATE"
+    ],
+    "checks": [
+      "program_judge",
+      "blind_solves",
+      "solution_audit"
+    ],
+    "sim": {
+      "solves": [
+        "29",
+        "29",
+        "29",
+        "29",
+        "29",
+        "29",
+        "29"
+      ],
+      "audit": {
+        "reaches_answer": true,
+        "issues": [
+          {
+            "severity": "material",
+            "issue": "misses n = 100"
+          }
+        ]
+      }
+    }
+  },
+  "bad-key-buggy-count": {
+    "verdict": [
+      "FAIL",
+      "INVESTIGATE"
+    ],
+    "checks": [
+      "program_judge",
+      "blind_solves",
+      "solution_audit"
+    ],
+    "sim": {
+      "solves": [
+        "19",
+        "19",
+        "19",
+        "19",
+        "19",
+        "19",
+        "19"
+      ],
+      "audit": {
+        "reaches_answer": true,
+        "issues": [
+          {
+            "severity": "material",
+            "issue": "misses the case with no 2s"
+          }
+        ]
+      }
+    }
+  },
+  "hard-coded-literal": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "computational"
+    ],
+    "sim": {}
+  },
+  "hard-coded-variable": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "computational"
+    ],
+    "sim": {}
+  },
+  "hard-coded-decoy-loop": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "computational"
+    ],
+    "sim": {}
+  },
+  "hard-coded-smuggled": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "program_judge"
+    ],
+    "sim": {
+      "program": {
+        "verdict": "hardcoded",
+        "reason": "the loop is unused and the answer is a constant"
+      }
+    }
+  },
+  "restates-the-formula": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "program_judge"
+    ],
+    "sim": {
+      "program": {
+        "verdict": "restates",
+        "reason": "it only repeats the solution's divisor count"
+      }
+    }
+  },
+  "sandbox-network": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "computational"
+    ],
+    "sim": {}
+  },
+  "sandbox-import-os": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "computational"
+    ],
+    "sim": {}
+  },
+  "sandbox-file-write": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "computational"
+    ],
+    "sim": {}
+  },
+  "sandbox-timeout": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "computational"
+    ],
+    "sim": {}
+  },
+  "program-crashes": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "computational"
+    ],
+    "sim": {}
+  },
+  "schema-missing-solution": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "schema"
+    ],
+    "sim": {}
+  },
+  "schema-bad-kyu": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "schema"
+    ],
+    "sim": {}
+  },
+  "schema-unknown-field": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "schema"
+    ],
+    "sim": {}
+  },
+  "schema-hash-mismatch": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "schema"
+    ],
+    "sim": {}
+  },
+  "latex-undefined-macro": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "schema"
+    ],
+    "sim": {}
+  },
+  "latex-unclosed-dollar": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "schema"
+    ],
+    "sim": {}
+  },
+  "standard-us-spelling": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "standard"
+    ],
+    "sim": {}
+  },
+  "standard-one-hint": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "standard"
+    ],
+    "sim": {}
+  },
+  "standard-hint-gives-answer": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "standard"
+    ],
+    "sim": {}
+  },
+  "standard-names-a-contest": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "standard"
+    ],
+    "sim": {}
+  },
+  "standard-answer-range": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "standard"
+    ],
+    "sim": {}
+  },
+  "ambiguous-marbles": {
+    "verdict": [
+      "FAIL",
+      "INVESTIGATE"
+    ],
+    "checks": [
+      "well_posedness",
+      "blind_solves"
+    ],
+    "sim": {
+      "wellposed": [
+        {
+          "severity": "material",
+          "issue": "with or without replacement is not stated"
+        }
+      ]
+    }
+  },
+  "ambiguous-between": {
+    "verdict": [
+      "FAIL",
+      "INVESTIGATE"
+    ],
+    "checks": [
+      "program_judge",
+      "well_posedness",
+      "blind_solves",
+      "solution_audit"
+    ],
+    "sim": {
+      "wellposed": [
+        {
+          "severity": "material",
+          "issue": "between could include or exclude the endpoints"
+        }
+      ]
+    }
+  },
+  "ambiguous-grid-squares": {
+    "verdict": [
+      "FAIL",
+      "INVESTIGATE"
+    ],
+    "checks": [
+      "well_posedness",
+      "blind_solves",
+      "program_judge"
+    ],
+    "sim": {
+      "wellposed": [
+        {
+          "severity": "material",
+          "issue": "grid could mean 4 by 4 cells or 4 by 4 points"
+        }
+      ]
+    }
+  },
+  "too-easy-sum": {
+    "verdict": [
+      "FAIL",
+      "INVESTIGATE"
+    ],
+    "checks": [
+      "blind_solves",
+      "originality"
+    ],
+    "sim": {
+      "solve_tokens": 40
+    }
+  },
+  "too-easy-divisors": {
+    "verdict": [
+      "FAIL",
+      "INVESTIGATE"
+    ],
+    "checks": [
+      "blind_solves",
+      "originality"
+    ],
+    "sim": {
+      "solve_tokens": 40
+    }
+  },
+  "too-easy-difference": {
+    "verdict": [
+      "FAIL",
+      "INVESTIGATE"
+    ],
+    "checks": [
+      "blind_solves",
+      "program_judge",
+      "originality"
+    ],
+    "sim": {
+      "solve_tokens": 40
+    }
+  },
+  "reskin-lockers": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "originality"
+    ],
+    "sim": {
+      "originality": {
+        "neighbours": [],
+        "known": {
+          "is_known": true,
+          "name": "a famous puzzle",
+          "reason": "same structure, new setting"
+        }
+      }
+    }
+  },
+  "reskin-hanoi": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "originality"
+    ],
+    "sim": {
+      "originality": {
+        "neighbours": [],
+        "known": {
+          "is_known": true,
+          "name": "a famous puzzle",
+          "reason": "same structure, new setting"
+        }
+      }
+    }
+  },
+  "reskin-gauss": {
+    "verdict": [
+      "PASS",
+      "FAIL",
+      "INVESTIGATE"
+    ],
+    "checks": null,
+    "sim": {}
+  },
+  "reskin-snail": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "originality"
+    ],
+    "sim": {
+      "originality": {
+        "neighbours": [],
+        "known": {
+          "is_known": true,
+          "name": "a famous puzzle",
+          "reason": "same structure, new setting"
+        }
+      }
+    }
+  },
+  "near-copy-of-bank-divisors": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "originality_lexical",
+      "originality"
+    ],
+    "sim": {
+      "originality": {
+        "neighbours": [],
+        "known": {
+          "is_known": true,
+          "name": "a famous puzzle",
+          "reason": "same structure, new setting"
+        }
+      }
+    }
+  },
+  "near-copy-of-bank-zeros": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "originality_lexical",
+      "originality"
+    ],
+    "sim": {
+      "originality": {
+        "neighbours": [],
+        "known": {
+          "is_known": true,
+          "name": "a famous puzzle",
+          "reason": "same structure, new setting"
+        }
+      }
+    }
+  },
+  "flawed-solution-unjustified": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "solution_audit"
+    ],
+    "sim": {
+      "audit": {
+        "reaches_answer": true,
+        "issues": [
+          {
+            "severity": "material",
+            "issue": "the count is asserted with no argument"
+          }
+        ]
+      }
+    }
+  },
+  "flawed-solution-false-step": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "solution_audit"
+    ],
+    "sim": {
+      "audit": {
+        "reaches_answer": true,
+        "issues": [
+          {
+            "severity": "material",
+            "issue": "the Chinese remainder step is misapplied"
+          }
+        ]
+      }
+    }
+  },
+  "proof-ok": {
+    "verdict": [
+      "PASS"
+    ],
+    "checks": null,
+    "sim": {}
+  },
+  "proof-flawed": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "solution_audit"
+    ],
+    "sim": {
+      "audit": {
+        "reaches_answer": false,
+        "issues": [
+          {
+            "severity": "material",
+            "issue": "two cases do not prove it for all n"
+          }
+        ]
+      }
+    }
+  },
+  "classical-contest-source": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "originality"
+    ],
+    "sim": {}
+  },
+  "classical-theorem-source": {
+    "verdict": [
+      "INVESTIGATE"
+    ],
+    "checks": [
+      "originality"
+    ],
+    "sim": {}
+  },
+  "mis-rated-hard": {
+    "verdict": [
+      "INVESTIGATE",
+      "FAIL"
+    ],
+    "checks": [
+      "difficulty",
+      "blind_solves",
+      "solution_audit"
+    ],
+    "sim": {
+      "solves": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "solve_tokens": 9000
+    }
+  }
+}

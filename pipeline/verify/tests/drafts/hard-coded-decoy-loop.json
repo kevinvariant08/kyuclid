@@ -1,0 +1,30 @@
+{
+  "id": "hard-coded-decoy-loop",
+  "title": "Hard coded decoy loop",
+  "kyu": 6,
+  "topic": "N",
+  "subtopics": [
+    "test-fixture"
+  ],
+  "type": "answer",
+  "status": "draft",
+  "statement": "How many integers $n$ with $1 \\le n \\le 100$ are such that $n^2 + n + 1$ is divisible by $7$?",
+  "answer_format": "integer_0_999",
+  "answer_hash": "108e8175",
+  "hints": [
+    "The expression's divisibility by $7$ depends only on the remainder of $n$.",
+    "Test the seven remainders, then count how often the good ones occur up to $100$."
+  ],
+  "solution": "Divisibility by $7$ depends only on $n$ modulo $7$. Testing $n \\equiv 0, 1, \\dots, 6$ gives $n^2 + n + 1 \\equiv 1, 3, 0, 6, 0, 3, 1$, so we need $n \\equiv 2$ or $4 \\pmod 7$. Among $1, \\dots, 98$ there are $14$ numbers in each class, giving $28$. Of the last two, $99 \\equiv 1$ fails and $100 \\equiv 2$ works. The total is $29$.",
+  "provenance": {
+    "kind": "original",
+    "author": "task-05-tests"
+  },
+  "stats": {
+    "solves": 0,
+    "attempts": 0,
+    "liked": 0
+  },
+  "answer": "29",
+  "check_program": "t = 0\nfor n in range(1, 101):\n    t += n\nprint(29)"
+}
