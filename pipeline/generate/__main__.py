@@ -17,7 +17,7 @@ from pathlib import Path
 from ..verify.backend import ModelError, make_backend
 from ..verify.config import BANK_DIR
 from . import inputs, plan, report, run
-from .config import HELD, PENDING, PROFILES, REVIEWED, TAXONOMY
+from .config import HELD, PENDING, PROFILES, TAXONOMY, private_dir
 
 
 def main():
@@ -57,10 +57,13 @@ def main():
     if args.make_full_plan:
         taxonomy = json.loads(TAXONOMY.read_text(encoding="utf-8"))
         geometry = {t["id"] for t in taxonomy["techniques"] if t.get("topic") == "G"}
-        queue = [json.loads(f.read_text(encoding="utf-8"))["draft"] for folder in (PENDING, HELD, REVIEWED) if folder.exists() for f in folder.glob("*.json")]
+        queue = [json.loads(f.read_text(encoding="utf-8"))["draft"] for folder in (PENDING, HELD) if folder.exists() for f in folder.glob("*.json")]
         bank = [d for d in map(lambda f: json.loads(f.read_text(encoding="utf-8")), BANK_DIR.glob("*.json")) if d.get("provenance", {}).get("pipeline_run")]
         have = Counter((d["kyu"], d["topic"]) for d in bank + [d for d in queue if d["id"] not in {b["id"] for b in bank}])
-        Path(args.make_full_plan).write_text(json.dumps(plan.full(records, geometry, have, {d["inspired_by"] for d in queue}, args.topics, profile.kyus, args.per_cell, seed=args.seed), indent=2), encoding="utf-8")
+        # The review server empties the queue, so the private map is what remembers which sources were used.
+        mapped = private_dir() / "generated_map.jsonl"
+        used = {json.loads(x)["inspired_by"] for x in mapped.read_text(encoding="utf-8").splitlines() if x.strip()} if mapped.exists() else set()
+        Path(args.make_full_plan).write_text(json.dumps(plan.full(records, geometry, have, used, args.topics, profile.kyus, args.per_cell, seed=args.seed), indent=2), encoding="utf-8")
         return 0
     if bool(args.source) == bool(args.plan):
         ap.error("give one of --from, --plan, --make-plan or --report")
