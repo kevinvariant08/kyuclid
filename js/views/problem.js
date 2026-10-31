@@ -155,7 +155,7 @@ export async function renderProblem(id, opts = {}) {
           <dt>Liked by</dt><dd>${likedPct(p)}</dd>` : ""}
           <dt>Your status</dt><dd>${solved ? (solved.how === "proof" ? "self-graded" : "solved") : "open"}</dd>
         </dl>
-        ${p.subtopics.length ? `<div class="tags">${p.subtopics.map((s) => `<a class="tag" href="#problems?s=${encodeURIComponent(s)}">${esc(subtopicName(s))}</a>`).join("")}</div>` : ""}
+        ${solved && p.subtopics.length ? `<div class="tags">${p.subtopics.map((s) => `<a class="tag" href="#problems?s=${encodeURIComponent(s)}">${esc(subtopicName(s))}</a>`).join("")}</div>` : ""}
       </div>
       ${p.type === "answer" ? `<div class="panel"><h2 class="side-h">Race someone on this kyu</h2><p class="faint" style="margin:4px 0 12px">A random ${p.kyu} kyu problem against the clock.</p><a class="btn" href="#duel" id="duelHere">Duel at ${p.kyu} kyu</a></div>` : ""}
       ${upNext ? `<div class="panel"><h2 class="side-h">Next unsolved</h2><div class="side-next"><b>${esc(upNext.title)}</b>${badge(upNext.kyu, null, "solo")}</div><a class="btn small" href="#p-${upNext.id}">Open</a></div>` : ""}
