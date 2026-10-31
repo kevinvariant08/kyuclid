@@ -7,7 +7,12 @@ This covers wave 1 of task 03: the 1,035 AIME problems from 1983 to 2026. Every 
 - Treat kyu labels as good for ordering but possibly a notch easy. The two models disagree by a steady offset, described under [Kyu calibration](#kyu-calibration).
 - AIME has almost no named olympiad geometry. Its geometry ladder stops short of what task 21 will need.
 
-**Still open:** Kevin's review of 50 records, which needs at least 85% accepted. Everything else in the brief's acceptance criteria is met for this wave.
+**Still open:**
+- Kevin's review of 50 records, which needs at least 85% accepted.
+- Kevin's approval of the 33 slugs in taxonomy 1.1.0. The records already use them, so rejecting one changes those records and the counts under Gaps.
+- `AIME-2000-II-05`, whose record analyses a copied statement until task 02 restores the real problem.
+
+The brief's other acceptance criteria are met for this wave.
 
 ## Method
 
