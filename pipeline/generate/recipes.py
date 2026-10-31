@@ -13,7 +13,7 @@ RECIPES = {
 
 def suitable(record):
     names = ["transplant", "invert", "combine", "generalise-specialise", "new-context"]
-    if len(record.get("solution_paths") or []) >= 2:
+    if len(record.get("solution_paths") or []) + len(record.get("solution_paths_second_pass") or []) >= 2:
         names.append("change-route")
     return names
 

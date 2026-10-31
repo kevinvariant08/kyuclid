@@ -9,7 +9,7 @@ TOPICS = "ACGN"
 
 
 def eligible(r, kyus):
-    return r.get("kyu") in kyus and r.get("generation_potential") != "low" and not r.get("figure_needed")
+    return r.get("kyu") in kyus and r.get("generation_potential") != "low" and not r.get("figure_needed") and not r.get("source_defect") and not (r.get("analysis_meta") or {}).get("source_defect")
 
 
 def sample(records, kyus=(5, 4, 3), per_kyu=10, seed=6):

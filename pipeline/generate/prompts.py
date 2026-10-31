@@ -87,7 +87,7 @@ def taxonomy_ids():
 
 
 def describe_record(record):
-    paths = "\n".join(f"- {p.get('name')} ({p.get('difficulty_of_path')}): {'; '.join(p.get('key_steps') or [])}" for p in record.get("solution_paths") or [])
+    paths = "\n".join(f"- {p.get('name')} ({p.get('difficulty_of_path')}): {'; '.join(p.get('key_steps') or [])}" for p in (record.get("solution_paths") or []) + (record.get("solution_paths_second_pass") or []))
     return (f"Core idea: {record.get('core_idea')}\nCrux: {record.get('crux')}\nTechniques: {', '.join(record.get('techniques') or [])}\n"
             f"Solution routes:\n{paths}\nTraps: {'; '.join(record.get('traps') or [])}\nNote on using it: {record.get('generation_note') or 'none'}")
 
