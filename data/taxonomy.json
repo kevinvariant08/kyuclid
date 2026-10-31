@@ -1,0 +1,1737 @@
+{
+ "version": "1.0.0",
+ "status": "approved by Kevin on 2026-10-30 for the AIME run. Slugs may still be added from analysts' proposals.",
+ "description": "Controlled vocabulary for Kyuclid. status: observed = found in the 150-problem AIME taxonomy sample; seeded = expected from the task brief or later waves, not yet seen; seed-problem = used by the seed problems; pilot-proposed = asked for by the analysis passes on the pilot. legacy = kept only so that seed problems validate, not for new tagging. sample_count counts sample problems.",
+ "topics": {
+  "A": "Algebra",
+  "C": "Combinatorics and probability",
+  "G": "Geometry",
+  "N": "Number theory"
+ },
+ "techniques": [
+  {
+   "id": "absolute-value-folding",
+   "topic": "A",
+   "definition": "Treat nested absolute values as repeated reflections that fold a graph onto one fundamental piece.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "am-gm",
+   "topic": "A",
+   "definition": "Use the arithmetic-geometric mean inequality to optimise a product under a fixed sum.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "am-hm",
+   "topic": "A",
+   "definition": "Compare arithmetic and harmonic means.",
+   "status": "seed-problem",
+   "sample_count": 0,
+   "legacy": true
+  },
+  {
+   "id": "angle-sum-formula",
+   "topic": "A",
+   "definition": "Expand trigonometric functions of a sum of angles, notably tangent addition.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "arithmetic-series-sum",
+   "topic": "A",
+   "definition": "Sum an arithmetic progression using term count and mean of the endpoints.",
+   "status": "observed",
+   "sample_count": 7
+  },
+  {
+   "id": "auxiliary-angle",
+   "topic": "A",
+   "definition": "Combine a linear mix of sine and cosine into a single shifted sinusoid.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "average-speed",
+   "topic": "A",
+   "definition": "Find an overall speed as total distance over total time.",
+   "status": "seed-problem",
+   "sample_count": 0,
+   "legacy": true
+  },
+  {
+   "id": "binomial-theorem",
+   "topic": "A",
+   "definition": "Expand a power of a sum, or recognise an expression as one.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "block-grouping-of-sums",
+   "topic": "A",
+   "definition": "Group the terms of a sum into blocks on which the summand is constant or repeats.",
+   "status": "observed",
+   "sample_count": 6
+  },
+  {
+   "id": "cauchy-fe",
+   "topic": "A",
+   "definition": "Pin down additive functions, using regularity conditions to force linearity.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "cauchy-schwarz",
+   "topic": "A",
+   "definition": "Bound a linear expression by the product of the norms of two vectors.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "checking-extraneous-solutions",
+   "topic": "A",
+   "definition": "Reject algebraic solutions using domain, convergence, sign or convexity constraints.",
+   "status": "observed",
+   "sample_count": 6
+  },
+  {
+   "id": "clock-angles",
+   "topic": "A",
+   "definition": "Find the angle between clock hands from their rates.",
+   "status": "seed-problem",
+   "sample_count": 0,
+   "legacy": true
+  },
+  {
+   "id": "coefficient-matching",
+   "topic": "A",
+   "definition": "Treat a relation as a polynomial identity and equate coefficients to find unknown constants.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "completing-the-square",
+   "topic": "A",
+   "definition": "Rewrite a quadratic expression as a square plus a constant to read off a centre or extremum.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "complex-rotation",
+   "topic": "A",
+   "definition": "Interpret multiplication by a complex number as rotation and scaling, adding arguments.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "conjugate-modulus-identity",
+   "topic": "A",
+   "definition": "Use that a complex number times its conjugate equals its squared modulus.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "conjugate-root-pairs",
+   "topic": "A",
+   "definition": "Use that non-real roots of a real polynomial occur in conjugate pairs.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "descartes-rule-of-signs",
+   "topic": "A",
+   "definition": "Bound the number of positive roots from sign changes in the coefficients.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "difference-of-squares",
+   "topic": "A",
+   "definition": "Rewrite a difference of two squares as a product to simplify or factor.",
+   "status": "observed",
+   "sample_count": 8
+  },
+  {
+   "id": "double-and-half-angle-formulas",
+   "topic": "A",
+   "definition": "Convert between trigonometric values at an angle and at its double or half.",
+   "status": "observed",
+   "sample_count": 7
+  },
+  {
+   "id": "equate-real-imaginary-parts",
+   "topic": "A",
+   "definition": "Separate a complex relation into its real and imaginary components.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "factored-form-of-polynomial",
+   "topic": "A",
+   "definition": "Write a polynomial as a product over its roots to evaluate or compare it.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "finite-differences",
+   "topic": "A",
+   "definition": "Use repeated differences of a sequence to identify it as a polynomial of known degree.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "floor-function",
+   "topic": "A",
+   "definition": "Convert floor or fractional-part conditions to interval inequalities and locate where the value jumps.",
+   "status": "observed",
+   "sample_count": 8
+  },
+  {
+   "id": "functional-equation-substitution",
+   "topic": "A",
+   "definition": "Substitute chosen values or expressions into a functional equation to extract structure.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "geometric-interpretation",
+   "topic": "A",
+   "definition": "Recognise algebraic expressions as lengths or regions and solve the system geometrically.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "geometric-series-sum",
+   "topic": "A",
+   "definition": "Apply finite or infinite geometric series formulas, including blocks of consecutive terms.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "graph-intersection-counting",
+   "topic": "A",
+   "definition": "Count solutions by sketching piecewise graphs and counting crossings of monotone pieces.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "harmonic-mean",
+   "topic": "A",
+   "definition": "Use the harmonic mean of two or more quantities.",
+   "status": "seed-problem",
+   "sample_count": 0,
+   "legacy": true
+  },
+  {
+   "id": "holder",
+   "topic": "A",
+   "definition": "Bound a product of sums with the generalised Cauchy-Schwarz inequality.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "inverse-function-analysis",
+   "topic": "A",
+   "definition": "Use a function's inverse, involution property or fixed points to determine its form.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "jensen",
+   "topic": "A",
+   "definition": "Apply convexity to compare a function of a mean with the mean of the function.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "lagrange-interpolation",
+   "topic": "A",
+   "definition": "Construct or evaluate the polynomial determined by its values at given points.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "linear-combination-of-equations",
+   "topic": "A",
+   "definition": "Add, subtract or multiply given equations, including all equations of a symmetric or cyclic system, to reach the target without solving fully.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "linear-system-solving",
+   "topic": "A",
+   "definition": "Set up and solve simultaneous linear equations.",
+   "status": "observed",
+   "sample_count": 7
+  },
+  {
+   "id": "log-properties",
+   "topic": "A",
+   "definition": "Apply logarithm laws and change of base to reduce to algebraic relations.",
+   "status": "observed",
+   "sample_count": 5
+  },
+  {
+   "id": "mathematical-induction",
+   "topic": "A",
+   "definition": "Prove a formula or structural claim for all indices by induction.",
+   "status": "observed",
+   "sample_count": 5
+  },
+  {
+   "id": "monotonicity-analysis",
+   "topic": "A",
+   "definition": "Use where a function increases or decreases to establish uniqueness, extrema or solution counts.",
+   "status": "observed",
+   "sample_count": 5
+  },
+  {
+   "id": "newton-sums",
+   "topic": "A",
+   "definition": "Relate power sums of roots to the elementary symmetric functions.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "pairing-terms",
+   "topic": "A",
+   "definition": "Pair terms of a sum so that each pair has a constant or simple value.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "palindromic-polynomial-reduction",
+   "topic": "A",
+   "definition": "Divide a palindromic polynomial by a middle power and substitute the sum of the variable and its reciprocal.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "pencil-of-curves",
+   "topic": "A",
+   "definition": "Use that curves through prescribed points form a small linear family sharing further forced points.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "periodicity",
+   "topic": "A",
+   "definition": "Use the periods of a sequence or of trigonometric functions to reduce an index or an angle condition.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "polar-form-de-moivre",
+   "topic": "A",
+   "definition": "Write complex numbers in polar form so powers and products act on the argument.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "polynomial-factoring",
+   "topic": "A",
+   "definition": "Factor an expression or polynomial by grouping or by finding a root, reducing its degree.",
+   "status": "observed",
+   "sample_count": 6
+  },
+  {
+   "id": "polynomial-root-transformation",
+   "topic": "A",
+   "definition": "Build a new polynomial whose roots are a function of the original roots.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "power-reduction-via-minimal-polynomial",
+   "topic": "A",
+   "definition": "Reduce high powers of an algebraic number using the low-degree polynomial it satisfies.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "power-sum-formulas",
+   "topic": "A",
+   "definition": "Use closed forms for sums of squares or higher powers of consecutive integers.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "progression-parametrization",
+   "topic": "A",
+   "definition": "Name the terms of an arithmetic or geometric progression with a few parameters and derive constraints.",
+   "status": "observed",
+   "sample_count": 7
+  },
+  {
+   "id": "pythagorean-trig-identity",
+   "topic": "A",
+   "definition": "Use the sum of squares of sine and cosine to eliminate a variable.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "quadratic-discriminant",
+   "topic": "A",
+   "definition": "Use the sign or vanishing of a discriminant to bound a parameter or force a repeated root.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "rate-and-mixture-modeling",
+   "topic": "A",
+   "definition": "Translate rates, times, or mixture proportions into equations.",
+   "status": "observed",
+   "sample_count": 5
+  },
+  {
+   "id": "rational-root-theorem",
+   "topic": "A",
+   "definition": "Restrict rational roots of an integer polynomial by the end coefficients.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "rearrangement",
+   "topic": "A",
+   "definition": "Maximise or minimise a sum of products through the ordering of the factors.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "remainder-factor-theorem",
+   "topic": "A",
+   "definition": "Evaluate a polynomial at a root of a divisor to read off a remainder or factor.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "roots-of-unity",
+   "topic": "A",
+   "definition": "Use the location and factorisation properties of roots of unity on the unit circle.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "roots-of-unity-filter",
+   "topic": "A",
+   "definition": "Average a generating polynomial over roots of unity to extract coefficients in a residue class.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "small-case-pattern",
+   "topic": "A",
+   "definition": "Compute small cases, conjecture a general form, then confirm it.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "smoothing",
+   "topic": "A",
+   "definition": "Move variables closer together or to extremes while improving a quantity, to locate the optimum.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "sos",
+   "topic": "A",
+   "definition": "Write an expression as a sum of squares to prove non-negativity or find equality.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "squaring-to-eliminate-radicals",
+   "topic": "A",
+   "definition": "Isolate radicals and square to obtain a polynomial equation.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "symmetric-expressions",
+   "topic": "A",
+   "definition": "Rewrite a symmetric expression in terms of the sum and product of its variables.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "tangent-line-trick",
+   "topic": "A",
+   "definition": "Bound a function by its tangent line at the equality point, then sum.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "telescoping",
+   "topic": "A",
+   "definition": "Rewrite terms as differences so that a sum or product collapses.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "trig-substitution",
+   "topic": "A",
+   "definition": "Replace an algebraic variable by a trigonometric function to expose an identity.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "trig-sum-to-product",
+   "topic": "A",
+   "definition": "Convert between sums and products of sines and cosines.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "variable-substitution",
+   "topic": "A",
+   "definition": "Introduce a new variable to turn an expression into a simpler or lower-degree form.",
+   "status": "observed",
+   "sample_count": 5
+  },
+  {
+   "id": "vieta",
+   "topic": "A",
+   "definition": "Relate a polynomial's coefficients to the symmetric functions of its roots.",
+   "status": "observed",
+   "sample_count": 6
+  },
+  {
+   "id": "vieta-jumping",
+   "topic": "A",
+   "definition": "Use the other root of a quadratic to descend from one integer solution to a smaller one.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "bijection",
+   "topic": "C",
+   "definition": "Count one set by matching it one-to-one with an easier set.",
+   "status": "observed",
+   "sample_count": 6
+  },
+  {
+   "id": "binomial-coefficient-ratios",
+   "topic": "C",
+   "definition": "Simplify ratios of binomial coefficients to linear or rational expressions.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "binomial-distribution",
+   "topic": "C",
+   "definition": "Use the probability of a given number of successes in independent trials.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "binomial-selection",
+   "topic": "C",
+   "definition": "Count unordered selections with binomial coefficients.",
+   "status": "observed",
+   "sample_count": 11
+  },
+  {
+   "id": "burnside",
+   "topic": "C",
+   "definition": "Count orbits by averaging the number of objects fixed by each symmetry.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "casework",
+   "topic": "C",
+   "definition": "Split a count into exhaustive, disjoint cases and sum.",
+   "status": "observed",
+   "sample_count": 25
+  },
+  {
+   "id": "catalan-paths",
+   "topic": "C",
+   "definition": "Count balanced sequences or constrained lattice paths with the reflection argument.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "chevalley-warning",
+   "topic": "C",
+   "definition": "Use the Chevalley-Warning theorem to force a non-trivial zero over a finite field.",
+   "status": "seed-problem",
+   "sample_count": 0
+  },
+  {
+   "id": "colouring-argument",
+   "topic": "C",
+   "definition": "Colour a board or structure so that a parity or balance obstruction appears.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "complementary-counting",
+   "topic": "C",
+   "definition": "Count the complement of the desired set and subtract from the total.",
+   "status": "observed",
+   "sample_count": 7
+  },
+  {
+   "id": "conditional-probability",
+   "topic": "C",
+   "definition": "Update a probability on an event, including Bayes-style reversals.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "correct-for-overcounting",
+   "topic": "C",
+   "definition": "Count with a known multiplicity, then divide or subtract to remove duplicates.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "cycle-decomposition",
+   "topic": "C",
+   "definition": "Decompose a structure uniquely into cycles and count by cycle-size partition.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "derangements",
+   "topic": "C",
+   "definition": "Count permutations with no fixed point.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "double-counting",
+   "topic": "C",
+   "definition": "Count one quantity in two ways and equate the results.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "element-by-element-analysis",
+   "topic": "C",
+   "definition": "Analyse each ground element's status or contribution separately, then combine.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "eulerian-trail",
+   "topic": "C",
+   "definition": "Use degree parity to decide when a graph has a trail using every edge once.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "expected-value-linearity",
+   "topic": "C",
+   "definition": "Write a random count as a sum of indicators and add their expectations.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "extremal-principle",
+   "topic": "C",
+   "definition": "Consider a largest or smallest object and derive structure from its extremality.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "favorable-over-total",
+   "topic": "C",
+   "definition": "Compute a probability as favourable equally likely outcomes over all outcomes.",
+   "status": "observed",
+   "sample_count": 7
+  },
+  {
+   "id": "gap-shift-no-adjacent",
+   "topic": "C",
+   "definition": "Shift the elements of a selection to remove a no-two-adjacent constraint.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "generating-functions",
+   "topic": "C",
+   "definition": "Encode a count as coefficients of a polynomial and manipulate it algebraically.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "geometric-probability",
+   "topic": "C",
+   "definition": "Compute a probability as a ratio of measures on a continuous sample space.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "graph-modeling",
+   "topic": "C",
+   "definition": "Model a structure as a graph and use degrees, cycles or connectivity.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "greedy-optimization",
+   "topic": "C",
+   "definition": "Build an extremal object by making the locally best choice at each position.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "inclusion-exclusion",
+   "topic": "C",
+   "definition": "Correct for overlapping conditions by alternately adding and subtracting intersections.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "invariant",
+   "topic": "C",
+   "definition": "Find a quantity that a process leaves unchanged and compare start and end.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "lattice-path-counting",
+   "topic": "C",
+   "definition": "Count monotone grid paths with binomial coefficients or dynamic tables.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "markov-states-expected-value",
+   "topic": "C",
+   "definition": "Define states and solve linear equations for expected hitting times.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "monovariant",
+   "topic": "C",
+   "definition": "Find a quantity that changes in one direction, to prove termination or bound steps.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "orbit-counting-under-rotation",
+   "topic": "C",
+   "definition": "Partition objects into orbits of a symmetry; a symmetric object is fixed by choosing one orbit representative.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "pascal-weights",
+   "topic": "C",
+   "definition": "Express entries of an additive triangular array as binomially weighted sums of the base row.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "permutations-with-repetition",
+   "topic": "C",
+   "definition": "Count arrangements of a multiset using multinomial coefficients.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "pigeonhole",
+   "topic": "C",
+   "definition": "Force a coincidence because there are more objects than classes.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "recursion",
+   "topic": "C",
+   "definition": "Count or compute by a recurrence, table or tree built from smaller states, including rewriting or unrolling the recurrence.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "regions-from-crossings",
+   "topic": "C",
+   "definition": "Count the regions cut by curves as a constant plus the curves plus their crossings.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "relative-order-symmetry",
+   "topic": "C",
+   "definition": "Use that only the relative order matters and all orderings are equally likely.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "rule-of-product",
+   "topic": "C",
+   "definition": "Multiply the numbers of independent choices made in sequence.",
+   "status": "observed",
+   "sample_count": 7
+  },
+  {
+   "id": "sequential-conditioning",
+   "topic": "C",
+   "definition": "Multiply conditional probabilities through a sequence of stages.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "stars-and-bars",
+   "topic": "C",
+   "definition": "Count multisets or non-negative integer solutions of a fixed sum with separators.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "symmetry-reduction",
+   "topic": "C",
+   "definition": "Use symmetry to fix an element, assume an ordering, or halve the cases.",
+   "status": "observed",
+   "sample_count": 10
+  },
+  {
+   "id": "tilings",
+   "topic": "C",
+   "definition": "Count tilings of a board by recursion on the last piece.",
+   "status": "seed-problem",
+   "sample_count": 0,
+   "legacy": true
+  },
+  {
+   "id": "vandermonde-identity",
+   "topic": "C",
+   "definition": "Evaluate a sum of products of binomial coefficients as a single binomial coefficient.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "weighted-binomial-sum",
+   "topic": "C",
+   "definition": "Evaluate a sum of binomial coefficients weighted by their index.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "affine-stretch-to-circle",
+   "topic": "G",
+   "definition": "Scale one axis to turn an ellipse into a circle, keeping ratios along parallel lines.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "angle-bisector-theorem",
+   "topic": "G",
+   "definition": "Use that an angle bisector divides the opposite side in the ratio of adjacent sides.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "angle-chasing",
+   "topic": "G",
+   "definition": "Derive unknown angles from angle sums, parallels, isosceles triangles and circles.",
+   "status": "observed",
+   "sample_count": 8
+  },
+  {
+   "id": "area-by-decomposition",
+   "topic": "G",
+   "definition": "Find an area by partitioning a region or subtracting pieces from a known shape.",
+   "status": "observed",
+   "sample_count": 7
+  },
+  {
+   "id": "area-circumradius-formula",
+   "topic": "G",
+   "definition": "Relate a triangle's area, its sides and its circumradius.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "area-ratios",
+   "topic": "G",
+   "definition": "Relate lengths and areas through triangles that share a height or base.",
+   "status": "observed",
+   "sample_count": 6
+  },
+  {
+   "id": "barycentric-bash",
+   "topic": "G",
+   "definition": "Compute in barycentric coordinates relative to a reference triangle.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "central-symmetry-bisection",
+   "topic": "G",
+   "definition": "Bisect an area with a line through a centre of symmetry of the pieces it cuts.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "ceva",
+   "topic": "G",
+   "definition": "Relate cevian ratios to concurrency.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "complex-bash",
+   "topic": "G",
+   "definition": "Place points as complex numbers, often on the unit circle, and compute.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "coordinate-bash",
+   "topic": "G",
+   "definition": "Place the figure on coordinates and compute with equations of lines, curves or points.",
+   "status": "observed",
+   "sample_count": 9
+  },
+  {
+   "id": "cross-section-reduction",
+   "topic": "G",
+   "definition": "Reduce a three-dimensional configuration to a well-chosen planar section.",
+   "status": "observed",
+   "sample_count": 5
+  },
+  {
+   "id": "dihedral-angle-via-perpendiculars",
+   "topic": "G",
+   "definition": "Realise a dihedral angle as a planar angle between perpendiculars to the common edge.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "direction-cosines",
+   "topic": "G",
+   "definition": "Use that the squared components of a unit vector along orthogonal directions sum to one.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "distance-point-line",
+   "topic": "G",
+   "definition": "Compute a point's distance from a line with the standard formula.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "euler-polyhedron-formula",
+   "topic": "G",
+   "definition": "Relate the numbers of vertices, edges and faces of a convex polyhedron.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "harmonic-bundles",
+   "topic": "G",
+   "definition": "Use cross-ratio and harmonic division, and their projections.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "heron",
+   "topic": "G",
+   "definition": "Compute a triangle's area from side lengths via the semiperimeter.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "homothety",
+   "topic": "G",
+   "definition": "Use a dilation that maps one figure to another, for tangent circles or parallel sides.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "inradius",
+   "topic": "G",
+   "definition": "Use a tangential polygon: equal tangent lengths from a point, and area equal to inradius times semiperimeter.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "inscribed-angle-theorem",
+   "topic": "G",
+   "definition": "Use that an inscribed angle is half its arc and equal arcs give equal angles.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "inversion",
+   "topic": "G",
+   "definition": "Invert about a circle to turn circles and tangencies into simpler objects.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "law-of-cosines",
+   "topic": "G",
+   "definition": "Relate three sides and one angle of a triangle.",
+   "status": "observed",
+   "sample_count": 7
+  },
+  {
+   "id": "law-of-sines",
+   "topic": "G",
+   "definition": "Relate sides to the sines of opposite angles in a triangle.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "mass-points",
+   "topic": "G",
+   "definition": "Assign weights to vertices to read off ratios along cevians.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "menelaus",
+   "topic": "G",
+   "definition": "Relate ratios along a transversal to collinearity.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "orthogonal-projection-area",
+   "topic": "G",
+   "definition": "Relate an area to its projection by the scaling factor of the tilt.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "parallelogram-law",
+   "topic": "G",
+   "definition": "Relate the squares of a parallelogram's diagonals to the squares of its sides.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "picks-theorem",
+   "topic": "G",
+   "definition": "Relate a lattice polygon area to its interior and boundary lattice points.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "plane-equation",
+   "topic": "G",
+   "definition": "Find the equation of a plane through given points and intersect it with lines or edges.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "polygon-angles",
+   "topic": "G",
+   "definition": "Use the interior angle measure of a regular polygon as a function of its side count.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "power-of-a-point",
+   "topic": "G",
+   "definition": "Equate products of secant or chord segments through a point with respect to a circle.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "ptolemy",
+   "topic": "G",
+   "definition": "Relate the sides and diagonals of a cyclic quadrilateral.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "pythagorean-theorem",
+   "topic": "G",
+   "definition": "Set up equations from right triangles using the Pythagorean theorem.",
+   "status": "observed",
+   "sample_count": 16
+  },
+  {
+   "id": "radical-axis",
+   "topic": "G",
+   "definition": "Use the locus of equal power with respect to two circles, and radical centres.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "reflection-across-line",
+   "topic": "G",
+   "definition": "Reflect points or curves across a line, using perpendicularity and the midpoint condition.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "right-triangle-trigonometry",
+   "topic": "G",
+   "definition": "Express lengths in right triangles through tangent, sine or cosine of an angle.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "rotation-transformation",
+   "topic": "G",
+   "definition": "Rotate part of a figure to create congruence or an equilateral triangle.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "section-formula-interpolation",
+   "topic": "G",
+   "definition": "Use that a quantity varying linearly along a segment is a weighted average of endpoint values.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "shoelace",
+   "topic": "G",
+   "definition": "Compute a polygon area from its vertex coordinates.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "similar-triangles",
+   "topic": "G",
+   "definition": "Establish similar triangles and use proportional sides.",
+   "status": "observed",
+   "sample_count": 8
+  },
+  {
+   "id": "sine-area-formula",
+   "topic": "G",
+   "definition": "Compute a triangle's area from two sides and the sine of the included angle.",
+   "status": "observed",
+   "sample_count": 6
+  },
+  {
+   "id": "solid-dissection-completion",
+   "topic": "G",
+   "definition": "Recognise a solid as a piece of a simpler one by cutting it or joining copies.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "spiral-similarity",
+   "topic": "G",
+   "definition": "Use the rotation-dilation taking one segment to another, and its centre.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "stewart",
+   "topic": "G",
+   "definition": "Find a cevian length from the sides and the division of the opposite side.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "tangency",
+   "topic": "G",
+   "definition": "Use a tangent line or tangent circles, perpendicular to the radius at the contact point.",
+   "status": "seed-problem",
+   "sample_count": 0,
+   "legacy": true
+  },
+  {
+   "id": "triangle-inequality",
+   "topic": "G",
+   "definition": "Use the triangle inequality as a condition or to force a degenerate or extremal case.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "trig-ceva",
+   "topic": "G",
+   "definition": "Prove concurrency, or find ratios, with the sine form of Ceva.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "unfolding-net",
+   "topic": "G",
+   "definition": "Flatten a solid or reflect a path to turn a shortest route into a straight line.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "vector-method",
+   "topic": "G",
+   "definition": "Represent displacements or points as vectors and sum or cross them.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "volume-formulas",
+   "topic": "G",
+   "definition": "Compute the volume of a pyramid or tetrahedron, choosing a convenient base.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "base-representation",
+   "topic": "N",
+   "definition": "Reason about a number through its digits in a non-decimal base.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "bounding",
+   "topic": "N",
+   "definition": "Use inequalities to restrict unknowns to a small range or to prove an extremal bound, then check candidates or exhibit an example attaining it.",
+   "status": "observed",
+   "sample_count": 14
+  },
+  {
+   "id": "carry-analysis",
+   "topic": "N",
+   "definition": "Track how carries in an addition change digit sums or digit counts.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "coprime-divisibility",
+   "topic": "N",
+   "definition": "Use coprimality to transfer divisibility from a product to one factor.",
+   "status": "observed",
+   "sample_count": 5
+  },
+  {
+   "id": "counting-coprime-residues",
+   "topic": "N",
+   "definition": "List or count the residues coprime to a modulus.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "crt",
+   "topic": "N",
+   "definition": "Combine or count congruences modulo coprime moduli independently.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "digit-sum-mod-9",
+   "topic": "N",
+   "definition": "Relate a digit sum to the residue of the number.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "divisibility-rules",
+   "topic": "N",
+   "definition": "Use a digit-based divisibility criterion.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "divisor-counting",
+   "topic": "N",
+   "definition": "Count divisors from the exponents in a prime factorisation.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "divisor-pairing",
+   "topic": "N",
+   "definition": "Pair each divisor with its cofactor about the square root.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "euclidean-algorithm",
+   "topic": "N",
+   "definition": "Use repeated division to solve a linear equation with coprime coefficients.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "euler-totient",
+   "topic": "N",
+   "definition": "Count or sum values coprime to an integer with the totient function.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "factor-pair-enumeration",
+   "topic": "N",
+   "definition": "Rewrite an equation as a product equal to a known integer and enumerate factor pairs.",
+   "status": "observed",
+   "sample_count": 7
+  },
+  {
+   "id": "factorials",
+   "topic": "N",
+   "definition": "Reason about the size or divisibility of factorials.",
+   "status": "seed-problem",
+   "sample_count": 0,
+   "legacy": true
+  },
+  {
+   "id": "fermat-euler-theorem",
+   "topic": "N",
+   "definition": "Reduce exponents with Fermat little theorem or Euler totient theorem.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "lcm-gcd-reasoning",
+   "topic": "N",
+   "definition": "Use a least common multiple or greatest common divisor to determine a smallest or largest value.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "legendre-formula",
+   "topic": "N",
+   "definition": "Find the exponent of a prime in a factorial by summing floors.",
+   "status": "seed-problem",
+   "sample_count": 0,
+   "legacy": true,
+   "merged_into": "p-adic-valuation"
+  },
+  {
+   "id": "linear-diophantine-solving",
+   "topic": "N",
+   "definition": "Solve a linear equation in integers via divisibility and parametrisation.",
+   "status": "observed",
+   "sample_count": 5
+  },
+  {
+   "id": "lte",
+   "topic": "N",
+   "definition": "Use lifting the exponent to find the power of a prime dividing a difference of powers.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "modular-arithmetic",
+   "topic": "N",
+   "definition": "Reduce a condition to congruences and work with residues.",
+   "status": "observed",
+   "sample_count": 10
+  },
+  {
+   "id": "modular-inverse",
+   "topic": "N",
+   "definition": "Solve a linear congruence by multiplying by an inverse.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "multiplicativity",
+   "topic": "N",
+   "definition": "Use that an arithmetic function is multiplicative on coprime arguments.",
+   "status": "seed-problem",
+   "sample_count": 0
+  },
+  {
+   "id": "orders-mod-n",
+   "topic": "N",
+   "definition": "Use the smallest exponent at which a power returns to one modulo something.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "p-adic-valuation",
+   "topic": "N",
+   "definition": "Track the exponent of a prime in a factorial, binomial coefficient or product, including Legendre formula.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "parity",
+   "topic": "N",
+   "definition": "Use parity to restrict the factors, terms or structure of a solution.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "pell-equation",
+   "topic": "N",
+   "definition": "Solve a Pell-type equation through its fundamental solution.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "perfect-square-exponent-parity",
+   "topic": "N",
+   "definition": "Use that a perfect square has even prime exponents.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "place-value-representation",
+   "topic": "N",
+   "definition": "Express digits algebraically through powers of the base.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "prime-factorization",
+   "topic": "N",
+   "definition": "Factor integers into primes and reason about the exponents.",
+   "status": "observed",
+   "sample_count": 15
+  },
+  {
+   "id": "pythagorean-triples",
+   "topic": "N",
+   "definition": "Parametrise or list integer right triangles.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "quadratic-residues",
+   "topic": "N",
+   "definition": "Use which residues are squares, including Legendre symbols.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "rational-ratio-lowest-terms",
+   "topic": "N",
+   "definition": "Write a rational ratio in lowest terms and use integrality to force divisibility.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "sfft",
+   "topic": "N",
+   "definition": "Add a constant to a bilinear expression so it factors as a product of two shifted terms.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "sum-of-two-squares",
+   "topic": "N",
+   "definition": "List representations of an integer as a sum of two squares.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "wilson-theorem",
+   "topic": "N",
+   "definition": "Use the value of a factorial modulo a prime.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "zsigmondy",
+   "topic": "N",
+   "definition": "Use the existence of a primitive prime divisor of a power difference.",
+   "status": "seeded",
+   "sample_count": 0
+  }
+ ],
+ "configurations": [
+  {
+   "id": "angle-in-semicircle",
+   "definition": "An angle subtended by a diameter is a right angle.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "apollonius-circle",
+   "definition": "The locus of points with a fixed ratio of distances to two points.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "arc-midpoint-on-bisector",
+   "definition": "An internal angle bisector meets the circumcircle at the midpoint of the opposite arc, on the side's perpendicular bisector.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "centroid-medians",
+   "definition": "Medians meeting at the centroid, which splits them in a fixed ratio and the area equally.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "circular-segment",
+   "definition": "The region between a chord and its arc, equal to a sector minus a triangle.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "circumcircle-tangent-intersection",
+   "definition": "The meeting point of the tangents to a triangle's circumcircle at two vertices.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "circumsphere-of-pyramid",
+   "definition": "The sphere through all vertices of a pyramid, with its centre on the axis.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "common-external-tangent",
+   "definition": "A line tangent to two circles, with radii to the tangency points parallel.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "complete-quadrilateral",
+   "definition": "Four lines and their six intersection points, with their diagonals.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "concentric-annuli",
+   "definition": "Concentric circles bounding annular regions, whose areas are differences of squares of radii.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "cyclic-quadrilateral",
+   "definition": "Four concyclic points, giving supplementary opposite angles and equal subtended angles.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "equiangular-polygon",
+   "definition": "A polygon with all angles equal, so that its sides are vectors with fixed turning angles.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "euler-line",
+   "definition": "The line through the circumcenter, centroid and orthocenter, with its fixed ratio.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "excircle",
+   "definition": "A circle tangent to one side and the extensions of the other two, with its tangent lengths.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "fixed-angle-arc-locus",
+   "definition": "Points seeing a fixed segment under a constant angle lie on a circular arc.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "harmonic-quadrilateral",
+   "definition": "A cyclic quadrilateral with equal products of opposite sides.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "incenter-angle-formula",
+   "definition": "The angle at an incenter subtending a side, a right angle plus half the opposite angle.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "incenter-excenter-lemma",
+   "definition": "The midpoint of an arc is equidistant from two vertices, the incenter and the excenter.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "incircle-and-semiperimeter",
+   "definition": "A triangle or tangential polygon with its incircle, whose tangency points split sides into tangent lengths.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "incircles-of-cevian-subtriangles",
+   "definition": "The incircles or incenters of the two subtriangles created by a segment from a vertex to the opposite side.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "isosceles-tetrahedron",
+   "definition": "A tetrahedron with congruent faces, inscribable in a rectangular box with edges as face diagonals.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "isosceles-trapezoid",
+   "definition": "An isosceles trapezoid, decomposed by altitudes from the shorter base.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "isosceles-triangle-axis",
+   "definition": "An isosceles triangle whose apex altitude is also a median and an angle bisector.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "medial-triangle",
+   "definition": "The triangle of side midpoints, homothetic to the original.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "median-to-hypotenuse",
+   "definition": "The median to the hypotenuse equals half the hypotenuse, making the midpoint the circumcentre.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "miquel-point",
+   "definition": "The common point of the four circumcircles of a complete quadrilateral.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "mixtilinear-incircle",
+   "definition": "A circle tangent to two sides of a triangle and internally to its circumcircle.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "mutually-tangent-circles",
+   "definition": "Circles tangent internally or externally, whose centres and tangency point are collinear.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "nested-squares",
+   "definition": "A square inside another square, with congruent or similar right triangles in the corners.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "nine-point-circle",
+   "definition": "The circle through the side midpoints, altitude feet and orthocenter-vertex midpoints.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "orthic-triangle",
+   "definition": "The triangle of altitude feet, whose incenter is the orthocenter.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "orthocenter-reflection",
+   "definition": "Reflections of the orthocenter in the sides and midpoints lie on the circumcircle.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "parallel-segments-in-triangle",
+   "definition": "Segments parallel to a triangle's side, including midlines, cutting similar triangles.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "perpendicular-from-center-to-chord",
+   "definition": "The perpendicular from a circle's centre bisects a chord and forms a right triangle with the radius.",
+   "status": "observed",
+   "sample_count": 5
+  },
+  {
+   "id": "pitot-tangential-quadrilateral",
+   "definition": "A quadrilateral with an incircle, whose opposite sides have equal sums.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "plane-section-of-solid",
+   "definition": "The polygon or curve in which a plane cuts a polyhedron or cylinder.",
+   "status": "observed",
+   "sample_count": 4
+  },
+  {
+   "id": "regular-polygon-central-triangles",
+   "definition": "A regular polygon divided into isosceles triangles from its centre, with vertices on a circumcircle.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "regular-tetrahedron",
+   "definition": "A regular tetrahedron, with a known volume and a square midsection between opposite edges.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "rhombus-tiling",
+   "definition": "Congruent rhombi around a central rhombus, sharing its sides.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "right-triangle-altitude",
+   "definition": "The altitude to the hypotenuse creates similar triangles and geometric-mean relations.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "simson-line",
+   "definition": "The feet of perpendiculars from a point on the circumcircle are collinear.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "special-right-triangles",
+   "definition": "Right triangles with standard acute angles and known side ratios.",
+   "status": "observed",
+   "sample_count": 5
+  },
+  {
+   "id": "square-in-right-triangle",
+   "definition": "A square inscribed in a right triangle, either at the right angle or on the hypotenuse.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "squared-rectangle",
+   "definition": "A rectangle dissected into squares, whose sizes add along shared edges.",
+   "status": "pilot-proposed",
+   "sample_count": 0
+  },
+  {
+   "id": "symmedian",
+   "definition": "The reflection of a median in the angle bisector, and the tangent-intersection construction.",
+   "status": "seeded",
+   "sample_count": 0
+  },
+  {
+   "id": "tangent-spheres-on-plane",
+   "definition": "Spheres resting on or against a plane and tangent to each other or to a second plane, with centres at known heights.",
+   "status": "observed",
+   "sample_count": 3
+  },
+  {
+   "id": "trapezoid-extended-legs",
+   "definition": "A trapezoid whose legs are extended to meet, forming similar triangles.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "triangle-from-altitudes",
+   "definition": "A triangle specified by its altitudes, with sides inversely proportional to them.",
+   "status": "observed",
+   "sample_count": 1
+  },
+  {
+   "id": "trirectangular-corner",
+   "definition": "A corner of a box where three mutually perpendicular edges meet, giving a pyramid cut from a cube.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "two-intersecting-circles",
+   "definition": "Two circles meeting at two points, with a common chord or a line through an intersection point.",
+   "status": "observed",
+   "sample_count": 2
+  },
+  {
+   "id": "two-tangents-from-a-point",
+   "definition": "Two tangents to a circle from an external point, equal in length with the centre on the bisector.",
+   "status": "observed",
+   "sample_count": 5
+  }
+ ]
+}
