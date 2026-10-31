@@ -5,6 +5,7 @@ import { S, save, award, logEvent, touchDay } from "../lib/store.js";
 import { LISTED, byId, cachedProblem, getProblem, likedPct } from "../lib/problems.js";
 import { check } from "../lib/answers.js";
 import { tex, paras } from "../lib/tex.js";
+import { solutionHtml, inlineFigures } from "../lib/figures.js";
 import { subtopicName } from "../lib/taxonomy.js";
 import { D } from "./duel.js";
 import { lastListHash } from "./problems.js";
@@ -135,7 +136,7 @@ export async function renderProblem(id, opts = {}) {
         ${noHints}${p.hints.length && used < p.hints.length && !solved ? hintButton(p, used) : p.hints.length && used === 0 ? `<p class="locked">Solved without hints.</p>` : ""}
       </div>
       <div class="sec"><h2>${p.type === "proof" ? "Reference proof" : "Solution"}</h2>
-        ${showSolution ? `<div class="solution">${paras(p.solution)}</div>` : `<p class="locked">${p.type === "proof" ? "Unlocks when you submit a proof." : "Unlocks when you solve it, so nobody can peek their way up the ranks."}</p>`}
+        ${showSolution ? `<div class="solution">${solutionHtml(p)}</div>` : `<p class="locked">${p.type === "proof" ? "Unlocks when you submit a proof." : "Unlocks when you solve it, so nobody can peek their way up the ranks."}</p>`}
       </div>
       ${solved ? `
       <div class="sec"><h2>Rate this problem</h2>
@@ -237,4 +238,6 @@ export async function renderProblem(id, opts = {}) {
   // After a re-render, keep the reader where the change happened.
   if (opts.focus && $(opts.focus)) $(opts.focus).focus({ preventScroll: true });
   tex(v.querySelector("article"));
+  // Only an unlocked solution has placeholders, so nothing is fetched before then.
+  inlineFigures(v);
 }

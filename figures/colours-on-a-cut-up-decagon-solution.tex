@@ -1,0 +1,31 @@
+%! alt A convex 10-gon divided into triangles by 7 non-crossing diagonals. The shaded triangle has two polygon sides, va and vb, so no diagonal leaves v and the third side ab is a drawn diagonal. Removing v leaves a triangulated 9-gon in which ab is a side.
+%! after_paragraph 3
+%! scale 3/100
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}
+\tkzDefPoint(0.0,0.0){O} %! O = (0, 0)
+\tkzDefPoint(0.0000000000000000000000000000000000000000000000000065022505,3.0000000){v} %! v = polar(O, 100, 90)
+\tkzDefPoint(1.7633558,2.4270510){a} %! a = polar(O, 100, 54)
+\tkzDefPoint(2.8531695,0.92705098){V2} %! V2 = polar(O, 100, 18)
+\tkzDefPoint(2.8531695,-0.92705098){V3} %! V3 = polar(O, 100, -18)
+\tkzDefPoint(1.7633558,-2.4270510){V4} %! V4 = polar(O, 100, -54)
+\tkzDefPoint(0.0000000000000000000000000000000000000000000000000065022505,-3.0000000){V5} %! V5 = polar(O, 100, -90)
+\tkzDefPoint(-1.7633558,-2.4270510){V6} %! V6 = polar(O, 100, -126)
+\tkzDefPoint(-2.8531695,-0.92705098){V7} %! V7 = polar(O, 100, -162)
+\tkzDefPoint(-2.8531695,0.92705098){V8} %! V8 = polar(O, 100, 162)
+\tkzDefPoint(-1.7633558,2.4270510){b} %! b = polar(O, 100, 126)
+%! fact equal(dist(v, a), dist(v, b))
+%! fact equal(dist(V2, V3), dist(v, a))
+%! fact concyclic(v, a, b, V4, V5, V6)
+%! fact angle(a, v, b) == 144
+\tkzFillPolygon[color=figaccenttint](v,a,b)
+\tkzDrawPolygon(v,a,V2,V3,V4,V5,V6,V7,V8,b)
+\tkzDrawSegments[line width=.5pt](a,V8 V2,V8 V2,V7 V3,V7 V3,V6 V4,V6)
+\tkzDrawSegment[key](a,b)
+\tkzDrawPoints(v,a,V2,V3,V4,V5,V6,V7,V8,b)
+\tkzLabelPoint[above,lbl](v){$v$}
+\tkzLabelPoint[above right,lbl](a){$a$}
+\tkzLabelPoint[above left,lbl](b){$b$}
+\end{tikzpicture}
+\end{document}

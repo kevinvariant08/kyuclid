@@ -13,6 +13,7 @@
   --line: #2C3756;
   --line-soft: #202A44;
   --ink: #F1EFE9;
+  --fig-accent: #F0917F;
   --ink-soft: #B6BDD0;
   --ink-faint: #8E97B0;
   --shu: #F2583F;
@@ -39,7 +40,7 @@
 }
 :root[data-theme="light"] {
   --bg: #F4F3EF; --surface: #FFFFFF; --raise: #ECEBE5; --sunk: #E7E6DF; --line: #D3D1C7; --line-soft: #E4E2DA;
-  --ink: #141B33; --ink-soft: #424A63; --ink-faint: #5C647C;
+  --ink: #141B33; --ink-soft: #424A63; --ink-faint: #5C647C; --fig-accent: #B8341F;
   --shu: #C4301B; --shu-hover: #A32512; --on-shu: #FFFFFF;
   --ok: #1C7048; --ok-wash: rgba(28, 112, 72, .11); --bad: #B42B4A; --bad-wash: rgba(180, 43, 74, .09); --focus: #2F3FA8;
   --belt-edge: rgba(20, 27, 51, .32);
@@ -275,6 +276,10 @@ article.panel { padding: 28px 26px 22px; }
 .hint { border: 1px solid var(--line-soft); border-radius: 7px; padding: 10px 14px; margin-bottom: 8px; font-family: var(--f-read); font-size: 16px; background: var(--bg); max-width: 66ch; overflow-wrap: anywhere; }
 .solution { font-family: var(--f-read); font-size: 17px; line-height: 1.65; max-width: 66ch; overflow-wrap: anywhere; }
 .solution p { margin: 0 0 .7em; }
+/* Solution figures are inlined SVGs, so strokes and labels take the page's colour. 420px matches the statement's measure; phones use the full column. */
+.sol-fig { margin: 4px auto 18px; max-width: 420px; color: var(--ink); }
+.sol-fig svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.sol-fig .fig-missing { font-size: 13.5px; color: var(--ink-faint); margin: 0; }
 .locked { color: var(--ink-faint); font-size: 13.5px; margin: 0; }
 .proof-area { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
 .proof-area textarea { width: 100%; min-height: 220px; resize: vertical; font-family: var(--f-mono); font-size: 14px; line-height: 1.55; padding: 12px; border: 1px solid var(--line); border-radius: 7px; background: var(--bg); }

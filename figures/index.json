@@ -1,0 +1,112 @@
+{
+  "a-chord-and-two-feet": [
+    {
+      "src": "figures/a-chord-and-two-feet-solution.svg?v=b6008342",
+      "alt": "Circle omega with centre O and triangle ABC inscribed, A at the top. Chord XY is horizontal and passes through P on AB and Q on AC, with XP = 64, PQ = 56 and QY = 48. The tangent at A is parallel to XY, and the radius OA meets XY at right angles at its midpoint M.",
+      "after_paragraph": 2
+    }
+  ],
+  "a-lone-solution": [
+    {
+      "src": "figures/a-lone-solution-solution.svg?v=92f79188",
+      "alt": "The complex plane, with the circle of radius 20 centred at 3 - 8i. Four segments of length 10 and the same direction start on the real axis at k. For k = -16 the segment touches the circle at its midpoint. For k = 0 it lies inside the circle, so there is no solution. For k = 9 its far end lies on the circle. For k = 15 it crosses the circle once.",
+      "after_paragraph": 2
+    }
+  ],
+  "a-point-sent-round-two-centres": [
+    {
+      "src": "figures/a-point-sent-round-two-centres-solution.svg?v=c1ba48bb",
+      "alt": "Triangle PAB with PA = 4, PB = 6 and AB squared = 28. Rotating P about A through theta gives Q, and rotating Q back through theta about B gives R. The same two rotations send A to A', which is B's rotation of A. PR and AA' are parallel and equal, both of length 7, because the two rotations together form a translation.",
+      "after_paragraph": 2
+    }
+  ],
+  "circle-in-the-square": [
+    {
+      "src": "figures/circle-in-the-square-solution.svg?v=dec9d815",
+      "alt": "Square ABCD with side 10, AB along the bottom and CD along the top. A circle through A and B touches CD at T, the midpoint of CD, with a right angle between the radius OT and CD. The centre O is at height k above the midpoint N of AB. The radii OA and OT both have length r, and triangle ANO is right-angled, with AN = 5 and NO = k.",
+      "after_paragraph": 1
+    }
+  ],
+  "closer-to-the-line": [
+    {
+      "src": "figures/closer-to-the-line-solution.svg?v=93858492",
+      "alt": "Square ABCD with side 20, and the line MN through the midpoint M of BC and the point N on CD. The favourable region is shaded. On A's side of MN it is the pentagon M, Q, R, S, N, and on C's side it is the triangle M, N, P. The rays from A through Q and S are dashed.",
+      "after_paragraph": 5
+    }
+  ],
+  "colours-on-a-cut-up-decagon": [
+    {
+      "src": "figures/colours-on-a-cut-up-decagon-solution.svg?v=847da111",
+      "alt": "A convex 10-gon divided into triangles by 7 non-crossing diagonals. The shaded triangle has two polygon sides, va and vb, so no diagonal leaves v and the third side ab is a drawn diagonal. Removing v leaves a triangulated 9-gon in which ab is a side.",
+      "after_paragraph": 3
+    }
+  ],
+  "polygon-from-one-angle": [
+    {
+      "src": "figures/polygon-from-one-angle-solution.svg?v=4498cc70",
+      "alt": "Regular nine-sided polygon. At vertex P, side QP is extended beyond P to a point X. The interior angle QPR is marked 140 degrees and the exterior angle XPR is marked 40 degrees, and the two make a straight line.",
+      "after_paragraph": 1
+    }
+  ],
+  "the-13-14-15-triangle": [
+    {
+      "src": "figures/the-13-14-15-triangle-solution.svg?v=7693b000",
+      "alt": "Triangle ABC with AB = 13, BC = 14 and CA = 15, and its inscribed circle with centre I. The radius r from I meets BC at right angles at the touch point D. Segments from I to the three vertices split the triangle into three smaller triangles whose heights are all r.",
+      "after_paragraph": 1
+    }
+  ],
+  "three-chords": [
+    {
+      "src": "figures/three-chords-solution.svg?v=1883ca08",
+      "alt": "Part of the parabola y = x squared, with the triangle whose vertices have x-coordinates a = 0, b = 2 and c = 3. Its sides have slopes a + b = 2, a + c = 3 and b + c = 5, which is the sum of the x-coordinates at each pair of ends.",
+      "after_paragraph": 1
+    }
+  ],
+  "twenty-to-four": [
+    {
+      "src": "figures/twenty-to-four-solution.svg?v=d8968f16",
+      "alt": "Clock face at 3:40 with its centre O. The minute hand points at the 8, which is 240 degrees clockwise from the 12. The hour hand points two thirds of the way from the 3 to the 4, which is 110 degrees clockwise from the 12. The smaller angle between the hands is marked 130 degrees.",
+      "after_paragraph": 1
+    }
+  ],
+  "two-orbits": [
+    {
+      "src": "figures/two-orbits-solution.svg?v=92f135fd",
+      "alt": "Two concentric circles with centre O and radii 16 and 39, with A on the inner circle and B on the outer. At the moment contact begins, angle AOB is 120 degrees and AB = 49. Segment AB just touches the disc of radius r around O, at the foot F of the perpendicular from O, with a right angle at F.",
+      "after_paragraph": 7
+    }
+  ],
+  "two-polygons-one-circle": [
+    {
+      "src": "figures/two-polygons-one-circle-solution.svg?v=d67c506b",
+      "alt": "Circle with a regular 12-gon and a regular pentagon inscribed, sharing the vertex A at the top. Each of the 16 points of S is labelled with its clockwise arc in degrees from A: multiples of 30 and of 72. The pentagon is dashed. One admissible polygon is drawn in bold, visiting 0, 30, 72, 90, 144, 150, 216, 240, 288, 300 and back to A.",
+      "after_paragraph": 1
+    }
+  ],
+  "two-rods-in-a-square-frame": [
+    {
+      "src": "figures/two-rods-in-a-square-frame-solution.svg?v=93bf3c3c",
+      "alt": "Square ABCD of side s, with P on AB, Q on BC, R on CD and S on DA, drawn for s = 24. The diagonals of quadrilateral PQRS are PR = 25 and QS = 31. Its area is half the size of the cross product of these two diagonals.",
+      "after_paragraph": 2
+    },
+    {
+      "src": "figures/two-rods-in-a-square-frame-solution-2.svg?v=da639401",
+      "alt": "The extreme case, a square with side 31 over root 2. P is at A, Q is at B and S is at D, so QS is the diagonal BD with length 31. R lies on CD with PR = 25. The shaded quadrilateral PQRS is a right trapezium with area 372.",
+      "after_paragraph": 4
+    }
+  ],
+  "two-whole-squares": [
+    {
+      "src": "figures/two-whole-squares-solution.svg?v=00e1da8c",
+      "alt": "The ellipse x squared plus xy plus y squared equals 360, centred at the origin O, with its long axis along the line y = -x. A and B lie on it with a right angle at O, drawn for OA squared = 288 and OB squared = 480. A right-angle turn of OA changes the sign of s, so the two squared distances are 360 over 1 + s and 360 over 1 - s.",
+      "after_paragraph": 2
+    }
+  ],
+  "whole-number-distances": [
+    {
+      "src": "figures/whole-number-distances-solution.svg?v=ecceef4d",
+      "alt": "Isosceles triangle ACE with CA = CE = h, drawn for h = 144. B is the midpoint of AE, with AB = BE = 90 and a right angle between BC and AE. D lies on side CE, and AD bisects angle CAE. CB bisects angle ACE, so E is the reflection of A in line BC.",
+      "after_paragraph": 3
+    }
+  ]
+}

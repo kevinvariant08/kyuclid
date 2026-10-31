@@ -1,0 +1,55 @@
+%! alt Circle omega with centre O and triangle ABC inscribed, A at the top. Chord XY is horizontal and passes through P on AB and Q on AC, with XP = 64, PQ = 56 and QY = 48. The tangent at A is parallel to XY, and the radius OA meets XY at right angles at its midpoint M.
+%! after_paragraph 2
+%! scale 1/27
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}
+\tkzDefPoint(0.0,0.0){O} %! O = (0, 0)
+\tkzDefPoint(0.0,3.6111111){A} %! A = (0, 195/2)
+\tkzDefPoint(0.0,1.8333333){M} %! M = (0, 99/2)
+\tkzDefPoint(-3.1111111,1.8333333){X} %! X = (-84, 99/2)
+\tkzDefPoint(3.1111111,1.8333333){Y} %! Y = (84, 99/2)
+\tkzDefPoint(-0.74074074,1.8333333){P} %! P = (-20, 99/2)
+\tkzDefPoint(1.3333333,1.8333333){Q} %! Q = (36, 99/2)
+\tkzDefPoint(-2.5641026,-2.5427350){B} %! B = lerp(A, P, 180/52)
+\tkzDefPoint(3.4666667,-1.0111111){C} %! C = lerp(A, Q, 156/60)
+\tkzDefPoint(-2.2962963,3.6111111){T} %! T = (-62, 195/2)
+\tkzDefPoint(2.2962963,3.6111111){U} %! U = (62, 195/2)
+%! fact on_circle(A, O, 195/2)
+%! fact on_circle(B, O, 195/2)
+%! fact on_circle(C, O, 195/2)
+%! fact on_circle(X, O, 195/2)
+%! fact on_circle(Y, O, 195/2)
+%! fact concyclic(B, C, Q, P)
+%! fact dist(X, P) == 64
+%! fact dist(P, Q) == 56
+%! fact dist(Q, Y) == 48
+%! fact perp(O, A, X, Y)
+%! fact midpoint(M, X, Y)
+%! fact tangent(O, 195/2, T, U)
+%! fact parallel(T, U, X, Y)
+%! fact dist(A, B) == 180
+%! fact dist(A, C) == 156
+%! fact dist(B, C) == 168
+\tkzFillPolygon[color=figtint](B,P,Q,C)
+\tkzDrawCircle(O,A)
+\tkzDrawSegment[aux](T,U)
+\tkzDrawSegment[aux](O,A)
+\tkzDrawPolygon(A,B,C)
+\tkzDrawSegment[key](X,Y)
+\tkzMarkRightAngle[size=.2,mk](A,M,Y)
+\tkzDrawPoints(O,A,B,C,X,Y,P,Q,M)
+\tkzLabelPoint[above,lbl](A){$A$}
+\tkzLabelPoint[below left,lbl](B){$B$}
+\tkzLabelPoint[below right,lbl](C){$C$}
+\tkzLabelPoint[left,lbl](X){$X$}
+\tkzLabelPoint[right,lbl](Y){$Y$}
+\tkzLabelPoint[above left,lbl](P){$P$}
+\tkzLabelPoint[above right,lbl](Q){$Q$}
+\tkzLabelPoint[below left,lbl](M){$M$}
+\tkzLabelPoint[right,lbl](O){$O$}
+\tkzLabelSegment[below,len](X,P){$64$}
+\tkzLabelSegment[below,pos=.74,len](P,Q){$56$}
+\tkzLabelSegment[below,len](Q,Y){$48$}
+\end{tikzpicture}
+\end{document}

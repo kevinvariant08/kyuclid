@@ -1,0 +1,40 @@
+%! alt Square ABCD of side s, with P on AB, Q on BC, R on CD and S on DA, drawn for s = 24. The diagonals of quadrilateral PQRS are PR = 25 and QS = 31. Its area is half the size of the cross product of these two diagonals.
+%! after_paragraph 2
+%! scale 1/4
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}
+\tkzDefPoint(0.0,6.0000000){A} %! A = (0, 24)
+\tkzDefPoint(6.0000000,6.0000000){B} %! B = (24, 24)
+\tkzDefPoint(6.0000000,0.0){C} %! C = (24, 0)
+\tkzDefPoint(0.0,0.0){D} %! D = (0, 0)
+\tkzDefPoint(3.7500000,6.0000000){P} %! P = (15, 24)
+\tkzDefPoint(2.0000000,0.0){R} %! R = (8, 0)
+\tkzDefPoint(6.0000000,5.2500000){Q} %! Q = (24, 21)
+\tkzDefPoint(0.0,0.34464578){S} %! S = (0, 21 - sqrt(385))
+%! fact dist(P, R) == 25
+%! fact dist(Q, S) == 31
+%! fact on_segment(P, A, B)
+%! fact on_segment(Q, B, C)
+%! fact on_segment(R, C, D)
+%! fact on_segment(S, D, A)
+%! fact perp(A, B, B, C)
+%! fact equal(dist(A, B), dist(B, C))
+\tkzFillPolygon[color=figtint](P,Q,R,S)
+\tkzDrawPolygon(A,B,C,D)
+\tkzDrawPolygon(P,Q,R,S)
+\tkzDrawSegments[key](P,R Q,S)
+\tkzDrawPoints(A,B,C,D,P,Q,R,S)
+\tkzLabelPoint[above left,lbl](A){$A$}
+\tkzLabelPoint[above right,lbl](B){$B$}
+\tkzLabelPoint[below right,lbl](C){$C$}
+\tkzLabelPoint[below left,lbl](D){$D$}
+\tkzLabelPoint[above,lbl](P){$P$}
+\tkzLabelPoint[right,lbl](Q){$Q$}
+\tkzLabelPoint[below,lbl](R){$R$}
+\tkzLabelPoint[left,lbl](S){$S$}
+\tkzLabelSegment[left,pos=.72,len](R,P){$25$}
+\tkzLabelSegment[below right,pos=.3,len](S,Q){$31$}
+\tkzLabelSegment[left,pos=.6,len](S,A){$s$}
+\end{tikzpicture}
+\end{document}

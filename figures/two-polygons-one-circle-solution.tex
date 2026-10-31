@@ -1,0 +1,74 @@
+%! alt Circle with a regular 12-gon and a regular pentagon inscribed, sharing the vertex A at the top. Each of the 16 points of S is labelled with its clockwise arc in degrees from A: multiples of 30 and of 72. The pentagon is dashed. One admissible polygon is drawn in bold, visiting 0, 30, 72, 90, 144, 150, 216, 240, 288, 300 and back to A.
+%! after_paragraph 1
+%! scale 3/100
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}
+\tkzDefPoint(0.0,0.0){O} %! O = (0, 0)
+\tkzDefPoint(0.0000000000000000000000000000000000000000000000000065022505,3.0000000){A} %! A = polar(O, 100, 90)
+\tkzDefPoint(1.5000000,2.5980762){a30} %! a30 = polar(O, 100, 60)
+\tkzDefPoint(2.5980762,1.5000000){a60} %! a60 = polar(O, 100, 30)
+\tkzDefPoint(3.0000000,0.0){a90} %! a90 = polar(O, 100, 0)
+\tkzDefPoint(2.5980762,-1.5000000){a120} %! a120 = polar(O, 100, -30)
+\tkzDefPoint(1.5000000,-2.5980762){a150} %! a150 = polar(O, 100, -60)
+\tkzDefPoint(0.0000000000000000000000000000000000000000000000000065022505,-3.0000000){a180} %! a180 = polar(O, 100, -90)
+\tkzDefPoint(-1.5000000,-2.5980762){a210} %! a210 = polar(O, 100, -120)
+\tkzDefPoint(-2.5980762,-1.5000000){a240} %! a240 = polar(O, 100, -150)
+\tkzDefPoint(-3.0000000,0.000000000000000000000000000000000000000000000000013004501){a270} %! a270 = polar(O, 100, 180)
+\tkzDefPoint(-2.5980762,1.5000000){a300} %! a300 = polar(O, 100, 150)
+\tkzDefPoint(-1.5000000,2.5980762){a330} %! a330 = polar(O, 100, 120)
+\tkzDefPoint(2.8531695,0.92705098){b72} %! b72 = polar(O, 100, 18)
+\tkzDefPoint(1.7633558,-2.4270510){b144} %! b144 = polar(O, 100, -54)
+\tkzDefPoint(-1.7633558,-2.4270510){b216} %! b216 = polar(O, 100, -126)
+\tkzDefPoint(-2.8531695,0.92705098){b288} %! b288 = polar(O, 100, -198)
+\tkzDefPoint(0.0000000000000000000000000000000000000000000000000073475431,3.3900000){L0} %! L0 = polar(O, 113, 90)
+\tkzDefPoint(1.7100000,2.9618069){L30} %! L30 = polar(O, 114, 60)
+\tkzDefPoint(2.9618069,1.7100000){L60} %! L60 = polar(O, 114, 30)
+\tkzDefPoint(3.3451907,0.95921800){L72} %! L72 = polar(O, 116, 16)
+\tkzDefPoint(3.4794700,-0.060734374){L90} %! L90 = polar(O, 116, -1)
+\tkzDefPoint(3.0657299,-1.7700000){L120} %! L120 = polar(O, 118, -30)
+\tkzDefPoint(2.2369009,-2.6658347){L144} %! L144 = polar(O, 116, -50)
+\tkzDefPoint(1.4992293,-3.0738756){L150} %! L150 = polar(O, 114, -64)
+\tkzDefPoint(0.0000000000000000000000000000000000000000000000000074125656,-3.4200000){L180} %! L180 = polar(O, 114, -90)
+\tkzDefPoint(-1.4453545,-3.0995726){L210} %! L210 = polar(O, 114, -115)
+\tkzDefPoint(-2.1900350,-2.7044679){L216} %! L216 = polar(O, 116, -129)
+\tkzDefPoint(-3.0657299,-1.7700000){L240} %! L240 = polar(O, 118, -150)
+\tkzDefPoint(-3.5400000,0.000000000000000000000000000000000000000000000000015345311){L270} %! L270 = polar(O, 118, 180)
+\tkzDefPoint(-3.3853188,1.0349958){L288} %! L288 = polar(O, 118, 163)
+\tkzDefPoint(-3.0343722,1.8232348){L300} %! L300 = polar(O, 118, 149)
+\tkzDefPoint(-1.7100000,2.9618069){L330} %! L330 = polar(O, 114, 120)
+%! fact angle(a30, O, A) == 30
+%! fact angle(b72, O, A) == 72
+%! fact on_circle(b144, O, 100)
+%! fact angle(A, a30, b72) >= 120
+%! fact angle(a30, b72, a90) >= 120
+%! fact angle(b72, a90, b144) >= 120
+%! fact angle(a90, b144, a150) >= 120
+%! fact angle(b144, a150, b216) >= 120
+%! fact angle(a150, b216, a240) >= 120
+%! fact angle(b216, a240, b288) >= 120
+%! fact angle(a240, b288, a300) >= 120
+%! fact angle(b288, a300, A) >= 120
+%! fact angle(a300, A, a30) >= 120
+\tkzDrawCircle[line width=.45pt](O,A)
+\tkzDrawPolygon[aux](A,b72,b144,b216,b288)
+\tkzDrawPolygon[key](A,a30,b72,a90,b144,a150,b216,a240,b288,a300)
+\tkzDrawPoints(A,a30,a60,a90,a120,a150,a180,a210,a240,a270,a300,a330,b72,b144,b216,b288)
+\tkzLabelPoint[anchor=center,len](L0){$A=0$}
+\tkzLabelPoint[anchor=center,len](L30){$30$}
+\tkzLabelPoint[anchor=center,len](L60){$60$}
+\tkzLabelPoint[anchor=center,len](L72){$72$}
+\tkzLabelPoint[anchor=center,len](L90){$90$}
+\tkzLabelPoint[anchor=center,len](L120){$120$}
+\tkzLabelPoint[anchor=center,len](L144){$144$}
+\tkzLabelPoint[anchor=center,len](L150){$150$}
+\tkzLabelPoint[anchor=center,len](L180){$180$}
+\tkzLabelPoint[anchor=center,len](L210){$210$}
+\tkzLabelPoint[anchor=center,len](L216){$216$}
+\tkzLabelPoint[anchor=center,len](L240){$240$}
+\tkzLabelPoint[anchor=center,len](L270){$270$}
+\tkzLabelPoint[anchor=center,len](L288){$288$}
+\tkzLabelPoint[anchor=center,len](L300){$300$}
+\tkzLabelPoint[anchor=center,len](L330){$330$}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,33 @@
+% The shared preamble of every Kyuclid figure. pipeline/figures turns these colours into theme-aware paint,
+% and refuses any other colour, so draw only with them:
+%   figink (lines and labels), figaux (construction lines), figaccent (the object the argument turns on),
+%   figtint and figaccenttint (light fills).
+\documentclass[border=1.5pt]{standalone}
+\usepackage{tkz-euclide}
+\definecolor{figink}{RGB}{0,0,0}
+\definecolor{figaux}{RGB}{85,85,85}
+\definecolor{figaccent}{RGB}{192,57,43}
+\definecolor{figtint}{RGB}{221,221,221}
+\definecolor{figaccenttint}{RGB}{245,213,208}
+% tkz-euclide's defaults draw circles, compasses and marks in 50% grey and fill points with a tint.
+\makeatletter
+\def\tkz@otherlinecolor{figink}
+\def\tkz@euc@circlecolor{figink}
+\def\tkz@euc@compasscolor{figink}
+\def\tkz@euc@mkcolor{figink}
+\def\tkz@mk@fill{figink}
+\def\tkz@euc@pointfillcolor{figink}
+\makeatother
+\tkzSetUpLine[color=figink,line width=.7pt]
+\tkzSetUpArc[color=figink,line width=.7pt]
+\tkzSetUpCompass[color=figink,line width=.5pt]
+\tkzSetUpPoint[color=figink,fill=figink,size=3.1pt]
+\tikzset{
+  every picture/.style={line cap=round,line join=round,color=figink},
+  circle style/.append style={color=figink,line width=.7pt},
+  aux/.style={color=figaux,line width=.45pt,dash pattern=on 2.6pt off 2pt},
+  key/.style={color=figaccent,line width=1pt},
+  mk/.style={color=figink,line width=.5pt},
+  lbl/.style={color=figink,inner sep=2.2pt},
+  len/.style={color=figink,inner sep=1.5pt,font=\small},
+}

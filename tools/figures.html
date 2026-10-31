@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Figure gallery</title>
+<style>
+  /* The site's two surfaces, side by side. Not linked from the site. */
+  body { margin: 0; padding: 16px; background: #888; font: 14px/1.4 system-ui, sans-serif; }
+  h2 { margin: 18px 0 8px; font-size: 14px; color: #000; overflow-wrap: anywhere; }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+  .cell { padding: 14px; border-radius: 8px; box-sizing: content-box; }
+  .cell small { display: block; margin-bottom: 8px; opacity: .7; font-size: 11px; }
+  .dark { background: #151D31; color: #F1EFE9; --fig-accent: #F0917F; }
+  .light { background: #FFFFFF; color: #141B33; --fig-accent: #B8341F; }
+  .desktop { width: 420px; }
+  .phone { width: 288px; }
+  svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+  body.sheet { background: #fff; display: grid; grid-template-columns: repeat(auto-fill, minmax(860px, 1fr)); gap: 0 16px; }
+  body.sheet .cell small { display: none; }
+</style>
+</head>
+<body>
+<script type="module">
+const q = new URLSearchParams(location.search);
+const only = q.get("only") ? q.get("only").split(",") : null;
+const widths = q.get("widths") ? q.get("widths").split(",") : ["desktop", "phone"];
+if (q.has("sheet")) document.body.classList.add("sheet");
+const index = await (await fetch("../figures/index.json")).json();
+for (const [id, figures] of Object.entries(index)) {
+  if (only && !only.includes(id)) continue;
+  for (const f of figures) {
+    const svg = await (await fetch("../" + f.src)).text();
+    const wrap = document.createElement("section");
+    wrap.innerHTML = `<h2>${f.src.replace(/^figures\/|\?.*$/g, "")}</h2><div class="row">` +
+      widths.flatMap((w) => ["dark", "light"].map((t) => `<div class="cell ${t} ${w}"><small>${t}, ${w}</small>${svg}</div>`)).join("") + "</div>";
+    document.body.append(wrap);
+  }
+}
+document.body.dataset.ready = "1";
+</script>
+</body>
+</html>
