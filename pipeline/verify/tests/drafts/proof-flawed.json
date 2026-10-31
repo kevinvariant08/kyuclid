@@ -4,15 +4,15 @@
   "kyu": 3,
   "topic": "N",
   "subtopics": [
-    "test-fixture"
+    "polynomial-factoring"
   ],
   "status": "draft",
   "statement": "Prove that for every integer $n$ the number $n^5 + 5n^3 - 6n$ is divisible by $6$.",
   "hints": [
-    "Check small moduli.",
-    "Divisibility by $6$ splits into two conditions."
+    "Look at the factors of the expression.",
+    "Factorise it: a product of three consecutive integers appears, which settles divisibility by $2$ and by $3$."
   ],
-  "solution": "Checking $n = 1$ gives $0$ and $n = 2$ gives $60$, and both are divisible by $6$. So the claim holds for every integer $n$.",
+  "solution": "Checking $n = 1$ gives $0$ and $n = 2$ gives $60$, and both are divisible by $6$. So the claim holds for every integer $n$.\n\n<b>Why this works.</b> <code>polynomial-factoring</code>: the factorisation shows three consecutive integers.",
   "provenance": {
     "kind": "original",
     "author": "task-05-tests"

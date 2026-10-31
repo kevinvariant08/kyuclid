@@ -35,13 +35,13 @@ They run in this order, and the first failure stops the run. `--keep-going` runs
 | # | Check | How | Cost |
 |---|---|---|---|
 | 1 | `schema` | The site's schema, `answer_hash` against `answer` through `js/lib/answers.js`, and a MathJax dry run | free |
-| 8 | `standard` | The automatable rules: answer range, hint count, a hint giving away the answer, UK spelling, contest names, the private ID leaking | free |
+| 8 | `standard` | The Auto rules in Appendix A of `docs/problem-standard.md`, such as kyu and type, answer format and range, hint count, spelling, titles and the "Why this works" line | free |
 | 7a | `originality_lexical` | Automatic fail above the fitted similarity threshold | free |
 | 2a | `computational` | The program runs in the sandbox and must print the key. A static check rejects programs that compute nothing | free |
 | 2b | `program_judge` | Sonnet: does the program really compute this quantity, or restate the solution? | 1 call |
 | 3 | `blind_solves` | Five Sonnet, one Haiku, one Opus, from the statement alone | 7 calls |
 | 4 | `well_posedness` | Opus critic | 1 call |
-| 5 | `solution_audit` | Opus critic | 1 call |
+| 5 | `solution_audit` | Opus critic of the solution and the hints | 1 call |
 | 6 | `difficulty` | Solve rate and tokens mapped to a kyu | free |
 | 7b | `originality` | Opus judge on the five nearest problems and the inspiration, plus "is this a known problem?" | 1 call |
 
@@ -114,7 +114,7 @@ That's about 420 model calls, the 60 problems the brief asks for. Task 03's real
 
 ## Standard rules
 
-`docs/problem-standard.md` doesn't exist yet, so `standard.py` follows the rules in `tasks/04-problem-standard.md`. When task 04 lands, compare it with that document's appendix of automatable rules.
+`standard.py` follows Appendix A of `docs/problem-standard.md`, and failure messages start with the rule number. The rules that need judgement are in the prompts: `WELL_POSED` covers S1, S2, S4, S5 and S6, and `AUDIT` covers the hint rules H2 to H6. Not implemented: A4 (is the encoding the hard part), B2, B4 and B7, which need a new judge or a reviewer. M3 stays a warning, because a key can appear in another form. The H4 literal check skips one-digit answers, so the audit judges those. The taxonomy checks in M4 and M5 run where `data/taxonomy.json` exists.
 
 ## Tests
 
@@ -151,4 +151,4 @@ Expect generated 5 to 3 kyu problems to sit between the second and third rows, b
 
 The output cap is 16,000 tokens per solve. Left alone, the CLI retries a capped reply up to four times, so each call also carries `--max-budget-usd` set to the cost of one capped reply. A solver that hits the cap counts as giving no answer. A live run confirmed this stops the retries: Haiku stopped at 16,000 tokens on the hard problem, where it had used 64,000 without the budget. The hardest Sonnet solve used about 11,000 tokens.
 
-Live results: 54 of 54 suite drafts got their expected verdict, plus `reskin-gauss`, which accepts any verdict because it documents a known limit. While writing the suite, two of my "correct" fixtures were replaced after the live gate rejected them as a near-copy or reskin of a corpus problem, and two more were fixed after a critic or judge found real faults in them. Given only the pair, the judge caught 20 of 20 reskins and raised no false alarm on 20 same-technique pairs. Those pairs are ones I wrote, so treat that as a check that the prompt works, not as its real accuracy. Model verdicts vary between runs: the suite's expected verdicts allow more than one check where several would rightly reject a draft.
+Live results: all suite drafts got their expected verdict, including `reskin-gauss`, which accepts any verdict because it documents a known limit. While writing the suite, three of my "correct" fixtures were replaced after the live gate rejected them as a near-copy or reskin of a corpus problem, and others were fixed after a critic or judge found real faults in them. The hint rules in `AUDIT` needed one recalibration: the first wording rejected most two-hint problems, so it now flags only clear breaks. Those rules have been tried on this suite only, so check their rejection rate in task 06's pilot. Given only the pair, the judge caught 20 of 20 reskins and raised no false alarm on 20 same-technique pairs. Those pairs are ones I wrote, so treat that as a check that the prompt works, not as its real accuracy. Model verdicts vary between runs: the suite's expected verdicts allow more than one check where several would rightly reject a draft.

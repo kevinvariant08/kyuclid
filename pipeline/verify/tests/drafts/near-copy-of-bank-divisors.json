@@ -4,7 +4,7 @@
   "kyu": 8,
   "topic": "N",
   "subtopics": [
-    "test-fixture"
+    "place-value-representation"
   ],
   "type": "answer",
   "status": "draft",
@@ -12,10 +12,10 @@
   "answer_format": "integer_0_999",
   "answer_hash": "87b9d5ab",
   "hints": [
-    "Write the number in terms of its tens digit and its units digit.",
-    "The condition becomes a simple relation between the two digits."
+    "Name the units digit, since the tens digit depends on it.",
+    "Use the place value of each digit to list the options: the tens digit is at most $9$, which limits the units digit."
   ],
-  "solution": "Since $720 = 2^4\\cdot 3^2\\cdot 5$, there are $5\\cdot 3\\cdot 2 = 30$ divisors.",
+  "solution": "Since $720 = 2^4\\cdot 3^2\\cdot 5$, there are $5\\cdot 3\\cdot 2 = 30$ divisors.\n\n<b>Why this works.</b> <code>place-value-representation</code>: the tens digit is at most nine, which limits the units digit.",
   "provenance": {
     "kind": "original",
     "author": "task-05-tests"

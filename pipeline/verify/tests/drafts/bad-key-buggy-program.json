@@ -4,7 +4,7 @@
   "kyu": 6,
   "topic": "N",
   "subtopics": [
-    "test-fixture"
+    "modular-arithmetic"
   ],
   "type": "answer",
   "status": "draft",
@@ -12,10 +12,10 @@
   "answer_format": "integer_0_999",
   "answer_hash": "46a410c6",
   "hints": [
-    "The expression's divisibility by $7$ depends only on the remainder of $n$.",
-    "Test the seven remainders, then count how often the good ones occur up to $100$."
+    "Does the value of the expression depend on all of $n$, or only on part of it?",
+    "Use modular arithmetic: test the seven remainders, then count how often the good ones occur up to $100$."
   ],
-  "solution": "Divisibility by $7$ depends only on $n$ modulo $7$. Testing the residues shows we need $n \\equiv 2$ or $4 \\pmod 7$. Among $1, \\dots, 98$ there are $14$ numbers in each class, giving $28$, and $99$ and $100$ both fail. The total is $28$.",
+  "solution": "Divisibility by $7$ depends only on $n$ modulo $7$. Testing the residues shows we need $n \\equiv 2$ or $4 \\pmod 7$. Among $1, \\dots, 98$ there are $14$ numbers in each class, giving $28$, and $99$ and $100$ both fail. The total is $28$.\n\n<b>Why this works.</b> <code>modular-arithmetic</code>: the condition depends only on a residue, so a short table settles it.",
   "provenance": {
     "kind": "original",
     "author": "task-05-tests"

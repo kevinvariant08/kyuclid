@@ -4,7 +4,7 @@
   "kyu": 8,
   "topic": "A",
   "subtopics": [
-    "test-fixture"
+    "rule-of-product"
   ],
   "type": "answer",
   "status": "draft",
@@ -12,10 +12,10 @@
   "answer_format": "integer_0_999",
   "answer_hash": "7c9a91aa",
   "hints": [
-    "Turn each description into a seat number.",
-    "Counting from the right, the first seat is seat $20$."
+    "What seat number does each person have?",
+    "Convert counting from the right into counting from the left: the first seat from the right is seat $20$."
   ],
-  "solution": "Ann is in seat $7$. The fifth seat from the right is seat $20 - 4 = 16$, so Ben is in seat $16$. The seats strictly between them are $8, 9, \\dots, 15$, and there are $8$ of them.",
+  "solution": "Ann is in seat $7$. The fifth seat from the right is seat $20 - 4 = 16$, so Ben is in seat $16$. The seats strictly between them are $8, 9, \\dots, 15$, and there are $8$ of them.\n\n<b>Why this works.</b> <code>rule-of-product</code>: converting both positions to one numbering makes the gap a direct count.",
   "provenance": {
     "kind": "original",
     "author": "task-05-tests"
