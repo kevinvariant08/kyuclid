@@ -9,6 +9,7 @@ from ..verify.config import BANK_DIR
 from .config import AUTHOR, HELD, PENDING, TAXONOMY
 
 LEAK_WORDS = 8
+LEAK_REAL_WORDS = 4
 _taken = set()
 _lock = threading.Lock()
 
@@ -120,7 +121,9 @@ def lint(d):
 def _ngrams(text, n=LEAK_WORDS):
     """Letters and digits are masked, so "when N is divided by" matches "when M is divided by"."""
     w = ["0" if x.isdigit() else "x" if len(x) == 1 else x for x in re.findall(r"\w+", text.lower())]
-    return {tuple(w[i:i + n]) for i in range(len(w) - n + 1)}
+    grams = (tuple(w[i:i + n]) for i in range(len(w) - n + 1))
+    # A run that is mostly symbols is a formula, and short formulas coincide without any copying.
+    return {g for g in grams if sum(len(x) >= 3 for x in g) >= LEAK_REAL_WORDS}
 
 
 _stock = set()
