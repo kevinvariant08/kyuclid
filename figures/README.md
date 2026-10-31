@@ -79,3 +79,4 @@ Every problem left out, with the reason. The rows for `a-product-of-two-sums` an
 | `smallest-completions` | N | Multiplicativity and exponent parity. |
 | `the-last-lonely-integer` | N | A linear Diophantine equation and bounds. |
 | `three-primes-and-a-ratio` | N | Bounds on divisor functions. |
+| `one-more-than-the-root` | N | Grouping a sum into blocks, with residues. |
