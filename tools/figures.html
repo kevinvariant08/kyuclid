@@ -26,11 +26,11 @@ const q = new URLSearchParams(location.search);
 const only = q.get("only") ? q.get("only").split(",") : null;
 const widths = q.get("widths") ? q.get("widths").split(",") : ["desktop", "phone"];
 if (q.has("sheet")) document.body.classList.add("sheet");
-const index = await (await fetch("../figures/index.json")).json();
+const index = await (await fetch("../figures/index.json", { cache: "no-store" })).json();
 for (const [id, figures] of Object.entries(index)) {
   if (only && !only.includes(id)) continue;
   for (const f of figures) {
-    const svg = await (await fetch("../" + f.src)).text();
+    const svg = await (await fetch("../" + f.src, { cache: "no-store" })).text();
     const wrap = document.createElement("section");
     wrap.innerHTML = `<h2>${f.src.replace(/^figures\/|\?.*$/g, "")}</h2><div class="row">` +
       widths.flatMap((w) => ["dark", "light"].map((t) => `<div class="cell ${t} ${w}"><small>${t}, ${w}</small>${svg}</div>`)).join("") + "</div>";

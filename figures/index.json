@@ -71,8 +71,8 @@
   ],
   "two-orbits": [
     {
-      "src": "figures/two-orbits-solution.svg?v=9f8b0b8e",
-      "alt": "Two concentric circles with centre O and radii 16 and 39, with A on the inner circle and B on the outer. At the moment contact begins, angle AOB is 120 degrees and AB = 49. Segment AB just touches the disc of radius r around O, at the foot F of the perpendicular from O, with a right angle at F.",
+      "src": "figures/two-orbits-solution.svg?v=971f9fc0",
+      "alt": "Two concentric circles with centre O and radii 16 and 39, the outer one shown as an arc, with A on the inner circle and B on the outer. At the moment contact begins, angle AOB is 120 degrees and AB = 49. Segment AB just touches the disc of radius r around O, at the foot F of the perpendicular from O, with a right angle at F.",
       "after_paragraph": 7
     }
   ],

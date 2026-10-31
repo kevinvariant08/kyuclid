@@ -25,7 +25,7 @@ ROLES = {
     "well_posedness": (OPUS, "medium", 6000),
     "solution_audit": (OPUS, "medium", 6000),
     "originality": (OPUS, "medium", 6000),
-    "figure_critic": (OPUS, "medium", 3000),
+    "figure_critic": (OPUS, "medium", 6000),
     "abstract": (HAIKU, "low", 600),
 }
 

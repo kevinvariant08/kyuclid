@@ -1,7 +1,9 @@
 // Solution figures. They are inlined rather than put in an <img>, because an <img> SVG can't inherit the page's
 // colour, and that is how they follow the theme. Each is fetched only once its solution is on the page.
-import { esc } from "./ui.js";
 import { paras } from "./tex.js";
+
+// Not ui.js's: the review page uses this file too, and it has no player state to load.
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 const parasOf = (s) => paras(s).match(/<p>[\s\S]*?<\/p>/g) || [];
 

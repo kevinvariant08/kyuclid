@@ -1,15 +1,15 @@
-%! alt Two concentric circles with centre O and radii 16 and 39, with A on the inner circle and B on the outer. At the moment contact begins, angle AOB is 120 degrees and AB = 49. Segment AB just touches the disc of radius r around O, at the foot F of the perpendicular from O, with a right angle at F.
+%! alt Two concentric circles with centre O and radii 16 and 39, the outer one shown as an arc, with A on the inner circle and B on the outer. At the moment contact begins, angle AOB is 120 degrees and AB = 49. Segment AB just touches the disc of radius r around O, at the foot F of the perpendicular from O, with a right angle at F.
 %! after_paragraph 7
-%! scale 2/17
+%! scale 1/7
 \input{preamble}
 \begin{document}
 \begin{tikzpicture}
 %! let r = 312*sqrt(3)/49
 \tkzDefPoint(0.0,0.0){O} %! O = (0, 0)
-\tkzDefPoint(-1.6301655,0.94117647){A} %! A = polar(O, 16, 150)
-\tkzDefPoint(3.9735283,2.2941176){B} %! B = polar(O, 39, 30)
-\tkzDefPoint(-0.30451029,1.2612392){F} %! F = foot(O, A, B)
-\tkzDefPoint(2.2941176,-3.9735283){E} %! E = polar(O, 39, 300)
+\tkzDefPoint(-1.9794866,1.1428571){A} %! A = polar(O, 16, 150)
+\tkzDefPoint(4.8249987,2.7857143){B} %! B = polar(O, 39, 30)
+\tkzDefPoint(-0.36976250,1.5315047){F} %! F = foot(O, A, B)
+\tkzDefPoint(5.5680346,-0.19444005){E} %! E = polar(O, 39, -2)
 %! fact dist(O, A) == 16
 %! fact dist(O, B) == 39
 %! fact angle(A, O, B) == 120
@@ -19,7 +19,8 @@
 %! fact dist(O, F) == r
 %! fact perp(O, F, A, B)
 \tkzFillCircle[color=figtint](O,F)
-\tkzDrawCircle[aux](O,E)
+\tkzDefPoint(2.9524073,4.7248394){G} %! G = polar(O, 39, 58)
+\tkzDrawArc[aux](O,E)(G)
 \tkzDrawCircle[aux](O,A)
 \tkzDrawCircle(O,F)
 \tkzDrawSegments(O,A O,B)

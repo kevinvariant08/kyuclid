@@ -127,6 +127,8 @@ class CliBackend(Backend):
         budget = max_tokens * PRICES.get(model, PRICES["claude-opus-5-5"])[3] / 1e6
         flags = self.FLAGS
         if images:
+            # Reading each image is a model turn of its own, and each turn pays for the images again.
+            budget *= 2 + len(images)
             flags = [*self.FLAGS]
             flags[flags.index("--tools") + 1] = "Read"
             flags += ["--allowedTools", "Read"]

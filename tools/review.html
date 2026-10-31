@@ -195,12 +195,12 @@ function render() {
   const busy = mode === "busy" ? `<section class="notice"><h3>Gate running</h3><p id="elapsed">Started just now. This can take a few minutes on a hard problem.</p></section>` : "";
   const side = mode === "edit" ? editor() : mode === "reject" ? rejecter() : "";
   app.innerHTML = header() + `<main><div id="preview">${preview(shown)}</div><div>${busy}${noticeBox()}${side}${summary(mode === "edit" && notice?.report ? notice.report : cur.report)}${warnings ? `<section>${warnings}</section>` : ""}</div></main>`;
-  typeset();
+  typeset(shown);
 }
 
-function typeset() {
+function typeset(d) {
   app.querySelectorAll("#preview .tex").forEach((el) => tex(el));
-  inlineFigures(document.getElementById("preview"), carriedSvg(shown));
+  inlineFigures(document.getElementById("preview"), carriedSvg(d));
 }
 
 let previewTimer;
@@ -208,8 +208,7 @@ function livePreview() {
   clearTimeout(previewTimer);
   previewTimer = setTimeout(() => {
     document.getElementById("preview").innerHTML = preview({ ...cur.draft, ...work });
-    inlineFigures(document.getElementById("preview"), carriedSvg({ ...cur.draft, ...work }));
-    typeset();
+    typeset({ ...cur.draft, ...work });
   }, 250);
 }
 
