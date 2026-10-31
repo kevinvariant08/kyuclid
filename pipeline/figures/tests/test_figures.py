@@ -12,6 +12,7 @@ from pathlib import Path
 from unittest import mock
 
 from pipeline.figures import attach
+from pipeline.figures.__main__ import main as figures_main
 from pipeline.figures.build import FIGURES, ToolchainError, _compile, _run, all_names, build_source, check_layout, figure_paths, preflight, svg_version, theme_svg
 from pipeline.figures.source import Figure, FigureError, fact_numbers
 from pipeline.generate import drafts, prompts, run
@@ -291,6 +292,9 @@ class WithTeX(unittest.TestCase):
         d = dict(topic="N", statement="How many integers are there from $1$ to $7$?", solution="Count them. The answer is $7$.\n\n<b>Why this works.</b> <code>casework</code>: it is short.")
         _, be = self._gate(d)
         self.assertFalse(any(role == "figure_critic" for role, _, _ in be.prompts))
+
+    def test_the_check_command_runs(self):
+        self.assertEqual(figures_main(["check"]), 0)
 
     def test_preflight_passes_here(self):
         preflight()

@@ -65,3 +65,7 @@ python -m unittest pipeline.generate.tests.test_generate
 ```
 
 These use a scripted backend and an invented source problem, so they need no model or corpus.
+
+## Figures
+
+The write-up also returns a tkz-euclide `<figure>` for any solution that argues from a picture, or a `<no_figure>` reason if the problem isn't topic G and the argument has no picture. `drafts.attach_figures` fills in its decimals and compiles it for free before the gate. A failure goes back to the writer as a repair, keeping the statement and key. The draft carries its `.tex` and `.svg` in `figure_sources`, and approving it in the review queue writes them to `figures/`.

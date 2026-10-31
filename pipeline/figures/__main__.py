@@ -86,7 +86,7 @@ def main(argv=None):
             return 0
         if args.command == "attach":
             return run_attach(args)
-        failures = build(args.names or all_names(), check_only=args.command == "check")
+        failures = build(getattr(args, "names", None) or all_names(), check_only=args.command == "check")
     except ToolchainError as e:
         print(f"Can't build figures on this machine: {e}", file=sys.stderr)
         return 3

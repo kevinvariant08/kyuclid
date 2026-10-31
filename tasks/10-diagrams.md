@@ -7,16 +7,18 @@ Let problems carry accurate, theme-aware figures, so the generator can write rea
 01, for the `figure` field in the schema.
 
 ## Spec
-1. **Authoring format.** A figure is a small Python script, `figures/<id>.py`, using exact coordinates (sympy or plain floats computed from the problem's data). It writes `figures/<id>.svg`. Put a tiny helper library in `pipeline/figures/` with functions like `point`, `segment`, `circle`, `label`, `angle_mark` and `right_angle`.
-2. **Theme awareness.** The SVG uses `currentColor` for strokes and labels and no hard-coded colours, so it inherits the page colour in both themes. Labels are in italic serif, to match the statement font.
-3. **Accuracy check.** The script asserts the problem's given facts, such as tangency, lengths and concyclicity, at 1e-9 tolerance, so a figure can never contradict its statement. Not-to-scale figures are allowed only when the problem says so.
-4. **Frontend.** The problem view shows `figure` inline after the statement, at a max width of 420 px, with a text alternative made from a `figure_alt` field.
-5. **Pipeline hook.** The generator (06) can ask for a figure. The verification gate (05) runs the figure script and fails the draft if its assertions fail.
-6. Add figures to the existing geometry seed problems as a demonstration.
+Kevin chose tkz-euclide over the Python format first planned here. `figures/README.md` is the reference: format, build, attaching and the problems left out.
+
+1. **Authoring format.** A figure is real tkz-euclide, `figures/<id>-solution[-n].tex`, built from exact coordinates over a shared preamble and compiled by MiKTeX to a committed SVG with `python -m pipeline.figures build`. The site has no build step.
+2. **Theme awareness.** The SVG uses `currentColor` and `var(--fig-accent)`, and any other colour fails the build. The problem view inlines it, because an `<img>` can't inherit the page colour.
+3. **Accuracy check.** Each `%! fact` is checked on the exact coordinates at 1e-9, and the decimals TeX draws with must match those coordinates.
+4. **Frontend.** `solution_figures: [{src, alt, after_paragraph}]` appear inside the solution, once it is unlocked.
+5. **Pipeline hook.** The generator must write a figure for any solution that argues from a picture. The gate compiles it, re-checks its facts and layout, and adds one Opus critic call that looks at a render. The review queue shows figures.
+6. Figures for the live site's geometry problems and the pilot's geometry drafts, mapped by ID in `figures/index.json`.
 
 ## Acceptance criteria
-- Five demo figures render correctly at desktop and phone widths in both themes, and have alt text.
-- Deliberately breaking a figure, by moving a tangent point, makes its assertion fail.
+- Every figure looked at on desktop and phone in both themes, with alt text.
+- Breaking a figure, by moving a tangent point or by making it fail to compile, fails the gate.
 
 ## Out of scope
 Interactive figures. Kevinvariant's Geometry Lab already does those, and a later task could link to it.
