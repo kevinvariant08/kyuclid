@@ -42,6 +42,9 @@ The problem should read and feel like a real AIME problem: a short, clean statem
 
 TOPICS = {"A": "algebra", "C": "combinatorics or probability", "G": "geometry", "N": "number theory"}
 
+# Kevin's ladder, as in js/lib/ranks.js on main.
+ANCHORS = {5: "late AMC 12 and AIME 1 to 5", 4: "AIME 6 to 10", 3: "AIME 11 to 15 and olympiad openers"}
+
 # Pilot evidence: of 10 drafts aimed at 5 kyu, the ruler put 6 at 3 kyu and 1 at 2 kyu, and the reviewer moved one down to 4 kyu.
 CALIBRATION = {5: """CALIBRATING 5 KYU
 Drafts aimed at 5 kyu have been coming out about two kyu too hard, so aim lower than feels natural. One crux, found by the first sensible attempt, then routine work. A strong solver finishes in 6 to 12 minutes, and the solution fits in a short paragraph or two. Do not stack a second idea, and do not make the solver run an idea backwards through a further counting or divisibility step. If a candidate needs two non-routine steps, take one out, even if it is less impressive. For the combine recipe, the second technique must be the routine part."""}
@@ -109,7 +112,7 @@ def _topic_rules(topic):
 
 def _idea_context(inp, kyu, digest):
     parts = [
-        f"Write for {kyu} kyu. Its difficulty must come from an idea, not from arithmetic.",
+        f"Write for {kyu} kyu, in the style and at the level of {ANCHORS[kyu]}. Its difficulty must come from an idea, not from arithmetic.",
         STYLE,
         *_topic_rules(inp.record["topic"]),
         *([CALIBRATION[kyu]] if kyu in CALIBRATION else []),
