@@ -1,12 +1,12 @@
 # Kyuclid
 
-A ranked dojo for contest maths, in the spirit of Codewars. Problems are graded on a kyu ladder from 8 kyu warm-ups (UKMT Junior, AMC 8) up to 1 kyu (IMO Problems 3 and 6).
+A ranked dojo for contest maths, in the spirit of Codewars. Problems are graded on a kyu ladder from 8 kyu (AMC 8) up to 1 kyu (the hardest USAMO, USEMO, Balkan MO, CMO and IMO proofs).
 
 A [Kevinvariant](https://kevinvariant08.github.io/) project. First draft.
 
 ## What's in the draft
 
-- **21 seed problems** across all eight kyu, in algebra, combinatorics, geometry and number theory. Contest problems name their source.
+- **Original problems** in the style of real contests, in algebra, combinatorics, geometry and number theory. Contest problems name their source.
 - **Answer problems (8–3 kyu)** are checked instantly. Answers are stored as salted FNV-1a hashes, not in plain text.
 - **Proof problems (3–1 kyu)** have a LaTeX editor with live preview. After submitting, you self-grade out of 7 against a rubric. Peer review is planned.
 - **Duels** against a timed ghost opponent, with an Elo rating. A wrong answer locks you out for 15 seconds.
