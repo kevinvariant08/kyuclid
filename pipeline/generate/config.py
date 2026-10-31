@@ -7,6 +7,7 @@ from ..verify.config import OPUS, OUT, ROOT
 
 PENDING = ROOT / "review" / "pending"
 HELD = ROOT / "review" / "held"
+REVIEWED = ROOT / "review" / "reviewed"  # Drafts Kevin has already decided. They still count for coverage and for used sources.
 STANDARD = ROOT / "docs" / "problem-standard.md"
 TAXONOMY = ROOT / "data" / "taxonomy.json"
 

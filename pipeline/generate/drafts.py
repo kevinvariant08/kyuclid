@@ -8,6 +8,7 @@ from ..verify import answers, originality, sandbox, schema_check, standard
 from ..verify.config import BANK_DIR
 from .config import AUTHOR, HELD, PENDING, TAXONOMY
 
+PICTURE = re.compile(r"\b(diagram|picture|the figure|sketch)\b", re.I)
 LEAK_WORDS = 8
 LEAK_REAL_WORDS = 4
 _taken = set()
@@ -45,7 +46,7 @@ def build(idea, write, key, inp, kyu, profile, run):
     pid = allocate_id(idea["title"], inp.id)
     write = {**write, "solution": tidy_latex(write["solution"]), "hints": [tidy_latex(h) for h in write["hints"]]}
     return dict(
-        id=pid, title=idea["title"], kyu=kyu, topic=idea["topic"] if idea["topic"] in tuple("ACGN") else inp.record["topic"], subtopics=write["subtopics"],
+        id=pid, title=idea["title"], kyu=kyu, topic=inp.record["topic"], subtopics=write["subtopics"],
         type=profile.type, status="draft", statement=idea["statement"], answer_format=profile.answer_format,
         answer_hash=answers.answer_hash(pid, key), hints=write["hints"], solution=write["solution"],
         provenance=dict(kind="original", author=AUTHOR, pipeline_run=run), stats=dict(solves=0, attempts=0, liked=0),
@@ -167,6 +168,8 @@ def run_program(src):
 
 def idea_checks(idea, inp, index, threshold):
     """Everything free about an idea, so a bad one costs nothing. Returns (step, reason, key)."""
+    if idea["topic"] != inp.record["topic"]:
+        return "topic", f"the problem must be topic {inp.record['topic']}, and this one is labelled {idea['topic']}", None
     problem = lint_idea(idea)
     if problem:
         return "idea_lint", problem, None
@@ -203,6 +206,8 @@ def write_checks(d, inp):
     problem = lint(d)
     if problem:
         return "lint", problem
+    if d["topic"] != "G" and PICTURE.search(standard._prose(d["solution"] + " " + " ".join(d["hints"]))):
+        return "lint", "the solution argues from a picture or refers to a figure, which this problem must not do"
     problem = leak(d, inp)
     if problem:
         return "leak", problem
