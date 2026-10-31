@@ -1,4 +1,4 @@
-%! alt Isosceles triangle ACE with CA = CE = h, drawn for h = 144. B is the midpoint of AE, with AB = BE = 90 and a right angle between BC and AE. D lies on side CE, and AD bisects angle CAE. CB bisects angle ACE, so E is the reflection of A in line BC.
+%! alt Isosceles triangle ACE with CA = CE = h, drawn for h = 144. B is the midpoint of AE, with AB = BE = 90 and a right angle between BC and AE. D lies on side CE, AD bisects angle CAE, and CD = h squared over (h + 180). CB bisects angle ACE, so E is the reflection of A in line BC.
 %! after_paragraph 3
 %! scale 1/23
 \input{preamble}
@@ -26,6 +26,7 @@
 \tkzDrawSegment[key](A,D)
 \tkzMarkRightAngle[size=.2,mk](C,B,A)
 \tkzMarkSegments[mark=|,size=2.5pt,mk](A,B B,E)
+\tkzMarkSegments[mark=||,size=2.5pt,pos=.72,mk](C,A C,E)
 \tkzMarkAngles[size=.8,arc=l,mark=|,mksize=2pt,mk](B,A,D D,A,C)
 \tkzMarkAngles[size=.75,arc=ll,mark=none,mk](A,C,B)
 \tkzMarkAngles[size=.75,arc=ll,mark=none,mk](B,C,D)
@@ -35,8 +36,8 @@
 \tkzLabelPoint[right,lbl](C){$C$}
 \tkzLabelPoint[below right,lbl](D){$D$}
 \tkzLabelPoint[below left,lbl](E){$E$}
-\tkzLabelSegment[above right,len](A,C){$h$}
-\tkzLabelSegment[below right,pos=.3,len](C,E){$h$}
+\tkzLabelSegment[above right,pos=.4,len](A,C){$h$}
+\tkzLabelSegment[below right,pos=.5,len](C,D){$\displaystyle\frac{h^2}{h+180}$}
 \tkzLabelSegment[left,pos=.72,len](A,B){$90$}
 \tkzLabelSegment[left,pos=.28,len](B,E){$90$}
 \end{tikzpicture}

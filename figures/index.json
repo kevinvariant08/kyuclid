@@ -104,8 +104,8 @@
   ],
   "whole-number-distances": [
     {
-      "src": "figures/whole-number-distances-solution.svg?v=ecceef4d",
-      "alt": "Isosceles triangle ACE with CA = CE = h, drawn for h = 144. B is the midpoint of AE, with AB = BE = 90 and a right angle between BC and AE. D lies on side CE, and AD bisects angle CAE. CB bisects angle ACE, so E is the reflection of A in line BC.",
+      "src": "figures/whole-number-distances-solution.svg?v=12ddecea",
+      "alt": "Isosceles triangle ACE with CA = CE = h, drawn for h = 144. B is the midpoint of AE, with AB = BE = 90 and a right angle between BC and AE. D lies on side CE, AD bisects angle CAE, and CD = h squared over (h + 180). CB bisects angle ACE, so E is the reflection of A in line BC.",
       "after_paragraph": 3
     }
   ]
