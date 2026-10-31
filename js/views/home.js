@@ -15,7 +15,7 @@ let flash = null;     // the problem you just solved here, to confirm it on the 
 
 function intro(placed, pts) {
   if (!placed) return `<div class="home-intro">
-    <div><h1>Contest maths, belt by belt.</h1><p>Ranked problems from AMC 8 warm-ups to IMO Problem 6. Try the one below, or let three questions find your level.</p></div>
+    <div><h1>Contest maths, belt by belt.</h1><p>Problems in the style of real contests, from AMC 8 to IMO proofs. Try the one below, or let three questions find your level.</p></div>
     <a class="btn" href="#home-quiz" id="ctaQuiz">Find your level</a>
   </div>`;
   const named = S.handle && S.handle !== "you" ? `, ${esc(S.handle)}` : "";

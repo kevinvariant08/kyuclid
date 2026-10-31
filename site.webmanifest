@@ -2,7 +2,7 @@
   "id": "/kyuclid/",
   "name": "Kyuclid",
   "short_name": "Kyuclid",
-  "description": "Contest maths, belt by belt. Ranked problems from 8 kyu warm-ups to 1 kyu IMO proofs.",
+  "description": "Contest maths, belt by belt. Ranked contest-style problems, from AMC 8 to IMO proofs.",
   "start_url": "/kyuclid/",
   "scope": "/kyuclid/",
   "display": "standalone",

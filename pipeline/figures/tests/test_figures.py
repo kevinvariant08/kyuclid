@@ -56,7 +56,7 @@ def draft(tex, name="demo-solution", topic="G", svg=None):
 class WithoutTeX(unittest.TestCase):
     def test_every_committed_figure_holds_its_facts(self):
         names = all_names()
-        self.assertGreaterEqual(len(names), 16)
+        self.assertGreaterEqual(len(names), 12)
         for name in names:
             with self.subTest(name):
                 fig = Figure(name, figure_paths(name)[0].read_text(encoding="utf-8"))

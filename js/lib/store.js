@@ -17,6 +17,8 @@ try {
   if (raw) {
     const saved = JSON.parse(raw);
     Object.assign(S, saved);
+    // The 21 first-draft problems left the bank, so their solves stop counting towards rank.
+    for (const id of "circle-in-the-square closest-approach cube-the-reciprocal divisor-census domino-corridor egyptian-pairs egz factorial-sandwich floor-staircase last-two-digits neither-fizz-nor-buzz nesbitts-guard polygon-from-one-angle prime-power-desert round-table-no-neighbours square-hunting the-13-14-15-triangle there-and-back twenty-to-four vieta-leap zeros-of-2026".split(" ")) delete S.solved[id];
     // Saves from before the activity map: rebuild it. The log is capped, so solves come from solved[*].at.
     if (!saved.activity) {
       const add = (at) => { const d = dayKey(at); S.activity[d] = (S.activity[d] || 0) + 1; };

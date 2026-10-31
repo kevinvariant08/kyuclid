@@ -41,45 +41,27 @@ Every problem with topic G has one, and so has any other problem whose solution 
 - `three-chords`: the argument starts from chords of a parabola and their slopes.
 - `colours-on-a-cut-up-decagon`: the induction removes a vertex from a triangulated polygon.
 
-Every problem left out, with the reason. The last 17 rows are drafts from the second generation batch, classified from their statements and tags:
+Every problem left out, with the reason. The rows for `a-product-of-two-sums` and the 16 others that weren't in the first pilot are drafts from the second generation batch, classified from their statements and tags:
 
 | Problem | Topic | Why it has no figure |
 |---|---|---|
-| `closest-approach` | A | The solution is Cauchy-Schwarz, with no picture. A distance-to-a-line solution exists, but this isn't that solution. |
-| `cube-the-reciprocal` | A | Symmetric expressions in one variable. |
-| `floor-staircase` | A | Periodicity of a floor function, counted by algebra. |
-| `nesbitts-guard` | A | An inequality proved with AM-HM. |
 | `sides-from-a-cubic` | A | "Triangle" only supplies three inequalities on the roots. |
-| `there-and-back` | A | Average speed, by arithmetic. |
 | `black-cells-in-four-rows` | C | The 4-cycle is a bookkeeping graph, and the argument counts partitions of its edges. |
-| `domino-corridor` | C | A recursion on tilings. The tiles aren't geometry, and the solution doesn't argue from a drawing. |
-| `egz` | C | A vector of residues in a counting proof. |
 | `flipping-half-the-strings` | C | Vectors over the field with two elements, so there is nothing to draw in the plane. |
 | `halfway-there` | C | Casework and binomial counting on a functional condition. |
-| `neither-fizz-nor-buzz` | C | Inclusion-exclusion on multiples. |
-| `round-table-no-neighbours` | C | Cutting the circle into a line of knights is a recursion, with no geometric step. |
 | `the-fifteen-hundredth-term` | C | Counting strings by base representation. |
 | `a-product-equal-to-one` | N | Valuations and parity. |
 | `a-reshuffle-of-thirty-five` | N | A graph on pairs of residues, used for counting. The picture adds nothing to the argument. |
 | `a-whole-total` | N | Multiplicative functions and prime factorisation. |
-| `divisor-census` | N | Counting divisors. |
-| `egyptian-pairs` | N | Factorising and counting divisors. |
 | `eight-divisors-of-thirty` | N | A recursion on exponent parities. |
-| `factorial-sandwich` | N | Bounds on factorials. |
 | `first-whole-value` | N | Orders modulo n and telescoping. |
-| `last-two-digits` | N | Orders modulo 100. |
-| `mixed-products` | N | An integer recurrence and residues. |
 | `multiples-of-thirteen` | N | The roots of unity are only a product over the roots, and the argument works modulo 13. |
 | `one-step-or-two` | N | "Jump points" are those of step functions, compared by algebra. |
-| `prime-power-desert` | N | The Chinese remainder theorem. |
 | `remainders-of-a-growing-sum` | N | Completing the square and residues. "Triangular" only names the numbers. |
-| `square-hunting` | N | Difference of squares and parity. |
 | `three-from-a-hundred` | N | A discriminant and bounds. |
 | `three-matching-remainders` | N | "Coordinates" here means residues. |
 | `three-units-of-digit-weight` | N | Residues and the rule of product. |
 | `totals-never-reached` | N | Double counting and floor functions. |
-| `vieta-leap` | N | Vieta jumping, written without its hyperbola picture. |
-| `zeros-of-2026` | N | Legendre's formula. |
 | `a-product-of-two-sums` | A | Trigonometric identities, by algebra. |
 | `one-coefficient-fixed` | A | A geometric series and a discriminant. |
 | `repeats-in-a-family` | A | "Pencil" is only a name for a family of quadratics, handled by Vieta. |

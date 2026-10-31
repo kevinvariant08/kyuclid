@@ -122,7 +122,7 @@ test("no report, FAIL and ERROR can't be approved; INVESTIGATE needs a second co
 });
 
 test("approving a draft that carries its figures writes them, and keeps the sources out of the public form", async () => {
-  const svg = readFileSync(join(root, "figures", "twenty-to-four-solution.svg"), "utf8").replaceAll("twenty-to-four-solution-", "carried-fig-solution-");
+  const svg = readFileSync(join(root, "figures", "two-orbits-solution.svg"), "utf8").replaceAll("two-orbits-solution-", "carried-fig-solution-");
   const version = createHash("sha256").update(svg).digest("hex").slice(0, 8);
   const id = "carried-fig";
   const d = draft({ id, answer_hash: hashAnswer(id, "10"), solution_figures: [{ src: `figures/${id}-solution.svg?v=${version}`, alt: "A clock.", after_paragraph: 1 }], figure_sources: [{ name: `${id}-solution`, tex: "% source", svg }] });

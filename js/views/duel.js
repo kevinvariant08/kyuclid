@@ -8,7 +8,7 @@ import { tex, paras } from "../lib/tex.js";
 
 const GHOST = { 8: { t: 45, r: 900 }, 7: { t: 70, r: 1050 }, 6: { t: 110, r: 1200 }, 5: { t: 170, r: 1350 }, 4: { t: 260, r: 1500 }, 3: { t: 420, r: 1700 } };
 // The problem page sets D.kyu for its "Duel at N kyu" button.
-export const D = { kyu: 6, live: null, starting: false };
+export const D = { kyu: 5, live: null, starting: false };
 const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 export function stopDuel() { if (D.live) { clearInterval(D.live.tick); D.live = null; } }
 
