@@ -5,6 +5,5 @@ out/
 __pycache__/
 *.pyc
 
-# Drafts can show inspired_by. The private mapping lives in the corpus repo.
-review/pending/
-review/held/
+# Review queue: drafts, reports and decisions hold answers, check programs and inspired_by.
+review/

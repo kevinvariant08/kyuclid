@@ -19,3 +19,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: node scripts/validate.mjs
+      - name: Drafts must never be committed, because Pages serves this repo
+        run: test -z "$(git ls-files review)"
+      - run: node --test scripts/review-server.test.mjs

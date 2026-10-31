@@ -34,3 +34,30 @@ Accounts, friend duels, real leaderboards, peer review of proofs and problem sub
 ## Adding a problem
 
 Write `data/problems/<id>.json`, hash its answer with `node scripts/hash-answer.mjs <id> <answer>`, then run `node scripts/build-index.mjs` and `node scripts/validate.mjs`. [CONTRIBUTING.md](CONTRIBUTING.md) explains each field, and [schema/problem.schema.json](schema/problem.schema.json) is the full format.
+
+## Reviewing generated problems
+
+```bash
+npm run review
+```
+
+This opens the review queue at http://localhost:8377/tools/review.html and serves the local site from the same address. Run `npm ci` once first. The gate needs its Python setup (`pipeline/verify/README.md`), and it uses `~/mathwars-corpus` unless `KYUCLID_CORPUS` says otherwise.
+
+| Key | Action |
+|---|---|
+| `a` | Approve. `INVESTIGATE` asks you to press it again. `FAIL`, `ERROR` and unverified drafts can't be approved as they stand |
+| `e`, then `Ctrl+Enter` | Edit, re-run the gate, and approve if it allows |
+| `r`, then `1`–`9`, `0` or `o`, then `Enter` | Reject with reasons from section 6 of the standard. `o` is Other, which needs a note |
+| `s` | Skip |
+| `j` / `k` | Next and previous |
+| `v` | Verify a draft that has no report |
+
+Task 06 writes drafts to `review/pending/<id>.json` as `{ "draft": …, "report": … }`. To read them from another checkout, run `npm run review -- --pending <dir>`.
+
+- **Approve** writes `data/problems/<id>.json` with only the schema's public fields and `status: "beta"`, rebuilds `data/index.json` and runs `validate.mjs`, undoing the write if that fails. Nothing is committed: check the problem on the local site, then commit `data/`. Pushing `main` deploys it.
+- **Edits** cover title, kyu, statement, hints and solution, not the answer. If an edited statement makes the blind solvers doubt the key, the edit is blocked and can't be overridden.
+- **Everything private stays in `review/`,** which is gitignored: `approved/` and `rejected/` keep the full drafts, and `decisions.jsonl` keeps every decision. It is per checkout, so run the queue from one that lasts, not a temporary worktree.
+- **To undo a decision,** delete the problem file if there is one, run `npm run build`, and put the `{ draft, report }` from `review/approved/` or `review/rejected/` back in `review/pending/`.
+- **`tools/review.html` is public once it reaches `main`,** because Pages serves the whole repo. It holds no data and does nothing away from localhost. The server listens on 127.0.0.1 only and refuses other hostnames, other origins and private folders.
+
+`npm run digest` prints the rejection reasons as a short paragraph for the generator's prompt. `npm run test:review` runs the tests.

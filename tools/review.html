@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kyuclid review</title>
+<!-- A local tool. This file holds no problem data: everything comes from scripts/review-server.mjs on 127.0.0.1. -->
+<style>
+  :root { --bg: #0D1322; --surface: #161E33; --raise: #1F2942; --line: #2F3A58; --ink: #F1EFE9; --soft: #B6BDD0; --faint: #8E97B0; --good: #5FCB8E; --warn: #E9B44C; --bad: #F0776C; --accent: #7FA8FF; color-scheme: dark; }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #F4F3EF; --surface: #FFFFFF; --raise: #ECEBE5; --line: #D3D1C7; --ink: #141B33; --soft: #424A63; --faint: #5C647C; --good: #1C7A47; --warn: #8A5A00; --bad: #B3362B; --accent: #2B57C4; color-scheme: light; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 system-ui, sans-serif; }
+  header { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 10px 16px; background: var(--surface); border-bottom: 1px solid var(--line); }
+  header b { font-size: 16px; }
+  .spacer { flex: 1; }
+  .faint { color: var(--faint); font-size: 13px; }
+  main { display: grid; grid-template-columns: minmax(0, 3fr) minmax(280px, 2fr); gap: 16px; padding: 16px; max-width: 1280px; margin: 0 auto; }
+  @media (max-width: 860px) { main { grid-template-columns: minmax(0, 1fr); } }
+  section { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; overflow-wrap: anywhere; }
+  h2 { margin: 0 0 4px; font-size: 20px; }
+  h3 { margin: 0 0 6px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
+  p { margin: 0 0 10px; } p:last-child { margin-bottom: 0; }
+  .answer { font: 600 20px ui-monospace, monospace; }
+  button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--raise); color: var(--ink); cursor: pointer; }
+  button:hover:not(:disabled) { border-color: var(--accent); }
+  button:disabled { opacity: .5; cursor: default; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 600; }
+  kbd { font: 11px ui-monospace, monospace; padding: 0 4px; border: 1px solid currentColor; border-radius: 3px; opacity: .75; margin-left: 4px; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; border: 1px solid currentColor; }
+  .PASS, .pass { color: var(--good); } .INVESTIGATE, .investigate, .UNVERIFIED, .skip { color: var(--warn); } .FAIL, .fail, .ERROR, .error { color: var(--bad); }
+  .stats { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin: 8px 0 0; }
+  .stats dt { color: var(--faint); } .stats dd { margin: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  td { padding: 3px 6px 3px 0; vertical-align: top; border-top: 1px solid var(--line); }
+  textarea, input[type=text], select { width: 100%; font: 13px/1.45 ui-monospace, monospace; padding: 6px 8px; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; }
+  textarea { resize: vertical; }
+  label { display: block; margin: 8px 0 3px; font-size: 12px; color: var(--faint); }
+  pre { margin: 6px 0 0; font-size: 12px; white-space: pre-wrap; }
+  .notice { border-color: var(--warn); }
+  .notice.blocked { border-color: var(--bad); }
+  .reasons label { display: flex; gap: 8px; margin: 2px 0; font-size: 14px; color: var(--ink); cursor: pointer; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .empty { max-width: 640px; margin: 48px auto; padding: 0 16px; }
+  code { font: 13px ui-monospace, monospace; }
+</style>
+</head>
+<body>
+<div id="app"><div class="empty"><p>Loading…</p></div></div>
+<script type="module">
+import { tex, paras } from "../js/lib/tex.js";
+
+const app = document.getElementById("app");
+const TOPICS = { A: "Algebra", C: "Combinatorics", G: "Geometry", N: "Number theory" };
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+let Q = { items: [], failures: [], warnings: [], approved: 0, rejected: 0 };
+let pos = 0;           // place in the queue
+let cur = null;        // { draft, report } on screen
+let mode = "view";     // view | edit | reject | busy
+let work = null;       // the edited fields while editing
+let notice = null;     // { kind, title, lines, confirm }
+let picked = new Set();
+let noteText = "";
+let decided = 0;
+let lastApproved = null;
+const skipped = new Set();
+
+function localOnly() {
+  app.innerHTML = `<div class="empty"><h2>This page only works on Kevin's machine</h2><p>The review queue runs from a local server, and nothing is stored here. Run <code>npm run review</code> in the repository.</p></div>`;
+}
+
+async function api(path, body) {
+  const res = await fetch("/api/" + path, body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : undefined);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+  return data;
+}
+
+async function refresh(keepId) {
+  Q = await api("queue");
+  if (keepId) { const i = Q.items.findIndex((x) => x.id === keepId); if (i >= 0) pos = i; }
+  pos = Q.items.length ? Math.min(pos, Q.items.length - 1) : 0;
+  await show();
+}
+
+async function show() {
+  mode = "view"; work = null; picked = new Set(); noteText = "";
+  cur = Q.items.length ? await api("draft/" + Q.items[pos].id) : null;
+  render();
+}
+
+function move(step) {
+  if (!Q.items.length) return;
+  pos = (pos + step + Q.items.length) % Q.items.length;
+  notice = null;
+  show();
+}
+
+const check = (r, name) => r?.checks?.find((c) => c.check === name);
+
+function summary(report) {
+  if (!report) return `<section class="notice"><h3>Verification</h3><p><span class="pill UNVERIFIED">UNVERIFIED</span></p><p>No report yet, so this can't be approved.</p><div class="actions"><button data-do="verify">Verify now<kbd>v</kbd></button></div></section>`;
+  const word = report.verdict.split(" ")[0].replace(":", "");
+  const blind = check(report, "blind_solves")?.evidence;
+  const diff = check(report, "difficulty")?.evidence;
+  const near = check(report, "originality_lexical")?.evidence?.nearest?.[0];
+  const orig = check(report, "originality")?.evidence;
+  const u = report.usage;
+  const rows = [
+    ["Blind solves", blind?.total ? `${blind.right}/${blind.total} agree with the key` : "not run"],
+    ["Estimated kyu", diff?.estimated_kyu ? `${diff.estimated_kyu} (target ${diff.target_kyu}${diff.provisional ? ", provisional ruler" : ""})` : "not run"],
+    ["Nearest problem", near ? `${near.id} (similarity ${near.similarity})` : "none found"],
+    ["Corpus compared", orig ? (orig.corpus_available ? "yes" : "no, bank only") : "not run"],
+    ["Cost", u ? `$${u.api_equivalent_usd} API-equivalent, ${u.calls} calls` : "unknown"],
+  ];
+  const checks = report.checks.map((c) => `<tr><td class="${esc(c.status)}">${esc(c.status)}</td><td>${esc(c.check)}</td><td>${esc(c.reason)}</td></tr>`).join("");
+  const notes = (report.notes || []).map((n) => `<p class="faint">${esc(n)}</p>`).join("");
+  return `<section><h3>Verification</h3><p><span class="pill ${word}">${word}</span></p>${word === "PASS" ? "" : `<p>${esc(report.verdict)}</p>`}
+    <dl class="stats">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}</dl>${notes}
+    <details><summary class="faint">All checks</summary><table>${checks}</table></details></section>`;
+}
+
+function preview(d) {
+  const figure = d.figure ? `<p><img src="/${esc(d.figure)}" alt="${esc(d.figure_alt)}" style="max-width:100%"></p>` : "";
+  const key = d.type === "answer" ? `<section><h3>Answer</h3><div class="answer">${esc(d.answer)}</div><p class="faint">${esc(d.answer_format)}</p>
+    <details><summary class="faint">Check program</summary><pre>${esc(d.check_program)}</pre></details></section>` : "";
+  const rubric = d.rubric ? `<section><h3>Rubric</h3><table>${d.rubric.map((r) => `<tr><td>${r.marks}</td><td class="tex">${r.criterion}</td></tr>`).join("")}</table></section>` : "";
+  const hints = (d.hints || []).map((h, i) => `<div class="tex"><p class="faint">Hint ${i + 1}</p>${paras(h)}</div>`).join("");
+  return `<section><h2>${esc(d.title)}</h2><p class="faint">${d.kyu} kyu · ${TOPICS[d.topic] || esc(d.topic)} · ${esc(d.type)} · <code>${esc(d.id)}</code> · ${(d.subtopics || []).map(esc).join(", ")}</p><div class="tex">${paras(d.statement)}</div>${figure}</section>
+    ${key}<section><h3>Hints</h3>${hints}</section><section><h3>Solution</h3><div class="tex">${paras(d.solution)}</div></section>${rubric}`;
+}
+
+function editor() {
+  const hints = [0, 1, 2].map((i) => `<label>Hint ${i + 1}</label><textarea data-hint="${i}" rows="2">${esc(work.hints[i])}</textarea>`).join("");
+  const kyus = [8, 7, 6, 5, 4, 3, 2, 1].map((k) => `<option value="${k}"${k === work.kyu ? " selected" : ""}>${k} kyu</option>`).join("");
+  return `<section><h3>Edit</h3><p class="faint">Saving re-runs the whole gate. Unchanged parts reuse cached replies. The answer can't be changed here, so a statement edit must keep it.</p>
+    <label>Title</label><input type="text" data-field="title" value="${esc(work.title)}">
+    <label>Kyu</label><select data-field="kyu">${kyus}</select>
+    <label>Statement</label><textarea data-field="statement" rows="6">${esc(work.statement)}</textarea>
+    ${hints}
+    <label>Solution</label><textarea data-field="solution" rows="10">${esc(work.solution)}</textarea>
+    <div class="actions"><button class="primary" data-do="approve-edits">Verify and approve<kbd>Ctrl+Enter</kbd></button><button data-do="cancel">Cancel<kbd>Esc</kbd></button></div></section>`;
+}
+
+function rejecter() {
+  const keys = (i) => (i < 9 ? String(i + 1) : i === 9 ? "0" : "o");
+  const rows = Q.failures.map((f, i) => `<label><input type="checkbox" data-reason="${esc(f.code)}"${picked.has(f.code) ? " checked" : ""}><span><kbd>${keys(i)}</kbd> ${f.code === "other" ? "" : `<b>${esc(f.code)}</b> `}${esc(f.label)}</span></label>`).join("");
+  return `<section class="notice blocked"><h3>Reject: why?</h3><div class="reasons">${rows}</div><label>Note (optional, except for Other)</label><textarea id="note" rows="2">${esc(noteText)}</textarea>
+    <div class="actions"><button class="primary" data-do="reject-send">Reject<kbd>Enter</kbd></button><button data-do="cancel">Cancel<kbd>Esc</kbd></button></div></section>`;
+}
+
+function noticeBox() {
+  if (!notice) return "";
+  const lines = (notice.lines || []).map((l) => `<p>${esc(l)}</p>`).join("");
+  const again = notice.confirm ? `<div class="actions"><button class="primary" data-do="approve-anyway">Approve anyway<kbd>a</kbd></button></div>` : "";
+  return `<section class="notice ${notice.kind}"><h3>${esc(notice.title)}</h3>${lines}${again}</section>`;
+}
+
+function header() {
+  const total = Q.items.length;
+  const site = lastApproved ? `<a href="/#p-${esc(lastApproved)}" target="_blank" rel="noopener">Open ${esc(lastApproved)} on the local site</a>` : "";
+  return `<header><b>Review</b><span>${total ? `Draft ${pos + 1} of ${total}` : "Queue empty"}</span><span class="faint">${decided} decided this session · ${skipped.size} skipped · ${Q.approved} approved · ${Q.rejected} rejected</span>${site}<span class="spacer"></span>
+    <button class="primary" data-do="approve"${mode === "busy" ? " disabled" : ""}>Approve<kbd>a</kbd></button>
+    <button data-do="edit"${mode === "busy" ? " disabled" : ""}>Approve with edits<kbd>e</kbd></button>
+    <button data-do="reject"${mode === "busy" ? " disabled" : ""}>Reject<kbd>r</kbd></button>
+    <button data-do="skip"${mode === "busy" ? " disabled" : ""}>Skip<kbd>s</kbd></button>
+    <button data-do="prev" aria-label="Previous"${mode === "busy" ? " disabled" : ""}><kbd>k</kbd></button><button data-do="next" aria-label="Next"${mode === "busy" ? " disabled" : ""}><kbd>j</kbd></button></header>`;
+}
+
+function render() {
+  const warnings = Q.warnings.map((w) => `<p class="faint">${esc(w)}</p>`).join("");
+  if (!cur) {
+    app.innerHTML = header() + `<div class="empty"><h2>Nothing left to review</h2>${warnings}<p>Approved problems are in <code>data/problems/</code> and <code>data/index.json</code>, not yet committed. Check them on <a href="/">the local site</a>, then commit them.</p></div>`;
+    return;
+  }
+  const shown = mode === "edit" || mode === "busy" && work ? { ...cur.draft, ...work } : cur.draft;
+  const busy = mode === "busy" ? `<section class="notice"><h3>Gate running</h3><p id="elapsed">Started just now. This can take a few minutes on a hard problem.</p></section>` : "";
+  const side = mode === "edit" ? editor() : mode === "reject" ? rejecter() : "";
+  app.innerHTML = header() + `<main><div id="preview">${preview(shown)}</div><div>${busy}${noticeBox()}${side}${summary(mode === "edit" && notice?.report ? notice.report : cur.report)}${warnings ? `<section>${warnings}</section>` : ""}</div></main>`;
+  typeset();
+}
+
+function typeset() {
+  app.querySelectorAll("#preview .tex").forEach((el) => tex(el));
+}
+
+let previewTimer;
+function livePreview() {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(() => {
+    document.getElementById("preview").innerHTML = preview({ ...cur.draft, ...work });
+    typeset();
+  }, 250);
+}
+
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+async function followJob(job) {
+  const started = Date.now();
+  for (;;) {
+    await wait(1500);
+    const s = await api("job/" + job);
+    const el = document.getElementById("elapsed");
+    if (el) el.textContent = `Running for ${Math.round((Date.now() - started) / 1000)} seconds. This can take a few minutes on a hard problem.`;
+    if (s.done) return s.result;
+  }
+}
+
+async function outcome(result, editing) {
+  const id = cur.draft.id;
+  if (result.status === "approved" || result.status === "rejected") {
+    decided++; notice = null;
+    if (result.status === "approved") lastApproved = id;
+    await refresh();
+  } else if (result.status === "verified") {
+    notice = null; await refresh(id);
+  } else {
+    if (editing) mode = "edit"; else mode = "view";
+    notice = result.status === "confirm"
+      ? { kind: "", title: "The gate wants a second look", lines: result.reasons, confirm: true, report: result.report, editing }
+      : { kind: "blocked", title: editing ? "Edit blocked, nothing saved" : "Blocked", lines: [result.reason], report: result.report };
+    render();
+  }
+}
+
+async function submit(body, editing) {
+  const prior = mode;
+  try {
+    const res = await api("decide", body);
+    if (!res.job) return outcome(res, editing);
+    mode = "busy"; notice = null; render();
+    await outcome(await followJob(res.job), editing);
+  } catch (e) {
+    mode = prior; notice = { kind: "blocked", title: "That didn't work", lines: [e.message] }; render();
+  }
+}
+
+const editsOf = () => ({ ...work, hints: work.hints.filter((h) => h.trim()) });
+
+const actions = {
+  approve: () => { if (mode === "edit") return actions["approve-edits"](); if (notice?.confirm && !notice.editing) return actions["approve-anyway"](); submit({ id: cur.draft.id, action: "approve" }, false); },
+  "approve-anyway": () => notice.editing ? submit({ id: cur.draft.id, action: "approve", edits: editsOf(), confirm: true }, true) : submit({ id: cur.draft.id, action: "approve", confirm: true }, false),
+  "approve-edits": () => submit({ id: cur.draft.id, action: "approve", edits: editsOf() }, true),
+  verify: () => submit({ id: cur.draft.id, action: "verify" }, false),
+  edit: () => {
+    if (mode === "edit") return;
+    const d = cur.draft;
+    work = { title: d.title, kyu: d.kyu, statement: d.statement, solution: d.solution, hints: [...(d.hints || [])] };
+    mode = "edit"; notice = null; render();
+    app.querySelector('[data-field="statement"]').focus();
+  },
+  reject: () => { mode = "reject"; notice = null; picked = new Set(); render(); },
+  "reject-send": () => { noteText = document.getElementById("note").value; submit({ id: cur.draft.id, action: "reject", reason: [...picked], note: noteText }, false); },
+  cancel: () => { mode = "view"; work = null; notice = null; render(); },
+  skip: () => { skipped.add(cur.draft.id); move(1); },
+  next: () => move(1),
+  prev: () => move(-1),
+};
+
+app.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-do]");
+  if (b && !b.disabled && mode !== "busy" && (cur || !["approve", "edit", "reject", "skip"].includes(b.dataset.do))) actions[b.dataset.do]();
+});
+
+app.addEventListener("change", (e) => {
+  const code = e.target.dataset?.reason;
+  if (code) e.target.checked ? picked.add(code) : picked.delete(code);
+});
+
+app.addEventListener("input", (e) => {
+  if (mode !== "edit") return;
+  const t = e.target;
+  if (t.dataset.field) work[t.dataset.field] = t.dataset.field === "kyu" ? Number(t.value) : t.value;
+  else if (t.dataset.hint !== undefined) work.hints[Number(t.dataset.hint)] = t.value;
+  else return;
+  livePreview();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (mode === "busy") return;
+  const typing = /^(TEXTAREA|INPUT|SELECT)$/.test(e.target.tagName) && e.target.type !== "checkbox";
+  if (e.key === "Escape" && (mode === "edit" || mode === "reject")) { e.preventDefault(); return actions.cancel(); }
+  if (mode === "edit" && e.ctrlKey && e.key === "Enter") { e.preventDefault(); return actions["approve-edits"](); }
+  if (mode === "reject" && e.key === "Enter" && !typing) { e.preventDefault(); return actions["reject-send"](); }
+  if (typing || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (mode === "reject") {
+    const i = e.key === "o" ? Q.failures.length - 1 : e.key === "0" ? 9 : /^[1-9]$/.test(e.key) ? Number(e.key) - 1 : -1;
+    const box = app.querySelectorAll("[data-reason]")[i];
+    if (box) { box.checked = !box.checked; box.dispatchEvent(new Event("change", { bubbles: true })); }
+    return;
+  }
+  if (mode === "edit") { if (notice?.confirm && e.key === "a") actions["approve-anyway"](); return; }
+  const key = { a: "approve", r: "reject", e: "edit", s: "skip", j: "next", k: "prev", v: "verify" }[e.key];
+  if (key && (cur || key === "next")) { e.preventDefault(); actions[key](); }
+});
+
+// The file is public once it reaches main. It does nothing away from the local server.
+if (!["localhost", "127.0.0.1"].includes(location.hostname)) localOnly();
+else refresh().catch(localOnly);
+</script>
+</body>
+</html>
