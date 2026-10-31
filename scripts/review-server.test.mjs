@@ -188,6 +188,15 @@ test("a statement edit that breaks the key can't be confirmed through", async ()
   assert.ok(!existsSync(published()));
 });
 
+test("a draft the solvers already doubted can have its statement fixed, after confirming", async () => {
+  const doubted = flag("blind_solves", "only 3/7 reach the key and no majority agrees: too hard, or ambiguous");
+  putPending({ draft: draft(), report: doubted });
+  nextReport = doubted;
+  const edits = { statement: "How many integers $n$ with $1 \le n \le 30$ are divisible by $3$?" };
+  assert.equal((await decide({ id: ID, action: "approve", edits })).status, "confirm");
+  assert.equal((await decide({ id: ID, action: "approve", edits, confirm: true })).status, "approved");
+});
+
 test("an edit flagged only for difficulty asks once and doesn't re-run the gate", async () => {
   putPending({ draft: draft(), report: PASS });
   let runs = 0;

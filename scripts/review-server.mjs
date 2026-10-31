@@ -58,12 +58,14 @@ const verdictWord = (report) => (report ? report.verdict.split(" ")[0].replace("
 const flagged = (report) => report.checks.filter((c) => c.status === "investigate").map((c) => `${c.check}: ${c.reason}`);
 
 // An edit may have changed the true answer, and the check program can't notice because it wasn't edited.
-// Only the blind solvers can, so their doubts about an edited statement block it outright.
-function editBlock(report, statementChanged) {
+// Only the blind solvers can, so new doubts about an edited statement block it outright.
+// A hard draft they already doubted can still have a typo fixed, after the usual second confirmation.
+function editBlock(report, statementChanged, original) {
   const word = verdictWord(report);
   if (word === "FAIL" || word === "ERROR") return report.verdict;
   const blind = report.checks.find((c) => c.check === "blind_solves");
-  if (statementChanged && blind?.status === "investigate") return `The edited statement may no longer match its answer. ${blind.reason}`;
+  const doubtedBefore = original?.checks.some((c) => c.check === "blind_solves" && c.status === "investigate");
+  if (statementChanged && blind?.status === "investigate" && !doubtedBefore) return `The edited statement may no longer match its answer. ${blind.reason}`;
   return null;
 }
 
@@ -186,11 +188,11 @@ export function createReviewServer({ root = REPO, pendingDir, verify, gateRoot }
     return { job };
   }
 
-  async function verifyEdit(id, draft, edited, changes, confirm) {
+  async function verifyEdit(id, original, edited, changes, confirm) {
     const json = JSON.stringify(edited);
     const held = verified.get(id);
     const report = held?.json === json ? held.report : await verifyDraft(edited);
-    const block = editBlock(report, "statement" in changes);
+    const block = editBlock(report, "statement" in changes, original);
     if (block) return { status: "blocked", reason: block, report };
     if (flagged(report).length && !confirm) {
       verified.set(id, { json, report });
@@ -228,7 +230,7 @@ export function createReviewServer({ root = REPO, pendingDir, verify, gateRoot }
     if (action !== "approve") return [400, { error: `unknown action "${action}"` }];
     const edited = { ...draft, ...cleanEdits(body.edits) };
     const changes = diff(draft, edited);
-    if (Object.keys(changes).length) return [202, startJob(id, () => verifyEdit(id, draft, edited, changes, !!body.confirm))];
+    if (Object.keys(changes).length) return [202, startJob(id, () => verifyEdit(id, report, edited, changes, !!body.confirm))];
 
     if (!report) return [200, { status: "blocked", reason: "This draft has no verification report. Verify it first." }];
     const word = verdictWord(report);
