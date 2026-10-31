@@ -2,11 +2,13 @@
 import json
 import re
 import threading
+from collections import Counter
 
 from ..verify import answers, originality, sandbox, schema_check, standard
 from ..verify.config import BANK_DIR
 from .config import AUTHOR, HELD, PENDING, TAXONOMY
 
+LEAK_WORDS = 8
 _taken = set()
 _lock = threading.Lock()
 
@@ -31,8 +33,16 @@ def allocate_id(title, owner):
             n += 1
 
 
+def tidy_latex(text):
+    """S9's mechanical parts. Nobody should lose a good problem over the wrong fraction command."""
+    text = re.sub(r"\\leq\b", r"\\le", re.sub(r"\\geq\b", r"\\ge", text))
+    parts = re.split(r"(\$\$.*?\$\$)", text, flags=re.S)
+    return "".join(x.replace("\\frac", "\\dfrac") if x.startswith("$$") else x.replace("\\dfrac", "\\frac") for x in parts)
+
+
 def build(idea, write, key, inp, kyu, profile, run):
     pid = allocate_id(idea["title"], inp.id)
+    write = {**write, "solution": tidy_latex(write["solution"]), "hints": [tidy_latex(h) for h in write["hints"]]}
     return dict(
         id=pid, title=idea["title"], kyu=kyu, topic=idea["topic"] if idea["topic"] in tuple("ACGN") else inp.record["topic"], subtopics=write["subtopics"],
         type=profile.type, status="draft", statement=idea["statement"], answer_format=profile.answer_format,
@@ -107,18 +117,29 @@ def lint(d):
     return None
 
 
-def _ngrams(text, n):
-    w = re.findall(r"\w+", text.lower())
+def _ngrams(text, n=LEAK_WORDS):
+    """Letters and digits are masked, so "when N is divided by" matches "when M is divided by"."""
+    w = ["0" if x.isdigit() else "x" if len(x) == 1 else x for x in re.findall(r"\w+", text.lower())]
     return {tuple(w[i:i + n]) for i in range(len(w) - n + 1)}
 
 
-def leak(d, inp, n=8):
+_stock = set()
+
+
+def learn_stock_phrases(texts, min_docs=3):
+    """A run of words in several contest problems is a stock phrase ("find the remainder when n is divided by"), not a copy."""
+    counts = Counter(g for t in texts for g in _ngrams(t))
+    _stock.clear()
+    _stock.update(g for g, c in counts.items() if c >= min_docs)
+
+
+def leak(d, inp):
     """No public field may share wording or numbers with the source. The gate reads only the statement."""
-    source = _ngrams(inp.statement, n)
+    source = _ngrams(inp.statement) - _stock
     for name in ("title", "statement", "sketch", "solution"):
-        if _ngrams(d.get(name, ""), n) & source:
+        if _ngrams(d.get(name, "")) & source:
             return f"the {name} repeats wording from the source problem"
-    if any(_ngrams(h, n) & source for h in d.get("hints", [])):
+    if any(_ngrams(h) & source for h in d.get("hints", [])):
         return "a hint repeats wording from the source problem"
     nums = lambda t: set(re.findall(r"(?<![\d.])\d{2,}(?![\d.])", t)) - {"10", "100", "1000"}
     src, new = nums(inp.statement), nums(d["statement"])
@@ -161,6 +182,11 @@ def idea_checks(idea, inp, index, threshold):
     if inp.answer and answers.canon(inp.answer) == answers.canon(key):
         return "key", "the key equals the source problem's answer", key
     return None, None, key
+
+
+def blames_the_idea(reason):
+    """A standard failure in the statement or title can't be fixed by rewriting the solution."""
+    return bool(re.search(r"\b(statement|title)\b", reason))
 
 
 def write_checks(d, inp):

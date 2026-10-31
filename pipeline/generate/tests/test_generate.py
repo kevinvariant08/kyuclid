@@ -110,6 +110,19 @@ class Linting(unittest.TestCase):
         d["hints"] = ["holds exactly seventeen silver fish and twenty three golden fish"]
         self.assertIn("hint", drafts.leak(d, INPUT))
 
+    def test_stock_phrases_are_not_leaks(self):
+        stock = "Find the remainder when N is divided by 1000 please."
+        source = inputs.Input("S", RECORD, "Count the odd squares here. " + stock, "")
+        d = dict(title="t", statement="Let M be a big number. Find the remainder when M is divided by 1000 please.")
+        self.assertIn("statement", drafts.leak(d, source))
+        drafts.learn_stock_phrases([stock] * 3)
+        self.addCleanup(drafts._stock.clear)
+        self.assertIsNone(drafts.leak(d, source))
+
+    def test_tidy_latex(self):
+        t = drafts.tidy_latex("So $\\dfrac{a}{b} \\leq 1$ and $$\\frac{a}{b} \\geq 0.$$")
+        self.assertEqual(t, "So $\\frac{a}{b} \\le 1$ and $$\\dfrac{a}{b} \\ge 0.$$")
+
     def test_program_prints_the_key_for_free(self):
         self.assertEqual(drafts.run_program(PROGRAM), ("7", None))
         self.assertIn("rejected", drafts.run_program("import os\nprint(1)")[1])

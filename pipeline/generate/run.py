@@ -82,6 +82,7 @@ def _choose_idea(inp, ctx, usage, entry, chosen_recipes, partner, previous, fail
         return previous, None, "the reply had no complete candidate"
     checked = []
     for c in parsed:
+        c["statement"] = drafts.tidy_latex(c["statement"])
         if c["recipe"] not in recipes.RECIPES:
             c["recipe"] = previous["recipe"] if previous else chosen_recipes[0]
         step, reason, key = drafts.idea_checks(c, inp, ctx["index"], ctx["threshold"])
@@ -133,6 +134,8 @@ def make_one(inp, ctx, seed):
         if problem:
             entry["step"] = problem[0]
             failure, earlier_write = f"{problem[0]}: {problem[1]}", write["solution"]
+            if drafts.blames_the_idea(problem[1]):
+                key, earlier_write = None, None
             continue
 
         report = None
@@ -200,5 +203,6 @@ def run_inputs(items, ctx, seed, concurrency, stop_file=None):
 
 
 def context(profile, backend, run, records, index, digest=""):
+    drafts.learn_stock_phrases(r["text"] for r in index.records if r["source"] == "corpus")
     return dict(profile=profile, backend=backend, run=run, records=records, index=index, digest=digest,
                 thresholds=difficulty.load(), threshold=originality.load_threshold())

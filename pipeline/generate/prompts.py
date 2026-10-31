@@ -54,7 +54,8 @@ WRITE_RULES = """How your work is checked.
 - A strict auditor reads the solution. Justify every non-routine step and every case. Routine algebra may be skipped. It must state the key in the second-last paragraph, and the "Why this works" paragraph follows it as the last paragraph.
 - The key comes from a program, so a solution that reaches any other number is wrong. Work it out honestly. If you find the key or the statement is wrong, reply with only <disagree>one sentence on what is wrong</disagree> instead of bending the argument.
 - No hint may state the key. Each hint adds something, and the last stops one routine step short.
-- All text uses UK spelling. Use $...$ and $$...$$ for maths. Use only <b> and <code> as markup."""
+- All text uses UK spelling. Use $...$ and $$...$$ for maths: \\dfrac in display maths and \\frac inline, always with braces, \\cdot for products and never *, \\le and \\ge. Use only <b> and <code> as markup.
+- The solution's last paragraph is exactly: <b>Why this works.</b> <code>id-one</code>, <code>id-two</code>: one clause on why the idea fits. Each ID must also be in subtopics."""
 
 
 def _section(text, start, end):
