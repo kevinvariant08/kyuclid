@@ -59,11 +59,11 @@ def _checks_for_log(report):
 WRITE_UP_FAULTS = ("solution_audit", "standard")
 
 
-def _call(ctx, usage, entry, stage, prompt, cap, draft_id):
+def _call(ctx, usage, entry, stage, system, prompt, cap, draft_id):
     """The prompt may hold contest text, so it must never reach the cache."""
     profile = ctx["profile"]
     started = time.time()
-    reply = ctx["backend"].call(profile.model, prompts.SYSTEM, prompt, profile.effort, cap, cacheable=False, role=stage, draft_id=draft_id)
+    reply = ctx["backend"].call(profile.model, system, prompt, profile.effort, cap, cacheable=False, role=stage, draft_id=draft_id)
     usage.add(reply)
     entry[stage] = dict(seconds=round(time.time() - started, 1), output_tokens=reply.output, truncated=reply.truncated, usd=round(reply.usd, 4))
     return reply
@@ -76,7 +76,7 @@ def _choose_idea(inp, ctx, usage, entry, chosen_recipes, partner, previous, fail
         prompt = prompts.ideas(inp, kyu, chosen_recipes, partner, ctx["digest"])
     else:
         prompt = prompts.idea_repair(inp, kyu, previous, failure, ctx["digest"])
-    reply = _call(ctx, usage, entry, "ideas", prompt, profile.idea_max_tokens, inp.id)
+    reply = _call(ctx, usage, entry, "ideas", prompts.SYSTEM, prompt, profile.idea_max_tokens, inp.id)
     parsed = prompts.parse_ideas(reply.text)
     if not parsed:
         return previous, None, "the reply had no complete candidate"
@@ -118,7 +118,7 @@ def make_one(inp, ctx, seed):
         entry["recipe"] = idea["recipe"]
 
         prompt = prompts.write_up(idea, kyu, key, inp.record, earlier_write, failure if earlier_write else None)
-        reply = _call(ctx, usage, entry, "write", prompt, profile.write_max_tokens, inp.id)
+        reply = _call(ctx, usage, entry, "write", prompts.WRITE_SYSTEM, prompt, profile.write_max_tokens, inp.id)
         write = prompts.parse_write_up(reply.text)
         if write is None:
             entry["step"], failure = "write_unreadable", "the write-up was incomplete"

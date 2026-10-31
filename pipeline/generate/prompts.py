@@ -13,7 +13,12 @@ from .recipes import RECIPES
 
 SYSTEM = ("You write original maths contest problems for Kyuclid, a site ranked from 8 kyu (beginner) to 1 kyu (IMO). "
           "A good problem gives the solver one real moment of insight, reads naturally and is exactly right. "
-          "You have no tools. Output only what the format asks for.")
+          "You have no tools. Output only what the format asks for. "
+          "Your thinking budget is small: stop thinking after about 1,500 words and start writing. Independent checks run on everything you write and "
+          "send back anything wrong, so a good first idea written down beats a perfect one still being tested. Never test parameters or compute answers in your head.")
+
+WRITE_SYSTEM = ("You write hints and solutions for Kyuclid, a maths contest site. You have no tools. Output only what the format asks for. "
+                "Your thinking budget is small: stop thinking after about 1,500 words and start writing.")
 
 IDEA_FORMAT = """<candidate>
 <title>A short title that gives nothing away: no technique, theorem or answer.</title>
@@ -31,6 +36,9 @@ WRITE_FORMAT = """<subtopics>Taxonomy IDs separated by commas, the one the crux 
 <hint>Hint 2.</hint>
 <hint>Hint 3 (optional).</hint>
 <solution>The solution, ending with the "Why this works" paragraph.</solution>"""
+
+STYLE = """THE STYLE TO AIM FOR
+The problem should read and feel like a real AIME problem: a short, clean statement, no contrived story, one satisfying crux, and an integer answer from 0 to 999, encoded as $m + n$ or similar where the AIME would do that. Use the same kinds of ideas and the same difficulty curve. Sharing an idea family with AIME problems is the goal. Copying is not: never reuse a specific problem's setting, numbers or phrasing, and never write a reskin."""
 
 IDEA_RULES = """How your work is checked. Every point here has rejected real drafts.
 - Do not work out the answer by hand. A sandbox runs your program and its output becomes the key, so spend your thought on the idea and on making the statement exact. Keep your reasoning short.
@@ -86,6 +94,7 @@ def describe_record(record):
 def _idea_context(inp, kyu, digest):
     parts = [
         f"Write for {kyu} kyu. Its difficulty must come from an idea, not from arithmetic.",
+        STYLE,
         f"THE KYUCLID STANDARD\n{idea_rules(kyu)}",
         IDEA_RULES.format(imports=", ".join(sorted(ALLOWED_IMPORTS))),
         f"THE IDEA TO TEACH\n{describe_record(inp.record)}",

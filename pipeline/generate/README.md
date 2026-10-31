@@ -30,7 +30,7 @@ As for the gate (`pipeline/verify/README.md`), plus these environment variables:
 5. **Write-up.** A second call writes the hints and solution from the statement, the key and the sketch. It sees no contest text. If the writer finds the key or statement wrong, it says so and the idea is repaired.
 6. Run the free write-up checks, then the gate. On a fail, repair, up to two repairs in all. A fault in the solution repairs only the write-up. Anything else repairs the idea. After that, discard and log why.
 
-Two stages because the first version asked for three full candidates at high effort: Opus used the whole 32,000-token cap three times running and wrote nothing, at about $2 of API-equivalent usage.
+Two stages because the first version asked for three full candidates at high effort: Opus used the whole 32,000-token cap three times running and wrote nothing, at about $2 of API-equivalent usage. Neither `--effort`, `MAX_THINKING_TOKENS` nor `alwaysThinkingEnabled` limits thinking through the CLI. A stated thinking budget in the system prompt does.
 
 ## What happens to a gate result
 

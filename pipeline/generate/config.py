@@ -25,7 +25,7 @@ class Profile:
     model: str = OPUS
     effort: str = "medium"
     # The caps include thinking, and the CLI's budget flag stops a call a little before them.
-    idea_max_tokens: int = 16000
+    idea_max_tokens: int = 24000
     write_max_tokens: int = 12000
     candidates: int = 3
 
