@@ -1,17 +1,18 @@
 """Runs the checks and turns their results into a report and a one-line verdict.
 
-The brief's order is 1-8. Standard rules and the lexical half of originality cost nothing, so they run
+The brief's order is 1-8, with task 10's figure check after the schema. Standard rules and the lexical half of originality cost nothing, so they run
 right after schema and computation to avoid spending on a draft they would fail anyway. A report still
 lists checks in the order they ran. With keep_going the gate runs everything it can and doesn't stop at
 a failure, which is what the seed run wants; the verdict then names the first failure in the brief's order.
 """
 import json
+import tempfile
 import time
 
-from . import blind, computational, critics, difficulty, originality, schema_check, standard
+from . import blind, computational, critics, difficulty, figure_check, originality, schema_check, standard
 from .backend import ModelError, PlanLimit, Usage
 
-BRIEF_ORDER = ["schema", "computational", "program_judge", "blind_solves", "well_posedness", "solution_audit", "difficulty", "originality", "standard"]
+BRIEF_ORDER = ["schema", "figure", "computational", "program_judge", "blind_solves", "well_posedness", "solution_audit", "difficulty", "originality", "standard"]
 
 
 class Stop(Exception):
@@ -35,6 +36,7 @@ def verify(draft, backend, keep_going=False, sandbox_seconds=None, thresholds=No
         report["checks"].append(dict(check=name, status="skip", reason=why, evidence={}))
 
     plan_limit = False
+    cleanup = []
     try:
         # A draft that fails its schema has nothing reliable to run the rest on, even with keep_going.
         status, reason, ev = schema_check.run(draft)
@@ -43,6 +45,13 @@ def verify(draft, backend, keep_going=False, sandbox_seconds=None, thresholds=No
             raise Stop
 
         record("standard", standard.run(draft))
+
+        renders = tempfile.TemporaryDirectory(prefix="kyuclid-renders-")
+        cleanup.append(renders.cleanup)
+        status, reason, figure_ev = figure_check.run(draft, renders.name)
+        report["checks"].append(dict(check="figure", status=status, reason=reason, evidence={k: v for k, v in figure_ev.items() if k != "renders"}))
+        if status == "error" or (status == "fail" and not keep_going):
+            raise Stop
 
         if index is None:
             index, has_corpus = originality.default_index()
@@ -68,6 +77,8 @@ def verify(draft, backend, keep_going=False, sandbox_seconds=None, thresholds=No
 
         record("well_posedness", critics.well_posedness(draft, backend, usage))
         record("solution_audit", critics.solution_audit(draft, backend, usage))
+        if figure_ev["renders"]:
+            record("figure_critic", critics.figure_critic(draft, figure_ev["renders"], backend, usage))
         if is_answer:
             record("difficulty", difficulty.run(draft, blind_ev, th))
         if not rule:
@@ -79,6 +90,10 @@ def verify(draft, backend, keep_going=False, sandbox_seconds=None, thresholds=No
         report["checks"].append(dict(check="backend", status="error", reason=f"plan limit: {e}", evidence={}))
     except ModelError as e:
         report["checks"].append(dict(check="backend", status="error", reason=str(e)[:300], evidence={}))
+
+    finally:
+        for clean in cleanup:
+            clean()
 
     report["verdict"] = verdict_line(report["checks"])
     report["plan_limit"] = plan_limit

@@ -45,12 +45,17 @@
   .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
   .empty { max-width: 640px; margin: 48px auto; padding: 0 16px; }
   code { font: 13px ui-monospace, monospace; }
+  .sol-fig { margin: 8px auto 16px; max-width: 420px; color: var(--ink); --fig-accent: #B8341F; }
+  .sol-fig svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+  .fig-missing { font-size: 13px; color: var(--bad); }
+  @media (prefers-color-scheme: dark) { .sol-fig { --fig-accent: #F0917F; } }
 </style>
 </head>
 <body>
 <div id="app"><div class="empty"><p>Loading…</p></div></div>
 <script type="module">
 import { tex, paras } from "../js/lib/tex.js";
+import { solutionHtml, inlineFigures } from "../js/lib/figures.js";
 
 const app = document.getElementById("app");
 const TOPICS = { A: "Algebra", C: "Combinatorics", G: "Geometry", N: "Number theory" };
@@ -123,6 +128,16 @@ function summary(report) {
     <details><summary class="faint">All checks</summary><table>${checks}</table></details></section>`;
 }
 
+// A draft carries its figures once attached. Until then a backfilled one is found by ID in figures/index.json.
+let mapped = {};
+fetch("/figures/index.json").then((r) => (r.ok ? r.json() : {})).then((j) => { mapped = j; }).catch(() => {});
+const figuresOf = (d) => d.solution_figures || mapped[d.id] || [];
+const carriedSvg = (d) => (src) => {
+  const name = src.split("?")[0].slice("figures/".length, -".svg".length);
+  const held = (d.figure_sources || []).find((s) => s.name === name);
+  return held ? Promise.resolve(held.svg) : fetch("/" + src).then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.text(); });
+};
+
 function preview(d) {
   const figure = d.figure ? `<p><img src="/${esc(d.figure)}" alt="${esc(d.figure_alt)}" style="max-width:100%"></p>` : "";
   const key = d.type === "answer" ? `<section><h3>Answer</h3><div class="answer">${esc(d.answer)}</div><p class="faint">${esc(d.answer_format)}</p>
@@ -130,7 +145,7 @@ function preview(d) {
   const rubric = d.rubric ? `<section><h3>Rubric</h3><table>${d.rubric.map((r) => `<tr><td>${r.marks}</td><td class="tex">${r.criterion}</td></tr>`).join("")}</table></section>` : "";
   const hints = (d.hints || []).map((h, i) => `<div class="tex"><p class="faint">Hint ${i + 1}</p>${paras(h)}</div>`).join("");
   return `<section><h2>${esc(d.title)}</h2><p class="faint">${d.kyu} kyu · ${TOPICS[d.topic] || esc(d.topic)} · ${esc(d.type)} · <code>${esc(d.id)}</code> · ${(d.subtopics || []).map(esc).join(", ")}</p><div class="tex">${paras(d.statement)}</div>${figure}</section>
-    ${key}<section><h3>Hints</h3>${hints}</section><section><h3>Solution</h3><div class="tex">${paras(d.solution)}</div></section>${rubric}`;
+    ${key}<section><h3>Hints</h3>${hints}</section><section><h3>Solution</h3><div class="tex sol-figs">${solutionHtml({ ...d, solution_figures: figuresOf(d) })}</div></section>${rubric}`;
 }
 
 function editor() {
@@ -185,6 +200,7 @@ function render() {
 
 function typeset() {
   app.querySelectorAll("#preview .tex").forEach((el) => tex(el));
+  inlineFigures(document.getElementById("preview"), carriedSvg(shown));
 }
 
 let previewTimer;
@@ -192,6 +208,7 @@ function livePreview() {
   clearTimeout(previewTimer);
   previewTimer = setTimeout(() => {
     document.getElementById("preview").innerHTML = preview({ ...cur.draft, ...work });
+    inlineFigures(document.getElementById("preview"), carriedSvg({ ...cur.draft, ...work }));
     typeset();
   }, 250);
 }

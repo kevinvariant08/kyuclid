@@ -3,6 +3,7 @@
 cli (default): `claude -p`, which runs on Kevin's plan.
 api: the Anthropic API. Used only with --backend api and ANTHROPIC_API_KEY set. It costs money.
 """
+import base64
 import hashlib
 import json
 import os
@@ -12,6 +13,7 @@ import tempfile
 import threading
 import time
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from .config import MODEL_TIMEOUT, OUT, PRICES
 
@@ -79,16 +81,17 @@ class Backend:
     def __post_init__(self):
         self._slots = threading.Semaphore(self.concurrency)
 
-    def call(self, model, system, prompt, effort, max_tokens, salt="", cacheable=True, role="", draft_id=""):
+    def call(self, model, system, prompt, effort, max_tokens, salt="", cacheable=True, role="", draft_id="", images=None):
         path = None
         if self.use_cache and cacheable:
-            key = hashlib.sha256(json.dumps([model, effort, max_tokens, system, prompt, salt]).encode()).hexdigest()
+            pictures = [hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in images or []]
+            key = hashlib.sha256(json.dumps([model, effort, max_tokens, system, prompt, salt, *pictures]).encode()).hexdigest()
             path = OUT / "cache" / f"{key}.json"
             if path.exists():
                 d = json.loads(path.read_text(encoding="utf-8"))
                 return Reply(**{**d, "cached": True})
         with self._slots:
-            r = self._send(model, system, prompt, effort, max_tokens, role, draft_id, salt)
+            r = self._send_images(model, system, prompt, effort, max_tokens, role, draft_id, salt, images) if images else self._send(model, system, prompt, effort, max_tokens, role, draft_id, salt)
         if path:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(json.dumps(r.__dict__), encoding="utf-8")
@@ -96,6 +99,9 @@ class Backend:
 
     def _send(self, model, system, prompt, effort, max_tokens, role, draft_id, salt):
         raise NotImplementedError
+
+    def _send_images(self, model, system, prompt, effort, max_tokens, role, draft_id, salt, images):
+        return self._send(model, system, prompt, effort, max_tokens, role, draft_id, salt)
 
 
 class CliBackend(Backend):
@@ -110,15 +116,28 @@ class CliBackend(Backend):
         if not self.exe:
             raise ModelError("the claude CLI isn't on PATH")
 
-    def _send(self, model, system, prompt, effort, max_tokens, role, draft_id, salt):
+    def _send_images(self, model, system, prompt, effort, max_tokens, role, draft_id, salt, images):
+        """The CLI takes images only through its Read tool, so this one call gets that tool and a folder holding just the images."""
+        return self._send(model, system, prompt, effort, max_tokens, role, draft_id, salt, images=images)
+
+    def _send(self, model, system, prompt, effort, max_tokens, role, draft_id, salt, images=None):
         env = {k: v for k, v in os.environ.items() if k not in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN")}
         env["CLAUDE_CODE_MAX_OUTPUT_TOKENS"] = str(max_tokens)
         # A capped reply makes the CLI retry up to four times. A budget of exactly one capped reply stops that.
         budget = max_tokens * PRICES.get(model, PRICES["claude-opus-5-5"])[3] / 1e6
-        args = [self.exe, "-p", "--model", model, "--effort", effort, "--system-prompt", system, "--max-budget-usd", f"{budget:.4f}", *self.FLAGS]
+        flags = self.FLAGS
+        if images:
+            flags = [*self.FLAGS]
+            flags[flags.index("--tools") + 1] = "Read"
+            flags += ["--allowedTools", "Read"]
+            names = [f"figure-{i + 1}.png" for i in range(len(images))]
+            prompt = f"First use the Read tool on each of these images in the current folder: {', '.join(names)}. Read nothing else.\n\n{prompt}"
+        args = [self.exe, "-p", "--model", model, "--effort", effort, "--system-prompt", system, "--max-budget-usd", f"{budget:.4f}", *flags]
         last = None
         for attempt in range(3):
             with tempfile.TemporaryDirectory(prefix="kyuclid-call-") as cwd:
+                for i, image in enumerate(images or []):
+                    shutil.copy(image, Path(cwd) / f"figure-{i + 1}.png")
                 try:
                     p = subprocess.run(args, input=prompt, capture_output=True, text=True, encoding="utf-8", cwd=cwd, env=env, timeout=MODEL_TIMEOUT)
                 except subprocess.TimeoutExpired:
@@ -170,6 +189,10 @@ class ApiBackend(Backend):
             raise ModelError("--backend api needs the anthropic package: pip install anthropic") from e
         self.anthropic = anthropic
         self.client = anthropic.Anthropic()
+
+    def _send_images(self, model, system, prompt, effort, max_tokens, role, draft_id, salt, images):
+        pictures = [{"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": base64.b64encode(Path(p).read_bytes()).decode()}} for p in images]
+        return self._send(model, system, [*pictures, {"type": "text", "text": prompt}], effort, max_tokens, role, draft_id, salt)
 
     def _send(self, model, system, prompt, effort, max_tokens, role, draft_id, salt):
         kw = dict(model=model, max_tokens=max_tokens, system=system, output_config={"effort": effort},

@@ -177,7 +177,7 @@ def _compose(t, u):
 def _flatten(d):
     """Points along a path's outline. Curves become short runs of points, which is plenty for a bounding box."""
     tokens = re.findall(rf"[A-Za-z]|{NUMBER}", d)
-    pts, i, cmd, cur, start = [], 0, None, (0.0, 0.0), (0.0, 0.0)
+    pts, i, cmd, cur, start, last_ctrl = [], 0, None, (0.0, 0.0), (0.0, 0.0), None
 
     def take(n):
         nonlocal i
@@ -196,6 +196,8 @@ def _flatten(d):
                 continue
         rel = cmd.islower()
         c = cmd.upper()
+        if c not in "CS":
+            last_ctrl = None
         base = cur if rel else (0.0, 0.0)
         if c == "M":
             x, y = take(2)
@@ -216,20 +218,18 @@ def _flatten(d):
             y, = take(1)
             cur = (cur[0], base[1] + y)
             pts.append(cur)
-        elif c in "CSQT":
-            n = {"C": 6, "S": 4, "Q": 4, "T": 2}[c]
+        elif c in "CS":
+            n = 6 if c == "C" else 4
             v = take(n)
             ctrl = [(base[0] + v[j], base[1] + v[j + 1]) for j in range(0, n, 2)]
-            p0 = cur
-            end = ctrl[-1]
-            for s in range(1, 13):
-                t = s / 12
-                if c == "C":
-                    q = tuple((1 - t) ** 3 * p0[k] + 3 * (1 - t) ** 2 * t * ctrl[0][k] + 3 * (1 - t) * t ** 2 * ctrl[1][k] + t ** 3 * end[k] for k in (0, 1))
-                else:
-                    q = tuple(p0[k] + (end[k] - p0[k]) * t for k in (0, 1))
-                pts.append(q)
-            cur = end
+            # S reflects the previous curve's second control point through the current point.
+            first = ctrl[0] if c == "C" else (2 * cur[0] - last_ctrl[0], 2 * cur[1] - last_ctrl[1]) if last_ctrl else cur
+            second, end, p0 = ctrl[-2], ctrl[-1], cur
+            for step in range(1, 13):
+                t = step / 12
+                pts.append(tuple((1 - t) ** 3 * p0[k] + 3 * (1 - t) ** 2 * t * first[k] + 3 * (1 - t) * t ** 2 * second[k] + t ** 3 * end[k] for k in (0, 1)))
+            cur, last_ctrl = end, second
+            continue
         else:
             raise FigureError(f"unexpected path command {cmd} in the SVG")
     if pts:

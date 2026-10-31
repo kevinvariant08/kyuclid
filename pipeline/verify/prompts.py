@@ -50,6 +50,19 @@ def well_posed(d):
     return f"STATEMENT:\n{d['statement']}\n\nSOLUTION (to show the intended reading):\n{d['solution']}"
 
 
+FIGURE_CRITIC = ('You are a geometry author checking the diagrams drawn for a solution, as a careful reader of an olympiad book would. Look at each image. '
+                 'Reply with JSON only: {"findings":[{"severity":"material"|"cosmetic","issue":"<max 25 words>"}]}. '
+                 'material: the figure shows a different configuration from the statement or solution; a labelled point, length or mark contradicts the text; '
+                 'a point lies visibly in the wrong place; labels overlap each other or a line so that one can\'t be read; the figure is so cramped or so badly scaled '
+                 'that its key feature can\'t be seen. It may draw one example case, and that is fine if the case fits the problem. It may label points the text doesn\'t name. '
+                 'cosmetic: anything that is a matter of taste. An empty list is a good result.')
+
+
+def figure_critic(d):
+    alts = "\n".join(f"Figure {i + 1} (after paragraph {f['after_paragraph']}): {f['alt']}" for i, f in enumerate(d["solution_figures"]))
+    return f"STATEMENT:\n{d['statement']}\n\nSOLUTION:\n{d['solution']}\n\nTHE WRITER'S DESCRIPTION OF THE FIGURES:\n{alts}"
+
+
 def audit(d):
     claim = f"STATED ANSWER: {d['answer']}" if d["type"] == "answer" else "THIS IS A PROOF PROBLEM."
     hints = "\n".join(f"Hint {i + 1}: {h}" for i, h in enumerate(d["hints"]))

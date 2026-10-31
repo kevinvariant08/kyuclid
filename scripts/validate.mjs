@@ -1,7 +1,8 @@
 // Checks every problem against schema/problem.schema.json, plus the rules a schema can't express:
-// file name matches id, ids unique, rubrics total 7, figures exist, subtopics are in the taxonomy,
-// and data/index.json is up to date. Exits non-zero on any failure.
+// file name matches id, ids unique, rubrics total 7, figures exist and are safe to inline, subtopics are in
+// the taxonomy, and data/index.json is up to date. Exits non-zero on any failure.
 //   node scripts/validate.mjs
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import Ajv2020 from "ajv/dist/2020.js";
 import { ROOT, PROBLEMS_DIR, INDEX_FILE, problemFiles, buildIndex } from "./build-index.mjs";
@@ -44,6 +45,33 @@ function describe(err, p) {
   return `${at}: ${err.message}`;
 }
 
+// What pipeline/figures produces. CI has no TeX, so it checks the committed SVG rather than rebuilding it.
+const PAINT = new Set(["none", "currentColor", "var(--fig-accent,currentColor)"]);
+function svgProblems(svg, name) {
+  const out = [];
+  if (!svg.startsWith("<svg")) out.push("doesn't start with <svg");
+  if (/<script|<foreignObject|<image|\son\w+=|https?:\/\/(?!www\.w3\.org)/.test(svg)) out.push("holds active or external content");
+  for (const m of svg.matchAll(/\b(?:stroke|fill)='([^']*)'/g)) if (!PAINT.has(m[1])) { out.push(`has the colour ${m[1]}, which won't follow the theme`); break; }
+  for (const m of svg.matchAll(/\bid='([^']*)'/g)) if (!m[1].startsWith(name + "-")) { out.push(`has the id ${m[1]}, which could clash when inlined`); break; }
+  return out;
+}
+
+function checkSolutionFigures(p, where) {
+  const paragraphs = p.solution.split(/\n\s*\n/).length;
+  for (const f of p.solution_figures || []) {
+    const path = f.src.split("?")[0];
+    const name = path.slice("figures/".length, -".svg".length);
+    if (!new RegExp(`^${p.id}-solution(-\\d+)?$`).test(name)) { fail(where, `${f.src} should be named ${p.id}-solution[-n].svg`); continue; }
+    if (f.after_paragraph > paragraphs) fail(where, `${path} comes after paragraph ${f.after_paragraph}, but the solution has ${paragraphs}`);
+    if (!existsSync(ROOT + path)) { fail(where, `figure ${path} does not exist`); continue; }
+    if (!existsSync(ROOT + path.replace(/\.svg$/, ".tex"))) fail(where, `${path} has no .tex source beside it`);
+    const svg = readFileSync(ROOT + path, "utf8");
+    const version = createHash("sha256").update(svg.replace(/\r\n/g, "\n")).digest("hex").slice(0, 8);
+    if (!f.src.endsWith("?v=" + version)) fail(where, `${f.src} is stale: the file's version is ${version}. Run: python -m pipeline.figures attach`);
+    for (const problem of svgProblems(svg, name)) fail(where, `${path} ${problem}`);
+  }
+}
+
 const problems = [];
 const seen = new Map();
 for (const f of problemFiles()) {
@@ -67,6 +95,7 @@ for (const f of problemFiles()) {
     if (total !== 7) fail(where, `rubric marks total ${total}, not 7`);
   }
   if (p.figure && !existsSync(ROOT + p.figure)) fail(where, `figure ${p.figure} does not exist`);
+  checkSolutionFigures(p, where);
   if (taxonomy) for (const s of p.subtopics) if (!taxonomy.has(s)) fail(where, `subtopic "${s}" is not in data/taxonomy.json`);
 }
 

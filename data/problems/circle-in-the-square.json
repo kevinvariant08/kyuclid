@@ -25,5 +25,12 @@
     "solves": 0,
     "attempts": 0,
     "liked": 0
-  }
+  },
+  "solution_figures": [
+    {
+      "src": "figures/circle-in-the-square-solution.svg?v=dec9d815",
+      "alt": "Square ABCD with side 10, AB along the bottom and CD along the top. A circle through A and B touches CD at T, the midpoint of CD, with a right angle between the radius OT and CD. The centre O is at height k above the midpoint N of AB. The radii OA and OT both have length r, and triangle ANO is right-angled, with AN = 5 and NO = k.",
+      "after_paragraph": 1
+    }
+  ]
 }

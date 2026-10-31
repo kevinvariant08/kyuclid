@@ -56,7 +56,12 @@ def _checks_for_log(report):
 
 
 # A gate failure in one of these is the write-up's fault, so the statement and program are kept.
-WRITE_UP_FAULTS = ("solution_audit", "standard")
+WRITE_UP_FAULTS = ("solution_audit", "standard", "figure", "figure_critic")
+
+
+def _write_up_text(write):
+    """What a repair sees of its earlier attempt."""
+    return "\n\n".join([write["solution"], *(f"<figure>{f}</figure>" for f in write.get("figures") or [])])
 
 
 def _call(ctx, usage, entry, stage, system, prompt, cap, draft_id):
@@ -130,10 +135,15 @@ def make_one(inp, ctx, seed):
             continue
         d = drafts.build(idea, write, key, inp, kyu, profile, run_name)
         entry["draft"] = d
+        figure_problem = drafts.attach_figures(d, write)
+        if figure_problem:
+            entry["step"] = "figure"
+            failure, earlier_write = f"figure: {figure_problem}", _write_up_text(write)
+            continue
         problem = drafts.write_checks(d, inp)
         if problem:
             entry["step"] = problem[0]
-            failure, earlier_write = f"{problem[0]}: {problem[1]}", write["solution"]
+            failure, earlier_write = f"{problem[0]}: {problem[1]}", _write_up_text(write)
             if drafts.blames_the_idea(problem[1]):
                 key, earlier_write = None, None
             continue
@@ -159,7 +169,7 @@ def make_one(inp, ctx, seed):
         failure = reason
         failed_check = next((c["check"] for c in report["checks"] if c["status"] == "fail"), "")
         if failed_check in WRITE_UP_FAULTS:
-            earlier_write = write["solution"]
+            earlier_write = _write_up_text(write)
         else:
             key, earlier_write = None, None
     else:

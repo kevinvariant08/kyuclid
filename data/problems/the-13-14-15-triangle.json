@@ -26,5 +26,12 @@
     "solves": 0,
     "attempts": 0,
     "liked": 0
-  }
+  },
+  "solution_figures": [
+    {
+      "src": "figures/the-13-14-15-triangle-solution.svg?v=9b635467",
+      "alt": "Triangle ABC with AB = 13, BC = 14 and CA = 15, and its inscribed circle with centre I. The radius r from I meets BC at right angles at the touch point D. Segments from I to the three vertices split the triangle into three smaller triangles whose heights are all r.",
+      "after_paragraph": 1
+    }
+  ]
 }

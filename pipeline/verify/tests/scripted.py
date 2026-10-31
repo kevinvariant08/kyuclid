@@ -27,6 +27,8 @@ class ScriptedBackend(Backend):
             text = json.dumps({"findings": sim.get("wellposed", [])})
         elif role == "solution_audit":
             text = json.dumps(sim.get("audit", {"reaches_answer": True, "issues": []}))
+        elif role == "figure_critic":
+            text = json.dumps({"findings": sim.get("figure", [])})
         elif role == "originality":
             text = json.dumps(sim.get("originality", {"neighbours": [], "known": {"is_known": False, "name": "", "reason": ""}}))
         else:

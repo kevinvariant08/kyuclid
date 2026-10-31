@@ -35,7 +35,9 @@ WRITE_FORMAT = """<subtopics>Taxonomy IDs separated by commas, the one the crux 
 <hint>Hint 1.</hint>
 <hint>Hint 2.</hint>
 <hint>Hint 3 (optional).</hint>
-<solution>The solution, ending with the "Why this works" paragraph.</solution>"""
+<solution>The solution, ending with the "Why this works" paragraph.</solution>
+<figure>A tkz-euclide figure, as described above. Repeat the block for a second figure, only if the argument has two separate pictures.</figure>
+<no_figure>Only if this isn't topic G and the argument doesn't use a picture: one sentence saying why.</no_figure>"""
 
 STYLE = """THE STYLE TO AIM FOR
 The problem should read and feel like a real AIME problem: a short, clean statement, no contrived story, one satisfying crux, and an integer answer from 0 to 999, encoded as $m + n$ or similar where the AIME would do that. Use the same kinds of ideas and the same difficulty curve. Sharing an idea family with AIME problems is the goal. Copying is not: never reuse a specific problem's setting, numbers or phrasing, and never write a reskin."""
@@ -56,6 +58,47 @@ WRITE_RULES = """How your work is checked.
 - No hint may state the key. Each hint adds something, and the last stops one routine step short.
 - All text uses UK spelling. Use $...$ and $$...$$ for maths: \\dfrac in display maths and \\frac inline, always with braces, \\cdot for products and never *, \\le and \\ge. Use only <b> and <code> as markup, and write cases as prose, never as a list.
 - The solution's last paragraph is exactly: <b>Why this works.</b> <code>id-one</code>, <code>id-two</code>: one clause on why the idea fits. Each ID must also be in subtopics."""
+
+
+FIGURE_RULES = r"""THE FIGURE
+Every solution to a geometry problem needs a figure, and so does any other solution that argues from a picture, such as complex numbers as points or a coordinate argument. It must look like a careful figure in an olympiad book. Write real tkz-euclide in exactly this shape, and adapt only the content:
+
+%! alt One or two sentences saying what the figure shows, for a reader who can't see it. Name points and lengths.
+%! after_paragraph 2
+%! scale 1/27
+\input{preamble}
+\begin{document}
+\begin{tikzpicture}
+%! let R = 195/2
+\tkzDefPoint(0,0){O} %! O = (0, 0)
+\tkzDefPoint(0,0){A} %! A = polar(O, R, 90)
+\tkzDefPoint(0,0){M} %! M = mid(X, Y)
+%! fact on_circle(A, O, R)
+%! fact dist(X, P) == 64
+%! example dist(C, A) == 144
+\tkzFillPolygon[color=figtint](B,P,Q,C)
+\tkzDrawCircle(O,A)
+\tkzDrawSegment[aux](O,A)
+\tkzDrawPolygon(A,B,C)
+\tkzDrawSegment[key](X,Y)
+\tkzMarkRightAngle[size=.2,mk](A,M,Y)
+\tkzMarkSegments[mark=|,size=2.5pt,mk](A,B B,E)
+\tkzMarkAngle[size=.8,arc=l,mark=none,mk](B,A,C)
+\tkzDrawPoints(O,A,B,C)
+\tkzLabelPoint[above,lbl](A){$A$}
+\tkzLabelSegment[below,pos=.5,len](X,P){$64$}
+\tkzLabelAngle[pos=1.3](B,A,C){$40^\circ$}
+\end{tikzpicture}
+\end{document}
+
+Rules. Each one is enforced by a program that rejects the draft.
+- Every point is one \tkzDefPoint(0,0){P} line with its exact value after %! P = on the same line. Leave the (0,0): a program fills in the decimals. Never compute a decimal yourself. Don't use any other tkz command that defines or computes a point (\tkzDefMidPoint, \tkzInterLL, \tkzDrawCircle[circum] and so on), \usepackage, \def, \foreach or \input of anything else.
+- Exact values may use numbers, + - * / **, sqrt, sin, cos, tan, asin, acos, atan, atan2, sind, cosd, tand, pi, abs, dist(A,B), angle(A,B,C) in degrees, area(A,B,...), x(P), y(P), inradius(A,B,C), circumradius(A,B,C), and these for points: (a, b), mid(A,B), lerp(A,B,t), foot(P,A,B), reflect(P,A,B), rotate(P,O,degrees), polar(O,r,degrees), meet(A,B,C,D), circumcentre(A,B,C), incentre(A,B,C), shift(P,dx,dy). Use the problem's own lengths as coordinates. If the problem has a family of cases, draw one good case.
+- Each %! fact is checked to 1e-9: collinear(P,A,B), on_segment(P,A,B), on_circle(P,O,r), concyclic(A,B,C,D,...), perp(A,B,C,D), parallel(A,B,C,D), tangent(O,r,A,B), tangent_circles(O1,r1,O2,r2), midpoint(M,A,B), equal(a,b), or a comparison such as dist(A,B) == 5 or angle(A,B,C) >= 120. State every length, tangency and concyclicity the solution relies on. A number after == must appear in the statement or solution. If it is true only of the case you drew, write %! example instead of %! fact.
+- %! scale turns the problem's units into centimetres. Make the drawing about 7.5 cm across. It must fit in 9.5 cm by 10.5 cm with its labels.
+- Colours: draw only with the preamble's styles aux (dashed construction lines), key (the one object the argument turns on), mk (marks), lbl (point labels) and len (lengths), and the fills figtint and figaccenttint. Mark equal lengths, right angles and tangency where they help the reader.
+- No label may touch another label, a line or a point. Choose each label's side so it sits in empty space.
+- after_paragraph is how many solution paragraphs come above the figure, and it comes before the "Why this works" paragraph."""
 
 
 def _section(text, start, end):
@@ -136,11 +179,12 @@ def write_up(idea, kyu, key, record, earlier=None, failure=None):
         f"A {kyu} kyu problem has been chosen. Write its hints and solution.",
         f"THE KYUCLID STANDARD\n{write_rules()}",
         WRITE_RULES,
+        FIGURE_RULES,
         f"TAXONOMY IDS, the only tags allowed\n{taxonomy_ids()}",
         f"THE PROBLEM\n{idea['statement']}\n\nTHE KEY, computed by a program: {key}\n\nTHE PROGRAM\n{idea['check_program']}\n\nTHE AUTHOR'S SKETCH\n{idea.get('sketch', '')}",
     ]
     if earlier and failure:
-        parts.append(f"YOUR EARLIER WRITE-UP\n{earlier}\n\nWHY IT WAS REJECTED\n{failure}")
+        parts.append(f"YOUR EARLIER WRITE-UP\n{earlier}\n\nWHY IT WAS REJECTED\n{failure}\n\nFix the cause. Send every part again, including the whole figure.")
     parts.append("OUTPUT\n" + WRITE_FORMAT + "\nNothing else around it.")
     return "\n\n".join(parts)
 
@@ -169,5 +213,6 @@ def parse_write_up(text):
     if disagree:
         return dict(disagree=disagree)
     w = dict(subtopics=[s.strip() for s in _tag(text, "subtopics").split(",") if s.strip()], solution=_tag(text, "solution"),
-             hints=[h.strip() for h in re.findall(r"<hint>(.*?)</hint>", text, re.S) if h.strip()])
+             hints=[h.strip() for h in re.findall(r"<hint>(.*?)</hint>", text, re.S) if h.strip()],
+             figures=[f.strip() + "\n" for f in re.findall(r"<figure>(.*?)</figure>", text, re.S) if f.strip()], no_figure=_tag(text, "no_figure"))
     return w if w["solution"] and w["hints"] and w["subtopics"] else None

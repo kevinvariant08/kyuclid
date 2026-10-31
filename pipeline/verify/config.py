@@ -25,6 +25,7 @@ ROLES = {
     "well_posedness": (OPUS, "medium", 6000),
     "solution_audit": (OPUS, "medium", 6000),
     "originality": (OPUS, "medium", 6000),
+    "figure_critic": (OPUS, "medium", 3000),
     "abstract": (HAIKU, "low", 600),
 }
 
@@ -33,7 +34,7 @@ SANDBOX_MEMORY_MB = 2048
 MODEL_TIMEOUT = 600
 
 # Fields a draft carries for the gate only. They are removed before validating against the site's schema.
-GATE_FIELDS = ("answer", "check_program", "inspired_by", "core_idea", "variation_recipe")
+GATE_FIELDS = ("answer", "check_program", "inspired_by", "core_idea", "variation_recipe", "figure_sources", "figure_exempt")
 
 
 def corpus_path():

@@ -120,19 +120,42 @@ export function createReviewServer({ root = REPO, pendingDir, verify, gateRoot }
     return p;
   }
 
+  // A generated draft carries its figures, so a rejected one never leaves files in the public repo.
+  function writeFigures(draft) {
+    const written = [];
+    for (const { name, tex, svg } of draft.figure_sources || []) {
+      if (!/^[a-z0-9][a-z0-9-]*$/.test(name)) throw new Error(`bad figure name "${name}"`);
+      for (const [ext, content] of [["tex", tex], ["svg", svg]]) {
+        const path = join(root, "figures", `${name}.${ext}`);
+        if (!existsSync(path)) { mkdirSync(join(root, "figures"), { recursive: true }); writeFileSync(path, content); written.push(path); }
+      }
+    }
+    return written;
+  }
+
+  // A backfilled figure is mapped by ID in figures/index.json until it is attached.
+  function withMappedFigures(p) {
+    const index = join(root, "figures", "index.json");
+    if (p.solution_figures || !existsSync(index)) return p;
+    const mapped = JSON.parse(readFileSync(index, "utf8"))[p.id];
+    return mapped ? { ...p, solution_figures: mapped } : p;
+  }
+
   async function publish(draft) {
-    const p = finalForm(draft);
+    const p = withMappedFigures(finalForm(draft));
     const text = JSON.stringify(p, null, 2);
     if (draft.inspired_by && text.includes(draft.inspired_by)) return `Public text mentions the private ID ${draft.inspired_by}.`;
     const file = join(root, "data", "problems", `${draft.id}.json`);
     if (existsSync(file)) return `data/problems/${draft.id}.json already exists, and IDs are permanent. Reject this draft or give it a new ID.`;
     const indexFile = join(root, "data", "index.json");
     const before = readFileSync(indexFile);
+    const figures = writeFigures(draft);
     writeFileSync(file, text + "\n");
     const build = await run(process.execPath, [join(root, "scripts", "build-index.mjs")], root);
     const check = build.code === 0 ? await run(process.execPath, [join(root, "scripts", "validate.mjs")], root) : build;
     if (check.code === 0) return null;
     rmSync(file, { force: true });
+    for (const path of figures) rmSync(path, { force: true });
     writeFileSync(indexFile, before);
     return `The bank's validator refused it, so nothing was saved. ${check.out.trim().slice(0, 600)}`;
   }

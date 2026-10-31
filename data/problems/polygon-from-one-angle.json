@@ -24,5 +24,12 @@
     "solves": 0,
     "attempts": 0,
     "liked": 0
-  }
+  },
+  "solution_figures": [
+    {
+      "src": "figures/polygon-from-one-angle-solution.svg?v=4498cc70",
+      "alt": "Regular nine-sided polygon. At vertex P, side QP is extended beyond P to a point X. The interior angle QPR is marked 140 degrees and the exterior angle XPR is marked 40 degrees, and the two make a straight line.",
+      "after_paragraph": 1
+    }
+  ]
 }

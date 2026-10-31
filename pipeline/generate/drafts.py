@@ -4,7 +4,9 @@ import re
 import threading
 from collections import Counter
 
-from ..verify import answers, originality, sandbox, schema_check, standard
+from ..figures.build import build_source
+from ..figures.source import Figure, FigureError
+from ..verify import answers, figure_check, originality, sandbox, schema_check, standard
 from ..verify.config import BANK_DIR
 from .config import AUTHOR, HELD, PENDING, TAXONOMY
 
@@ -51,6 +53,33 @@ def build(idea, write, key, inp, kyu, profile, run):
         provenance=dict(kind="original", author=AUTHOR, pipeline_run=run), stats=dict(solves=0, attempts=0, liked=0),
         answer=key, check_program=idea["check_program"], inspired_by=inp.id, variation_recipe=idea["recipe"],
     )
+
+
+def attach_figures(d, write):
+    """Builds the write-up's figures into the draft. Returns the first problem, or None. A missing TeX install raises."""
+    d.pop("solution_figures", None)
+    d.pop("figure_sources", None)
+    d.pop("figure_exempt", None)
+    if write.get("no_figure"):
+        d["figure_exempt"] = write["no_figure"]
+    figures, sources = [], []
+    texts = write.get("figures") or []
+    for i, tex in enumerate(texts):
+        name = f"{d['id']}-solution" + (f"-{i + 1}" if len(texts) > 1 and i else "")
+        try:
+            synced = Figure(name, tex).synced_tex()
+            built = build_source(name, synced)
+        except FigureError as e:
+            return f"figure {i + 1}: {e}"
+        if built.layout:
+            return f"figure {i + 1}: {built.layout[0]}"
+        figures.append(dict(src=built.src, alt=built.alt, after_paragraph=built.after_paragraph))
+        sources.append(dict(name=name, tex=synced, svg=built.svg))
+    if figures:
+        d["solution_figures"], d["figure_sources"] = figures, sources
+    elif figure_check.needs_figure(d):
+        return figure_check.needs_figure(d)
+    return None
 
 
 def taxonomy_ids():

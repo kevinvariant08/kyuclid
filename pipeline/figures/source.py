@@ -7,6 +7,7 @@ A figure is real tkz-euclide. Every point is one line of it, with its exact valu
     \\tkzDefPoint(0.000000,3.611111){A} %! A = (0, R)
     %! fact on_circle(A, O, R)
     %! fact dist(X, P) == 64
+    %! example dist(C, A) == 144     (true of the case drawn, so the gate doesn't look for 144 in the solution)
 
 Exact values are evaluated at 50 digits, and the decimals TeX draws with must equal value times scale, so
 the picture can't drift from what the facts were checked on. `sync` fills in the decimals.
@@ -22,7 +23,7 @@ DECIMAL_TOLERANCE = 2e-6
 
 DEF_POINT = re.compile(r"\\tkzDefPoint\(\s*([^,)]*),\s*([^)]*)\)\{([A-Za-z][A-Za-z0-9']*)\}[ \t]*%!\s*([A-Za-z][A-Za-z0-9']*)\s*=\s*(.+?)\s*$", re.M)
 ANY_DEF_POINT = re.compile(r"\\tkzDefPoints?\b")
-DIRECTIVE = re.compile(r"^\s*%!\s*(scale|let|fact|alt|after_paragraph)\b\s*(.*?)\s*$", re.M)
+DIRECTIVE = re.compile(r"^\s*%!\s*(scale|let|fact|example|alt|after_paragraph)\b\s*(.*?)\s*$", re.M)
 
 # No package, file, shell or catcode tricks: this text can come from a model, and TeX is a programming language.
 BANNED_TEX = re.compile(r"\\(usepackage|RequirePackage|documentclass|write|immediate|openin|openout|read|readline|include|includegraphics|catcode|csname|expandafter|directlua|pdffiledump|pdfximage|pdfobj|special|def|gdef|edef|xdef|let|newcommand|renewcommand|loop|foreach)\b")
@@ -195,7 +196,7 @@ class Figure:
     def __init__(self, name, tex):
         self.name, self.tex = name, tex
         self.scale, self.alt, self.after_paragraph = None, None, None
-        self.names, self.points, self.facts, self.drawn = {}, {}, [], {}
+        self.names, self.points, self.facts, self.examples, self.drawn = {}, {}, [], [], {}
         self._parse()
 
     def _parse(self):
@@ -229,6 +230,8 @@ class Figure:
                 self.names[k.strip()] = self._value(v.strip())
             elif kind == "fact":
                 fact_texts.append(m.group(2))
+            elif kind == "example":
+                self.examples.append(m.group(2))
             else:
                 if m.group(3) != m.group(4):
                     raise FigureError(f"the line defining {m.group(3)} gives the exact value of {m.group(4)}")
@@ -266,9 +269,9 @@ class Figure:
 
     def check_facts(self):
         """Returns how many facts held. Raises on the first that doesn't."""
-        for text in self.facts:
+        for text in self.facts + self.examples:
             self._check_fact(text)
-        return len(self.facts)
+        return len(self.facts) + len(self.examples)
 
     def _check_fact(self, text):
         tree, walk = evaluate(text, self.names)
