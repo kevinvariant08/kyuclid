@@ -4,3 +4,7 @@ node_modules/
 out/
 __pycache__/
 *.pyc
+
+# Drafts can show inspired_by. The private mapping lives in the corpus repo.
+review/pending/
+review/held/
