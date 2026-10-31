@@ -41,7 +41,7 @@
     "checks": null,
     "sim": {}
   },
-  "ok-quadratic-residues": {
+  "ok-seven-divides": {
     "verdict": [
       "PASS"
     ],
@@ -421,7 +421,9 @@
     ],
     "checks": [
       "blind_solves",
-      "originality"
+      "originality",
+      "solution_audit",
+      "well_posedness"
     ],
     "sim": {
       "solve_tokens": 40
@@ -434,7 +436,9 @@
     ],
     "checks": [
       "blind_solves",
-      "originality"
+      "originality",
+      "solution_audit",
+      "well_posedness"
     ],
     "sim": {
       "solve_tokens": 40
@@ -448,7 +452,9 @@
     "checks": [
       "blind_solves",
       "program_judge",
-      "originality"
+      "originality",
+      "solution_audit",
+      "well_posedness"
     ],
     "sim": {
       "solve_tokens": 40
@@ -588,6 +594,44 @@
           {
             "severity": "material",
             "issue": "the Chinese remainder step is misapplied"
+          }
+        ]
+      }
+    }
+  },
+  "bad-hints-restate": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "solution_audit"
+    ],
+    "sim": {
+      "audit": {
+        "reaches_answer": true,
+        "issues": [
+          {
+            "severity": "material",
+            "issue": "Hint 1: it only restates the statement"
+          }
+        ]
+      }
+    }
+  },
+  "bad-hints-give-answer": {
+    "verdict": [
+      "FAIL"
+    ],
+    "checks": [
+      "solution_audit"
+    ],
+    "sim": {
+      "audit": {
+        "reaches_answer": true,
+        "issues": [
+          {
+            "severity": "material",
+            "issue": "Hint 2: it states the final answer"
           }
         ]
       }

@@ -4,7 +4,7 @@
   "kyu": 6,
   "topic": "N",
   "subtopics": [
-    "test-fixture"
+    "divisor-pairing"
   ],
   "type": "answer",
   "status": "draft",
@@ -13,9 +13,9 @@
   "answer_hash": "5774e6e5",
   "hints": [
     "How many times is lamp $n$ flipped?",
-    "Which numbers have an odd number of divisors?"
+    "Use divisor pairing to find which numbers have an odd number of divisors."
   ],
-  "solution": "A lamp is flipped once for each divisor of its number, so it ends on exactly when it has an odd number of divisors, that is, when its number is a perfect square. There are $20$ squares up to $400$.",
+  "solution": "A lamp is flipped once for each divisor of its number, so it ends on exactly when it has an odd number of divisors, that is, when its number is a perfect square. There are $20$ squares up to $400$.\n\n<b>Why this works.</b> <code>divisor-pairing</code>: a switch flips once per divisor, and only squares have an odd number.",
   "provenance": {
     "kind": "original",
     "author": "task-05-tests"

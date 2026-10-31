@@ -10,7 +10,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from .. import answers, backend, blind, difficulty, gate, originality, run_seeds, sandbox, standard
+from .. import answers, backend, blind, difficulty, gate, originality, prompts, run_seeds, sandbox, standard
 from ..config import ROOT, corpus_path
 from .scripted import ScriptedBackend
 
@@ -64,7 +64,7 @@ class Suite(unittest.TestCase):
             self.assertEqual(p, d["statement"])
 
     def test_investigate_when_majority_disagrees_and_critics_clean(self):
-        d = DRAFTS["ok-quadratic-residues"]
+        d = DRAFTS["ok-seven-divides"]
         be = ScriptedBackend({d["id"]: d}, {d["id"]: {"solves": ["30"] * 7}})
         report = gate.verify(d, be, sandbox_seconds=8, thresholds=ruler_for(d), index=BANK_INDEX, has_corpus=False, auto_fail=0.6)
         self.assertTrue(report["verdict"].startswith("INVESTIGATE blind_solves"), report["verdict"])
@@ -148,11 +148,88 @@ class Sandbox(unittest.TestCase):
         self.assertIn("not allowed", sandbox.static_check("import random")[0])
 
 
+TAXONOMY = {"casework": "observed", "rule-of-product": "observed", "polynomial-factoring": "observed", "vieta": "seeded","pigeonhole": "seeded", "perpendicular-from-center-to-chord": "observed"}
+
+
+class Critics(unittest.TestCase):
+    def test_audit_prompt_gives_the_hints_and_a_bad_hint_fails(self):
+        d = DRAFTS["ok-seat-row"]
+        audit = {"reaches_answer": True, "issues": [{"severity": "material", "issue": "Hint 1: it only restates the statement"}]}
+        be = ScriptedBackend({d["id"]: d}, {d["id"]: {"audit": audit}})
+        report = gate.verify(d, be, sandbox_seconds=8, thresholds=ruler_for(d), index=BANK_INDEX, has_corpus=False, auto_fail=0.6)
+        self.assertEqual(report["verdict"], "FAIL solution_audit: Hint 1: it only restates the statement")
+        prompt = [p for role, _, p in be.prompts if role == "solution_audit"][0]
+        for h in d["hints"]:
+            self.assertIn(h, prompt)
+        self.assertEqual(len(be.prompts), 10, "no extra model call for the hints")
+
+    def test_well_posedness_prompt_names_what_the_standard_asks(self):
+        for words in ("more than one question", "hidden case", "reading trick", "culturally specific"):
+            self.assertIn(words, prompts.WELL_POSED)
+
+
 class Standard(unittest.TestCase):
     def test_uk_spelling_ignores_maths_and_catches_prose(self):
         d = DRAFTS["ok-digit-product"]
         self.assertEqual(standard.run(d)[0], "pass")
         self.assertEqual(standard.run({**d, "statement": "Find the center of $x$."})[0], "fail")
+
+    def fails(self, **changes):
+        return standard.run({**DRAFTS["ok-seat-row"], **changes}, taxonomy=TAXONOMY)[2]["failures"]
+
+    def test_taxonomy_ids_are_exempt_from_spelling(self):
+        why = "<b>Why this works.</b> <code>perpendicular-from-center-to-chord</code>: the radius meets the chord at a right angle."
+        d = DRAFTS["ok-seat-row"]
+        solution = d["solution"].rsplit("\n\n", 1)[0] + "\n\n" + why
+        self.assertEqual(self.fails(solution=solution, subtopics=["perpendicular-from-center-to-chord"]), [])
+        bare = d["solution"] + " See perpendicular-from-center-to-chord."
+        self.assertFalse([f for f in self.fails(statement=d["statement"], hints=[*d["hints"][:1], bare]) if "S8" in f])
+
+    def test_incenter_fails_except_in_the_books_title(self):
+        s = "Let $I$ be the incenter of triangle $ABC$. Find the count."
+        self.assertTrue([f for f in self.fails(statement=s) if "incentre" in f])
+        self.assertTrue([f for f in self.fails(title="The Circumcenter") if "circumcentre" in f])
+        s = "This is from Beyond the Incenter. Find the count."
+        self.assertFalse([f for f in self.fails(statement=s) if "S8" in f])
+
+    def test_title_and_id_cannot_give_away_technique_or_answer(self):
+        self.assertTrue([f for f in self.fails(title="Vieta on a cubic") if "S13" in f])
+        self.assertTrue([f for f in self.fails(title="A casework walk") if "S13" in f])
+        self.assertTrue([f for f in self.fails(title="Inclusion-exclusion in a row") if "S13" in f])
+        self.assertTrue([f for f in self.fails(id="pigeonhole-seats") if "S13" in f])
+        self.assertTrue([f for f in self.fails(title="Exactly 8 seats") if "S13" in f])
+        self.assertFalse([f for f in self.fails(title="Between friends") if "S13" in f])
+        self.assertTrue([f for f in self.fails(title="An AIME warm-up") if "S12" in f])
+
+    def test_hint_count_and_kyu_type_rules(self):
+        proof = DRAFTS["proof-ok"]
+        one_hint_at_5 = {**proof, "kyu": 5, "hints": proof["hints"][:1]}
+        got = standard.run(one_hint_at_5, taxonomy=TAXONOMY)[2]["failures"]
+        self.assertTrue([f for f in got if f.startswith("H1")], got)
+        self.assertTrue([f for f in got if f.startswith("K4")], got)
+        self.assertEqual(standard.run(proof, taxonomy=TAXONOMY)[0], "pass")
+        self.assertTrue([f for f in self.fails(kyu=2) if f.startswith("K4")])
+
+    def test_appendix_answer_rules(self):
+        self.assertTrue([f for f in self.fails(answer_format="expression") if f.startswith("A2")])
+        self.assertTrue([f for f in self.fails(answer="4/8", answer_format="rational") if f.startswith("A3")])
+        self.assertTrue([f for f in self.fails(answer="1234/5", answer_format="rational") if f.startswith("A3")])
+        self.assertTrue([f for f in self.fails(answer="2.5", answer_format="rational") if f.startswith("A3")])
+        self.assertTrue([f for f in self.fails(answer="5/2", answer_format="rational") if f.startswith("S3")])
+        self.assertTrue([f for f in self.fails(answer="1") if f.startswith("A6")])
+        self.assertTrue([f for f in self.fails(answer="20") if f.startswith("A6")])
+        self.assertTrue([f for f in self.fails(answer="2000000000", answer_format="integer") if f.startswith("A1")])
+
+    def test_appendix_format_rules(self):
+        self.assertTrue([f for f in self.fails(statement="Find $2*3$.") if f.startswith("S9")])
+        self.assertTrue([f for f in self.fails(statement="Find $\\frac12$.") if f.startswith("S9")])
+        self.assertTrue([f for f in self.fails(statement="Find $$\\frac{1}{2}$$") if f.startswith("S9")])
+        self.assertTrue([f for f in self.fails(statement="Is $x \\leq 2$ true?") if f.startswith("S9")])
+        self.assertTrue([f for f in self.fails(statement="Find **this** number.") if f.startswith("S10")])
+        self.assertTrue([f for f in self.fails(statement="How many? And why?") if f.startswith("S1")])
+        self.assertTrue([f for f in self.fails(solution="No line here.") if f.startswith("M4")])
+        self.assertTrue([f for f in self.fails(subtopics=["not-a-slug"]) if f.startswith("M4") or f.startswith("M5")])
+        self.assertTrue([f for f in self.fails(provenance={"kind": "original", "author": "x", "pipeline_run": "r1"}) if f.startswith("O4")])
 
     def test_inspired_by_stays_private(self):
         d = {**DRAFTS["ok-digit-product"], "inspired_by": "AIME-2019-I-07"}

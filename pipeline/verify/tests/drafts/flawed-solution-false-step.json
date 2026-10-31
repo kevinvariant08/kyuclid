@@ -4,7 +4,7 @@
   "kyu": 7,
   "topic": "N",
   "subtopics": [
-    "test-fixture"
+    "crt"
   ],
   "type": "answer",
   "status": "draft",
@@ -12,10 +12,10 @@
   "answer_format": "integer_0_999",
   "answer_hash": "32d3f1b0",
   "hints": [
-    "Deal with two of the conditions first and list what is left.",
-    "Numbers satisfying the conditions for $5$ and $7$ repeat every $35$."
+    "Which numbers meet the conditions for $5$ and $7$?",
+    "By the Chinese remainder theorem those numbers repeat every $35$, so test them in turn against the last condition."
   ],
-  "solution": "By the Chinese remainder theorem the three conditions have a unique solution modulo $5 + 7 + 4 = 16$. Adding the remainders gives $2 + 3 + 0 = 5$, and $5 + 3 \\cdot 16 + (-1) = 52$, so the answer is $52$.",
+  "solution": "By the Chinese remainder theorem the three conditions have a unique solution modulo $5 + 7 + 4 = 16$. Adding the remainders gives $2 + 3 + 0 = 5$, and $5 + 3 \\cdot 16 + (-1) = 52$, so the answer is $52$.\n\n<b>Why this works.</b> <code>crt</code>: conditions with coprime moduli combine into one residue class.",
   "provenance": {
     "kind": "original",
     "author": "task-05-tests"

@@ -4,7 +4,7 @@
   "kyu": 6,
   "topic": "N",
   "subtopics": [
-    "test-fixture"
+    "place-value-representation"
   ],
   "type": "answer",
   "status": "draft",
@@ -12,10 +12,10 @@
   "answer_format": "integer_0_999",
   "answer_hash": "b52e8616",
   "hints": [
-    "Write the number in terms of its tens digit and its units digit.",
-    "The condition becomes a simple relation between the two digits."
+    "Name the units digit, since the tens digit depends on it.",
+    "Use the place value of each digit to list the options: the tens digit is at most $9$, which limits the units digit."
   ],
-  "solution": "The power of $5$ in $3025!$ is $605 + 121 + 24 + 4 = 754$, and there are more $2$s than $5$s, so there are $754$ zeros.",
+  "solution": "The power of $5$ in $3025!$ is $605 + 121 + 24 + 4 = 754$, and there are more $2$s than $5$s, so there are $754$ zeros.\n\n<b>Why this works.</b> <code>place-value-representation</code>: the tens digit is at most nine, which limits the units digit.",
   "provenance": {
     "kind": "original",
     "author": "task-05-tests"

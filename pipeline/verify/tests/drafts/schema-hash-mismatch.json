@@ -4,18 +4,18 @@
   "kyu": 8,
   "topic": "N",
   "subtopics": [
-    "test-fixture"
+    "place-value-representation"
   ],
   "type": "answer",
   "status": "draft",
-  "statement": "How many two-digit positive integers are exactly $4$ times the sum of their digits?",
+  "statement": "How many two-digit positive integers have a tens digit equal to three times the units digit, where the units digit is not zero?",
   "answer_format": "integer_0_999",
   "answer_hash": "00000000",
   "hints": [
-    "Write the number in terms of its tens digit and its units digit.",
-    "The condition becomes a simple relation between the two digits."
+    "Name the units digit, since the tens digit depends on it.",
+    "Use the place value of each digit to list the options: the tens digit is at most $9$, which limits the units digit."
   ],
-  "solution": "Write the number as $10a + b$ with $a \\ge 1$. The condition $10a + b = 4a + 4b$ simplifies to $6a = 3b$, so $b = 2a$. Since $b \\le 9$, we have $a \\in \\{1, 2, 3, 4\\}$, which gives $12, 24, 36, 48$. So the answer is $4$.",
+  "solution": "Let the units digit be $u$, with $u \\ge 1$. The tens digit is $3u$, which must be at most $9$, so $u \\in \\{1, 2, 3\\}$. This gives $31$, $62$ and $93$, so there are $3$ such numbers.\n\n<b>Why this works.</b> <code>place-value-representation</code>: the tens digit is at most nine, which limits the units digit.",
   "provenance": {
     "kind": "original",
     "author": "task-05-tests"
@@ -25,6 +25,6 @@
     "attempts": 0,
     "liked": 0
   },
-  "answer": "4",
-  "check_program": "print(sum(1 for n in range(10, 100) if n == 4 * ((n // 10) + (n % 10))))"
+  "answer": "3",
+  "check_program": "print(sum(1 for n in range(10, 100) if n % 10 != 0 and n // 10 == 3 * (n % 10)))"
 }

@@ -4,7 +4,7 @@
   "kyu": 4,
   "topic": "A",
   "subtopics": [
-    "test-fixture"
+    "place-value-representation"
   ],
   "type": "answer",
   "status": "draft",
@@ -15,7 +15,7 @@
     "Add the tens first.",
     "Then add the units."
   ],
-  "solution": "Adding gives $17 + 26 = 43$.",
+  "solution": "Adding gives $17 + 26 = 43$.\n\n<b>Why this works.</b> <code>place-value-representation</code>: tens and units add separately.",
   "provenance": {
     "kind": "original",
     "author": "task-05-tests"

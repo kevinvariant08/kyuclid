@@ -14,14 +14,19 @@ PROGRAM_JUDGE = ('You audit a Python program meant to verify a maths problem\'s 
 WELL_POSED = ('You review a maths contest statement for defects before publication. Reply with JSON only: '
               '{"findings":[{"severity":"material"|"cosmetic","issue":"<max 25 words>"}]}. '
               'material: a competent solver could reasonably reach a different answer or be unable to proceed: ambiguity, a missing condition, '
-              'a genuine alternative reading, an unstated assumption, an object not defined. cosmetic: wording could be nicer but the answer is unaffected. '
+              'a genuine alternative reading, an unstated assumption, an object not defined. Also material: asking more than one question, a hidden case split the solver could '
+              'miss, a reading trick (the difficulty turns on a surprising reading of words like "between" or "all but"), and culturally specific knowledge not defined in the statement '
+              '(a sport\'s rules, a currency, a card deck, chess, school-year names, local dates). cosmetic: wording could be nicer but the answer is unaffected. '
               'Do not invent far-fetched readings or flag standard conventions. An empty list is a good result.')
 
-AUDIT = ('You audit a written solution to a maths problem. Reply with JSON only: '
+AUDIT = ('You audit the written solution and hints of a maths problem. Reply with JSON only: '
          '{"reaches_answer":true|false,"issues":[{"severity":"material"|"cosmetic","issue":"<max 25 words>"}]}. '
          'material: a false step, an unjustified leap a reader could not fill in routinely, a missed case, or a conclusion that does not follow. '
          'reaches_answer: the solution ends at exactly the stated answer. For a proof, reaches_answer means it proves the claim. '
-         'Routine algebra may be skipped without comment. An empty list is a good result.')
+         'Routine algebra may be skipped without comment. Also material, and starting "Hint N:", a hint that clearly breaks one of these: they run gentlest to strongest; '
+         'hint 1 points at the right object or quantity and does not name the crux technique; hint 2 names the technique; the last hint leaves only routine steps, and no hint states '
+         'the final answer or finishes a proof; each adds something and does not just restate the statement or the previous hint; each makes sense without having solved the one before. '
+         'Two hints or three are equally fine, so never ask for a third hint. Do not flag mild wording. An empty list is a good result.')
 
 ORIGINALITY = ('You protect a problem bank from disguised copies. A reskin keeps the same mathematical structure and solution path and changes only the setting, '
                'names or numbers. Sharing a technique is not a reskin. Reply with JSON only: {"neighbours":[{"id":"<id>","reskin":true|false,"reason":"<max 20 words>"}],'
@@ -47,7 +52,8 @@ def well_posed(d):
 
 def audit(d):
     claim = f"STATED ANSWER: {d['answer']}" if d["type"] == "answer" else "THIS IS A PROOF PROBLEM."
-    return f"STATEMENT:\n{d['statement']}\n\n{claim}\n\nSOLUTION:\n{d['solution']}"
+    hints = "\n".join(f"Hint {i + 1}: {h}" for i, h in enumerate(d["hints"]))
+    return f"STATEMENT:\n{d['statement']}\n\n{claim}\n\nSOLUTION:\n{d['solution']}\n\nHINTS:\n{hints}"
 
 
 def originality(d, neighbours):

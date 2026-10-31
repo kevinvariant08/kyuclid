@@ -4,7 +4,7 @@
   "kyu": 5,
   "topic": "N",
   "subtopics": [
-    "test-fixture"
+    "divisor-counting"
   ],
   "type": "answer",
   "status": "draft",
@@ -12,10 +12,10 @@
   "answer_format": "integer_0_999",
   "answer_hash": "2b0086bb",
   "hints": [
-    "Reduce the right-hand side modulo $n + 30$.",
-    "The remainder is a constant, so $n + 30$ must be a divisor of it."
+    "Compare $n$ with $n + 30$: what is $n^2 + 300$ close to?",
+    "Reduce modulo $n + 30$: the remainder is a constant, so $n + 30$ must be one of its divisors above $30$."
   ],
-  "solution": "Trying a few values shows that the pattern gives half of the $30$ divisors of a related number, so the answer is $15$.",
+  "solution": "Trying a few values shows that the pattern gives half of the $30$ divisors of a related number, so the answer is $15$.\n\n<b>Why this works.</b> <code>divisor-counting</code>: reducing modulo the divisor leaves a constant, whose divisors can be counted.",
   "provenance": {
     "kind": "original",
     "author": "task-05-tests"
